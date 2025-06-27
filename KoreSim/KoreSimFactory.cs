@@ -20,7 +20,6 @@ public class KoreSimFactory
     // --------------------------------------------------------------------------------------------
 
     public KoreConsole          ConsoleInterface { get; private set; }
-    public KoreEventDriver      EventDriver      { get; private set; }
     public KoreEntityManager    EntityManager    { get; private set; }
     public KoreNetworkHub       NetworkHub       { get; private set; }
     public KoreSimTime          SimClock         { get; private set; }

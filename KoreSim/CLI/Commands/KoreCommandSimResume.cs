@@ -2,6 +2,9 @@ using System.Collections.Generic;
 
 // KoreCommandSimStop
 
+using KoreCommon;
+using KoreSim;
+
 public class KoreCommandSimResume : KoreCommand
 {
     public KoreCommandSimResume()

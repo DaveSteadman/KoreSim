@@ -3,6 +3,7 @@ using System.Text;
 
 // KoreCommandElePrep
 
+using KoreCommon;
 
 // CLI Usage: ele prep <inEleFilename> <inTileCode> <inOutDir> <action>
 // CLI Usage: ele prep c:/Util/KorebeLibrary_MapPrep/Europe/W005N50_UkCentral/Ele_BF_BF_50m.asc BF_BF C:/Util/_temp yes
@@ -27,9 +28,9 @@ public class KoreCommandElePrep : KoreCommand
         }
 
         string inEleFilename = parameters[0];
-        string inTileCode    = parameters[1];
-        string inOutDir      = parameters[2];
-        string action        = parameters[3];
+        string inTileCode = parameters[1];
+        string inOutDir = parameters[2];
+        string action = parameters[3];
 
         sb.AppendLine($"Elevation Prep:");
         sb.AppendLine($"- inEleFilename: {inEleFilename}");
@@ -39,7 +40,7 @@ public class KoreCommandElePrep : KoreCommand
 
         bool validOperation = true;
 
-        bool actionWrite = KoreStringOperations.BoolForString(action);
+        bool actionWrite = KoreStringOps.BoolForString(action);
 
         // -------------------------------------------------
 
@@ -76,12 +77,12 @@ public class KoreCommandElePrep : KoreCommand
             Kore2DGridPos gridPos = topTileCode!.GridPos;
 
             int cellsAcross = gridPos.Width;
-            int cellsDown   = gridPos.Height;
+            int cellsDown = gridPos.Height;
 
             KoreFloat2DArray[,] newSubSampledGrid = asciiArcArry.GetInterpolatedSubGridCellWithOverlap(
                 gridPos.Width, gridPos.Height, 2000, 2000);
 
-            foreach(KoreMapTileCode currChildCode in childCodes)
+            foreach (KoreMapTileCode currChildCode in childCodes)
             {
                 KoreFloat2DArray currSubSampledGrid = newSubSampledGrid[currChildCode.GridPos.PosX, currChildCode.GridPos.PosY];
 

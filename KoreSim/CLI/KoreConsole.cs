@@ -19,9 +19,6 @@ public class KoreConsole
     // List of command handlers (with a signature) we can select and exeute.
     private readonly List<KoreCommand> commandHandlers = new List<KoreCommand>();
 
-    // Link to the EventDriver, an entity with an interface to action changes within the application.
-    public KoreEventDriver? EventDriver;
-
     // Two lists to hold input and output strings for the console.
     private KoreThreadsafeStringList InputQueue  = new KoreThreadsafeStringList();
     private KoreThreadsafeStringList OutputQueue = new KoreThreadsafeStringList();
