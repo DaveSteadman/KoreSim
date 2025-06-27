@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.Json;
 
-namespace GloJSON
+namespace KoreJSON
 {
     public class NullMsg : JSONMessage
     {

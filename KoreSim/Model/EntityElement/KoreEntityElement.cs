@@ -1,6 +1,6 @@
 using System;
 
-// KoreElement: An item added to a platform that has some amount of additinoal functionality to be cmodelled and/or displayed.
+// KoreEntityElement: An item added to a platform that has some amount of additinoal functionality to be cmodelled and/or displayed.
 
 using KoreCommon;
 

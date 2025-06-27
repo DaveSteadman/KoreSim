@@ -2,6 +2,8 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
+using KoreCommon;
+
 namespace KoreJSON
 {
     public class PlatUpdate : JSONMessage

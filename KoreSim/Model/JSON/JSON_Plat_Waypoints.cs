@@ -5,12 +5,15 @@ using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
+using KoreCommon;
+
+
 //  {"PlatWayPoints":{"PlatName":"Red Leader","Count":4,
-    // "Legs":[
-    //     {"LatDegs":51.1599,"LongDegs":-0.6887,"AltitudeMtrs":3500.0,"GrndSpeedMtrsSec":0.0,"WPType":"Origin"},
-    //     {"LatDegs":49.122049,"LongDegs":0.531608,"AltitudeMtrs":3500.0,"GrndSpeedMtrsSec":277.8,"WPType":"linear"},
-    //     {"LatDegs":50.292102,"LongDegs":0.403041,"AltitudeMtrs":3500.0,"GrndSpeedMtrsSec":277.8,"WPType":"arc"},
-    //     {"LatDegs":51.276886,"LongDegs":-1.384932,"AltitudeMtrs":3500.0,"GrndSpeedMtrsSec":277.8,"WPType":"linear"}]}}
+// "Legs":[
+//     {"LatDegs":51.1599,"LongDegs":-0.6887,"AltitudeMtrs":3500.0,"GrndSpeedMtrsSec":0.0,"WPType":"Origin"},
+//     {"LatDegs":49.122049,"LongDegs":0.531608,"AltitudeMtrs":3500.0,"GrndSpeedMtrsSec":277.8,"WPType":"linear"},
+//     {"LatDegs":50.292102,"LongDegs":0.403041,"AltitudeMtrs":3500.0,"GrndSpeedMtrsSec":277.8,"WPType":"arc"},
+//     {"LatDegs":51.276886,"LongDegs":-1.384932,"AltitudeMtrs":3500.0,"GrndSpeedMtrsSec":277.8,"WPType":"linear"}]}}
 
 
 namespace KoreJSON
@@ -73,9 +76,9 @@ namespace KoreJSON
             {
                 // Get the type of waypoint. Some are "unknown" which we need to filter out.
                 bool isLegValid = false;
-                if      (leg.WPType.Equals("origin", StringComparison.OrdinalIgnoreCase)) isLegValid = true;
+                if (leg.WPType.Equals("origin", StringComparison.OrdinalIgnoreCase)) isLegValid = true;
                 else if (leg.WPType.Equals("linear", StringComparison.OrdinalIgnoreCase)) isLegValid = true;
-                else if (leg.WPType.Equals("arc",    StringComparison.OrdinalIgnoreCase)) isLegValid = true;
+                else if (leg.WPType.Equals("arc", StringComparison.OrdinalIgnoreCase)) isLegValid = true;
 
                 if (isLegValid)
                 {

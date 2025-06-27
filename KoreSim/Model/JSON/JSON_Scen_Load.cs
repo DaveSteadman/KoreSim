@@ -2,7 +2,9 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace GloJSON
+using KoreCommon;
+
+namespace KoreJSON
 {
     public class ScenLoad : JSONMessage
     {
@@ -26,7 +28,7 @@ namespace GloJSON
 
         // --------------------------------------------------------------------------------------------
 
-        public GloLLAPoint ScenPos { get { return new GloLLAPoint() { LatDegs = Lat, LonDegs = Long }; } }
+        public KoreLLAPoint ScenPos { get { return new KoreLLAPoint() { LatDegs = Lat, LonDegs = Long }; } }
 
         // --------------------------------------------------------------------------------------------
 

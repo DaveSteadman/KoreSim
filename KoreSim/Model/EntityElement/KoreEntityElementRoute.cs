@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using KoreCommon;
 
-public class KoreElementRoute : KoreElement
+public class KoreEntityElementRoute : KoreEntityElement
 {
     // A simple route being a list of KoreLLAPoint values.
     public List<KoreLLAPoint> RoutePoints { set; get; } = new List<KoreLLAPoint>();

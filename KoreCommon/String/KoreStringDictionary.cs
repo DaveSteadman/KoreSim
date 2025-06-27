@@ -12,7 +12,7 @@ public class KoreStringDictionary
 {
     private readonly Dictionary<string, object> _data = new(StringComparer.OrdinalIgnoreCase);
 
-    public IEnumerable<string>                       Keys    => _data.Keys;
+    public IEnumerable<string> Keys => _data.Keys;
     public IEnumerable<KeyValuePair<string, object>> Entries => _data;
 
     // --------------------------------------------------------------------------------------------
@@ -38,7 +38,7 @@ public class KoreStringDictionary
             : fallback;
     }
 
-    public bool Has(string key)    => _data.ContainsKey(key);
+    public bool Has(string key) => _data.ContainsKey(key);
     public bool Remove(string key) => _data.Remove(key);
 
     // --------------------------------------------------------------------------------------------

@@ -2,7 +2,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace GloJSON
+namespace KoreJSON
 {
     public class ScenPause : JSONMessage
     {

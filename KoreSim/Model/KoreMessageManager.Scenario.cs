@@ -1,6 +1,8 @@
 using System;
 
 using KoreCommon;
+using KoreJSON;
+using KoreSim;
 
 #nullable enable
 
@@ -11,7 +13,7 @@ public partial class KoreMessageManager
     private void ProcessMessage_ScenLoad(ScenLoad scenLoadMsg)
     {
         KoreCentralLog.AddEntry($"KoreMessageManager.ProcessMessage_ScenLoad: Name:{scenLoadMsg.ScenName} ScenPos:{scenLoadMsg.ScenPos}");
-        KoreGodotFactory.Instance.UIState.ScenarioName = scenLoadMsg.ScenName;
+        //KoreSimFactory.Instance.UIState.ScenarioName = scenLoadMsg.ScenName;
         KoreSimFactory.Instance.EventDriver.DeleteAllPlatforms();
     }
 

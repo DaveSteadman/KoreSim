@@ -2,20 +2,20 @@
 // using System.Collections;
 // using System.Collections.Generic;
 
-// // Static class wrapper for a single/central instance of a GloConfig.
+// // Static class wrapper for a single/central instance of a KoreConfig.
 
-// public static class GloCentralConfig
+// public static class KoreCentralConfig
 // {
-//     private static GloConfig configData;
+//     private static KoreConfig configData;
 
-//     static GloCentralConfig()
+//     static KoreCentralConfig()
 //     {
-//         configData = new GloConfig();
+//         configData = new KoreConfig();
 //         configData.LoadOrCreateJSONConfig("CentralConfig.json");
 
 //         // Setup default configs if not present
-//         if (!GloCentralConfig.HasParam("MapRootDir")) GloCentralConfig.SetParam("MapRootDir", "C:/Util/GloLibrary/Maps/", false);
-//         if (!GloCentralConfig.HasParam("CaptureDir")) GloCentralConfig.SetParam("CaptureDir", "C:/Util/GloCapture/", false);
+//         if (!KoreCentralConfig.HasParam("MapRootDir")) KoreCentralConfig.SetParam("MapRootDir", "C:/Util/KoreLibrary/Maps/", false);
+//         if (!KoreCentralConfig.HasParam("CaptureDir")) KoreCentralConfig.SetParam("CaptureDir", "C:/Util/KoreCapture/", false);
 //     }
 
 //     public static void SetParam(string name, string value, bool WriteOnAssign = true)

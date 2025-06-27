@@ -2,9 +2,9 @@ using System;
 
 #nullable enable
 
-// KoreElementOperations: Utility class to factor out all of the element searching and management operations, and avoid cluttering the platform class
+// KoreEntityElementOperations: Utility class to factor out all of the element searching and management operations, and avoid cluttering the platform class
 
-public static class KoreElementOps
+public static class KoreEntityElementOps
 {
     public static KoreEntityElement? CreatePlatformElement(string platName, string elemName, string platElemType)
     {
@@ -34,7 +34,7 @@ public static class KoreElementOps
     // MARK: Element Access Operations
     // ---------------------------------------------------------------------------------------------
 
-    // public static KoreElement? ElementForName(KoreEntity entity, string elemname)
+    // public static KoreEntityElement? ElementForName(KoreEntity entity, string elemname)
     // {
     //     foreach (var element in entity.Elements)
     //     {
