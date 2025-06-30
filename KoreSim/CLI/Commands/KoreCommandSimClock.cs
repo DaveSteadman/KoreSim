@@ -12,6 +12,6 @@ public class KoreCommandSimClock : KoreCommand
 
     public override string Execute(List<string> parameters)
     {
-        return $"SimClock: {KoreSimFactory.Instance.EventDriver.SimSeconds()}Secs";
+        return $"SimClock: {EventDriver.SimSeconds()}Secs";
     }
 }

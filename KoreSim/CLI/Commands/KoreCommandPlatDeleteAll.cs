@@ -19,7 +19,7 @@ public class KoreCommandPlatDeleteAll : KoreCommand
             return "KoreCommandPlatDeleteAll.Execute -> incorrect number of parameters";
         }
 
-        KoreSimFactory.Instance.EventDriver.DeleteAllPlatforms();
+        EventDriver.DeleteAllPlatforms();
 
         KoreCentralLog.AddEntry($"KoreCommandPlatDeleteAll.Execute");
 

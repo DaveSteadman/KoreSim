@@ -1,18 +1,20 @@
 
 using System;
 
-using GloNetworking;
+
+namespace KoreSim;
+
 
 // Design Decisions:
 // - The KoreEventDriver is the top level class that manages data. Commands and Tasks interact with the business logic through this point.
 
-public partial class KoreEventDriver
+public static partial class KoreEventDriver
 {
     // ---------------------------------------------------------------------------------------------
     // Command Execution
     // ---------------------------------------------------------------------------------------------
 
-    public void ExitApplication()
+    public static void ExitApplication()
     {
         KoreSimFactory.Instance.ConsoleInterface.Stop();
         KoreSimFactory.Instance.NetworkHub.endAllConnections();
@@ -23,7 +25,7 @@ public partial class KoreEventDriver
     // MARK: Sidebar view settings
     // ---------------------------------------------------------------------------------------------
 
-    // Usage: KoreSimFactory.Instance.EventDriver.SidebarSetBeamVisibility(true, true);
+    // Usage: EventDriver.SidebarSetBeamVisibility(true, true);
 
     // public void SidebarSetBeamVisibility(bool rxVisible, bool txVisible)
     // {
@@ -34,9 +36,9 @@ public partial class KoreEventDriver
 
     // ---------------------------------------------------------------------------------------------
 
-    // Usage: KoreSimFactory.Instance.EventDriver.SidebarSetRouteVisibility(true);
-    //        KoreSimFactory.Instance.EventDriver.SidebarSetEmitterVisibility(true);
-    //        KoreSimFactory.Instance.EventDriver.SidebarSetAntennaPatternVisibility(true);
+    // Usage: EventDriver.SidebarSetRouteVisibility(true);
+    //        EventDriver.SidebarSetEmitterVisibility(true);
+    //        EventDriver.SidebarSetAntennaPatternVisibility(true);
 
     // public void SidebarSetRouteVisibility(bool routeVisible)                   => GloGodotFactory.Instance.UIState.ShowRoutes          = routeVisible;
     // public void SidebarSetEmitterVisibility(bool emitterVisible)               => GloGodotFactory.Instance.UIState.ShowEmitters        = emitterVisible;

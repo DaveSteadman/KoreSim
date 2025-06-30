@@ -10,40 +10,40 @@ namespace KoreSim.JSON;
 public class PlatAdd : JSONMessage
 {
     [JsonPropertyName("PlatName")]
-    public string PlatName { get; set; }
+    public string PlatName { get; set; } = string.Empty;
 
     [JsonPropertyName("PlatCategory")]
-    public string PlatCategory { get; set; }
+    public string PlatCategory { get; set; } = string.Empty;
 
     [JsonPropertyName("ThreatType")]
-    public string ThreatType { get; set; }
+    public string ThreatType { get; set; } = string.Empty;
 
     [JsonPropertyName("Display")]
-    public bool Display { get; set; }
+    public bool Display { get; set; } = false;
 
     [JsonPropertyName("PlatClass")]
-    public string PlatClass { get; set; }
+    public string PlatClass { get; set; } = string.Empty;
 
     [JsonPropertyName("PlatDispSymb")]
-    public string PlatDispSymb { get; set; }
+    public string PlatDispSymb { get; set; } = string.Empty;
 
     [JsonPropertyName("LatDegs")]
-    public double LatDegs { get; set; }
+    public double LatDegs { get; set; } = 0.0;
 
     [JsonPropertyName("LongDegs")]
-    public double LongDegs { get; set; }
+    public double LongDegs { get; set; } = 0.0;
 
     [JsonPropertyName("AltitudeMtrs")]
-    public double AltitudeMtrs { get; set; }
+    public double AltitudeMtrs { get; set; } = 0.0;
 
     [JsonPropertyName("RollDegs")]
-    public double RollDegs { get; set; }
+    public double RollDegs { get; set; } = 0.0;
 
     [JsonPropertyName("PitchDegs")]
-    public double PitchDegs { get; set; }
+    public double PitchDegs { get; set; } = 0.0;
 
     [JsonPropertyName("HeadingDegs")]
-    public double HeadingDegs { get; set; }
+    public double HeadingDegs { get; set; } = 0.0;
 
     [JsonIgnore]
     public KoreLLAPoint Pos

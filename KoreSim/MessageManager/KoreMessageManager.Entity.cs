@@ -7,8 +7,9 @@ using System.IO;
 using System.Threading.Tasks;
 
 using KoreCommon;
-using KoreSim;
 using KoreSim.JSON;
+
+namespace KoreSim;
 
 #nullable enable
 
@@ -21,7 +22,7 @@ public partial class KoreMessageManager
     private void ProcessMessage_PlatFocus(PlatFocus msg)
     {
         KoreCentralLog.AddEntry($"KoreMessageManager.ProcessMessage_PlatFocus: {msg.PlatName}");
-        KoreGodotFactory.Instance.UIMsgQueue.EnqueueMessage(msg);
+        //KoreGodotFactory.Instance.UIMsgQueue.EnqueueMessage(msg);
     }
 
     // --------------------------------------------------------------------------------------------
@@ -31,21 +32,21 @@ public partial class KoreMessageManager
         KoreCentralLog.AddEntry($"KoreMessageManager.ProcessMessage_PlatAdd: {msg.PlatName}");
 
         // Check if the platform already exists
-        if (!KoreSimFactory.Instance.EventDriver.DoesPlatformExist(msg.PlatName))
+        if (!EventDriver.DoesPlatformExist(msg.PlatName))
         {
-            KoreSimFactory.Instance.EventDriver.AddPlatform(msg.PlatName, msg.PlatClass);
+            EventDriver.AddPlatform(msg.PlatName, msg.PlatClass);
         }
 
-        if (KoreSimFactory.Instance.EventDriver.DoesPlatformExist(msg.PlatName))
+        if (EventDriver.DoesPlatformExist(msg.PlatName))
         {
             // Name (like tail number), Class (like F-16), Category (like aircraft)
-            KoreSimFactory.Instance.EventDriver.SetPlatformType(
-                msg.PlatName, msg.PlatClass , msg.PlatCategory);
+            EventDriver.SetPlatformType(
+                msg.PlatName, msg.PlatClass, msg.PlatCategory);
 
-            KoreSimFactory.Instance.EventDriver.SetPlatformStartDetails(
+            EventDriver.SetPlatformStartDetails(
                 msg.PlatName, msg.Pos, msg.Attitude, msg.Course);
 
-            KoreSimFactory.Instance.EventDriver.SetPlatformCurrDetails(
+            EventDriver.SetPlatformCurrDetails(
                 msg.PlatName, msg.Pos, msg.Attitude, msg.Course, KoreCourseDelta.Zero);
         }
     }
@@ -57,9 +58,9 @@ public partial class KoreMessageManager
         KoreCentralLog.AddEntry($"KoreMessageManager.ProcessMessage_PlatDelete: {msg.PlatName}");
 
         // Check if the platform exists
-        if (KoreSimFactory.Instance.EventDriver.DoesPlatformExist(msg.PlatName))
+        if (EventDriver.DoesPlatformExist(msg.PlatName))
         {
-            KoreSimFactory.Instance.EventDriver.DeletePlatform(msg.PlatName);
+            EventDriver.DeletePlatform(msg.PlatName);
         }
     }
 
@@ -70,9 +71,9 @@ public partial class KoreMessageManager
         KoreCentralLog.AddEntry($"KoreMessageManager.ProcessMessage_PlatUpdate: {msg.PlatName}");
 
         // Check if the platform exists
-        if (KoreSimFactory.Instance.EventDriver.DoesPlatformExist(msg.PlatName))
+        if (EventDriver.DoesPlatformExist(msg.PlatName))
         {
-            KoreSimFactory.Instance.EventDriver.SetPlatformCurrDetails(
+            EventDriver.SetPlatformCurrDetails(
                 msg.PlatName, msg.Pos, msg.Attitude, msg.Course, msg.CourseDelta);
         }
     }
@@ -84,11 +85,11 @@ public partial class KoreMessageManager
         KoreCentralLog.AddEntry($"KoreMessageManager.ProcessMessage_PlatPosition: {msg.PlatName}");
 
         // Check if the platform exists
-        if (KoreSimFactory.Instance.EventDriver.DoesPlatformExist(msg.PlatName))
+        if (EventDriver.DoesPlatformExist(msg.PlatName))
         {
-            KoreSimFactory.Instance.EventDriver.SetPlatformPosition(msg.PlatName, msg.Pos);
-            KoreSimFactory.Instance.EventDriver.SetPlatformCourse(msg.PlatName, msg.Course);
-            KoreSimFactory.Instance.EventDriver.SetPlatformAttitude(msg.PlatName, msg.Attitude);
+            EventDriver.SetPlatformPosition(msg.PlatName, msg.Pos);
+            EventDriver.SetPlatformCourse(msg.PlatName, msg.Course);
+            EventDriver.SetPlatformAttitude(msg.PlatName, msg.Attitude);
         }
     }
 }

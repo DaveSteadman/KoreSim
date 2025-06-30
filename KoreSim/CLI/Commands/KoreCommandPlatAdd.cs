@@ -23,17 +23,17 @@ public class KoreCommandPlatAdd : KoreCommand
         string retString = "";
 
         // Commands exist to perform their task, delete any pre-existing platform by the name
-        if (KoreSimFactory.Instance.EventDriver.DoesPlatformExist(platName))
+        if (EventDriver.DoesPlatformExist(platName))
         {
-            KoreSimFactory.Instance.EventDriver.DeletePlatform(platName);
+            EventDriver.DeletePlatform(platName);
             retString += $"Platform {platName} deleted. ";
         }
 
-        KoreSimFactory.Instance.EventDriver.AddPlatform(platName);
+        EventDriver.AddPlatform(platName);
         retString += $"Platform {platName} added.";
 
         // Set the default platform details - adding it with no location will create rendering div0's etc.
-        KoreSimFactory.Instance.EventDriver.DefaultPlatformDetails(platName);
+        EventDriver.DefaultPlatformDetails(platName);
 
         KoreCentralLog.AddEntry($"KoreCommandPlatAdd.Execute -> {retString}");
         return retString;

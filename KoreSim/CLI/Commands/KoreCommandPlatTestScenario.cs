@@ -13,9 +13,9 @@ public class KoreCommandPlatTestScenario : KoreCommand
     public override string Execute(List<string> parameters)
     {
         KoreCentralLog.AddEntry("KoreCommandPlatTestScenario");
-        KoreSimFactory.Instance.EventDriver.SetupTestPlatforms();
+        EventDriver.SetupTestPlatforms();
 
-        int num = KoreSimFactory.Instance.EventDriver.NumPlatforms();
+        int num = EventDriver.NumPlatforms();
         return $"KoreCommandPlatTestScenario:\n Number of Platforms: {num}";
     }
 

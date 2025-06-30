@@ -12,13 +12,9 @@ namespace KoreSim;
 public class KoreEntity
 {
     public string Name { get; set; } = "Unknown-Name";
-    public string Type { get; set; } = "Unknown-Type";
-    public string Category { get; set; } = "Unknown-Category"; // Such as airbourne, ground, etc. Allows us to select a correct icon, or default 3D model.
 
     // Kinetics object defines the initial and current position of the platform. Has to exist in all cases.
     public KoreEntityKinetics Kinetics { get; set; } = new KoreEntityKinetics();
-
-    //private KoreEntityRoute? Route { get; set; } = null;
 
     private List<KoreEntityElement>? Elements { get; set; } = null;
 
@@ -58,7 +54,16 @@ public class KoreEntity
 
     public string GetProperty(string key)
     {
-        return Properties.Get(key, "<MissingProperty>");
+        if (!Properties.Has(key))
+            throw new KeyNotFoundException($"Property '{key}' not found on entity '{Name}'");
+
+        return Properties.Get(key);
+    }
+
+    // Return list of all the property keys
+    public List<string> PropertyKeys()
+    {
+        return Properties.KeysList();
     }
 
     // --------------------------------------------------------------------------------------------
@@ -96,8 +101,7 @@ public class KoreEntity
     public string PositionReport()
     {
         StringBuilder sb = new StringBuilder();
-        sb.AppendLine($"Platform: {Name} Type: {Type}");
-        sb.AppendLine($"- InitialLocation: {Kinetics.StartPosition}");
+        sb.AppendLine($"Platform: {Name}");
         sb.AppendLine($"- CurrPosition: {Kinetics.CurrPosition}");
         sb.AppendLine($"- CurrAttitude: {Kinetics.CurrAttitude}");
         sb.AppendLine($"- CurrCourse: {Kinetics.CurrCourse}");
@@ -110,12 +114,12 @@ public class KoreEntity
     public string ElementReport()
     {
         StringBuilder sb = new StringBuilder();
-        sb.AppendLine($"Platform: {Name} Type: {Type}");
+        sb.AppendLine($"Platform: {Name}");
         sb.AppendLine($"- Elements: {ElementsList.Count}");
 
         foreach (KoreEntityElement element in ElementsList)
         {
-            sb.AppendLine($"- Element: {element.Name} Type: {element.Type}");
+            sb.AppendLine($"- Element: {element.Name}");
         }
 
         return sb.ToString();

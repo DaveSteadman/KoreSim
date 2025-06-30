@@ -2,6 +2,7 @@
 // global using KoreFloat2DArray  = KoreNumeric2DArray<float>;
 // global using KoreDouble2DArray = KoreNumeric2DArray<double>;
 
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -152,6 +153,6 @@ public partial class KoreNumeric2DArray<T> where T : struct, INumber<T>
                 throw new ArgumentOutOfRangeException(nameof(e), "Invalid edge specified");
         }
     }
+
+
 }
-
-

@@ -25,11 +25,11 @@ public class KoreCommandPlatCourse : KoreCommand
 
         string retString = "";
 
-        if (KoreSimFactory.Instance.EventDriver.DoesPlatformExist(platName))
+        if (EventDriver.DoesPlatformExist(platName))
         {
             KoreCourse newCourse = new KoreCourse() { HeadingDegs = headingDegs, SpeedKph = speedKph };
 
-            KoreSimFactory.Instance.EventDriver.SetPlatformCourse(platName, newCourse);
+            EventDriver.SetPlatformCourse(platName, newCourse);
             retString = $"Platform {platName} Updated: Course: {newCourse}.";
         }
         else

@@ -16,42 +16,42 @@ public static partial class KoreEventDriver
     // ---------------------------------------------------------------------------------------------
     // MARK: Add/Del
     // ---------------------------------------------------------------------------------------------
-    public static void AddPlatform(string platName)
-    {
-        // Create a new platform
-        // if (KoreSimFactory.Instance.EntityManager == null)
-        //     KoreCentralLog.AddEntry("EC0-0002: ERROR ERROR ERROR: Platform Manager not found in KoreSimFactory.Instance");
 
-        KoreEntity? newPlat = KoreSimFactory.Instance.EntityManager.Add(platName);
-        if (newPlat == null)
+    public static void AddEntity(string entName)
+    {
+        // Create a new entity
+        // if (KoreSimFactory.Instance.EntityManager == null)
+        //     KoreCentralLog.AddEntry("EC0-0002: ERROR ERROR ERROR: Entity Manager not found in KoreSimFactory.Instance");
+
+        KoreEntity? newEnt = KoreSimFactory.Instance.EntityManager.Add(entName);
+        if (newEnt == null)
         {
-            KoreCentralLog.AddEntry($"EC0-0026: Platform {platName} not created, already exists.");
+            KoreCentralLog.AddEntry($"EC0-0026: Entity {entName} not created, already exists.");
             return;
         }
-        newPlat.Type = "Unknown";
     }
 
-    public static void AddPlatform(string platName, string platType)
+    public static void AddEntity(string entName, string entType)
     {
-        // Create a new platform
+        // Create a new entity
         // if (KoreSimFactory.Instance.EntityManager == null)
-        //     KoreCentralLog.AddEntry("EC0-0002: ERROR ERROR ERROR: Platform Manager not found in KoreSimFactory.Instance");
+        //     KoreCentralLog.AddEntry("EC0-0002: ERROR ERROR ERROR: Entity Manager not found in KoreSimFactory.Instance");
 
-        KoreEntity? newPlat = KoreSimFactory.Instance.EntityManager.Add(platName);
-        if (newPlat == null)
+        KoreEntity? newEnt = KoreSimFactory.Instance.EntityManager.Add(entName);
+        if (newEnt == null)
         {
-            KoreCentralLog.AddEntry($"EC0-0001: Platform {platName} not created, already exists.");
+            KoreCentralLog.AddEntry($"EC0-0026: Entity {entName} not created, already exists.");
             return;
         }
-        newPlat.Type = platType;
 
-        DefaultPlatformDetails(platName);
+
+        //DefaultEntityDetails(entName);
     }
 
-    public static bool DoesPlatformExist(string platName) => KoreSimFactory.Instance.EntityManager.DoesPlatExist(platName);
-    public static void DeletePlatform(string platName) => KoreSimFactory.Instance.EntityManager.Delete(platName);
-    public static void DeleteAllPlatforms() => KoreSimFactory.Instance.EntityManager.DeleteAllPlatforms();
-    public static int NumPlatforms() => KoreSimFactory.Instance.EntityManager.NumPlatforms();
+    public static bool DoesEntityExist(string entName) => KoreSimFactory.Instance.EntityManager.DoesEntityExist(entName);
+    public static void DeleteEntity(string entName) => KoreSimFactory.Instance.EntityManager.Delete(entName);
+    public static void DeleteAllEntities() => KoreSimFactory.Instance.EntityManager.DeleteAllEntities();
+    public static int NumEntities() => KoreSimFactory.Instance.EntityManager.NumEntities();
 
     // ---------------------------------------------------------------------------------------------
     // MARK: Details
@@ -72,7 +72,7 @@ public static partial class KoreEventDriver
     public static void SetPlatformStartDetails(string platName, KoreLLAPoint startPos, KoreAttitude startAtt, KoreCourse startCourse)
     {
         // Get the platform
-        KoreEntity? platform = KoreSimFactory.Instance.EntityManager.PlatForName(platName);
+        KoreEntity? platform = KoreSimFactory.Instance.EntityManager.EntityForName(platName);
 
         if (platform == null)
         {
@@ -81,15 +81,15 @@ public static partial class KoreEventDriver
         }
 
         // Set the platform's details
-        platform.Kinetics.StartPosition = startPos;
-        platform.Kinetics.StartAttitude = startAtt;
-        platform.Kinetics.StartCourse = startCourse;
+        platform.Kinetics.CurrPosition = startPos;
+        platform.Kinetics.CurrAttitude = startAtt;
+        platform.Kinetics.CurrCourse = startCourse;
     }
 
     public static void SetPlatformCurrDetails(string platName, KoreLLAPoint currPos, KoreAttitude currAtt, KoreCourse course, KoreCourseDelta courseDelta)
     {
         // Get the platform
-        KoreEntity? platform = KoreSimFactory.Instance.EntityManager.PlatForName(platName);
+        KoreEntity? platform = KoreSimFactory.Instance.EntityManager.EntityForName(platName);
 
         if (platform == null)
         {
@@ -111,7 +111,7 @@ public static partial class KoreEventDriver
     public static void SetPlatformStart(string platName, KoreLLAPoint newpos, KoreCourse newcourse, KoreAttitude newAtt)
     {
         // Get the platform
-        KoreEntity? platform = KoreSimFactory.Instance.EntityManager.PlatForName(platName);
+        KoreEntity? platform = KoreSimFactory.Instance.EntityManager.EntityForName(platName);
 
         if (platform == null)
         {
@@ -120,9 +120,9 @@ public static partial class KoreEventDriver
         }
 
         // Set the platform's start location
-        platform.Kinetics.StartPosition = newpos;
-        platform.Kinetics.StartCourse = newcourse;
-        platform.Kinetics.StartAttitude = newAtt;
+        platform.Kinetics.CurrPosition = newpos;
+        platform.Kinetics.CurrCourse   = newcourse;
+        platform.Kinetics.CurrAttitude = newAtt;
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -132,7 +132,7 @@ public static partial class KoreEventDriver
     public static void SetPlatformType(string platName, string platType, string platCategory)
     {
         // Get the platform
-        KoreEntity? platform = KoreSimFactory.Instance.EntityManager.PlatForName(platName);
+        KoreEntity? platform = KoreSimFactory.Instance.EntityManager.EntityForName(platName);
 
         if (platform == null)
         {
@@ -146,10 +146,10 @@ public static partial class KoreEventDriver
     }
 
     public static string? PlatformType(string platName) =>
-        KoreSimFactory.Instance.EntityManager.PlatForName(platName)?.Type;
+        KoreSimFactory.Instance.EntityManager.EntityForName(platName)?.Type;
 
     public static string? PlatformCategory(string platName) =>
-        KoreSimFactory.Instance.EntityManager.PlatForName(platName)?.Category;
+        KoreSimFactory.Instance.EntityManager.EntityForName(platName)?.Category;
 
     // ---------------------------------------------------------------------------------------------
     // MARK: Position
@@ -158,7 +158,7 @@ public static partial class KoreEventDriver
     public static void SetPlatformStartLLA(string platName, KoreLLAPoint newpos)
     {
         // Get the platform
-        KoreEntity? platform = KoreSimFactory.Instance.EntityManager.PlatForName(platName);
+        KoreEntity? platform = KoreSimFactory.Instance.EntityManager.EntityForName(platName);
 
         if (platform == null)
         {
@@ -167,18 +167,18 @@ public static partial class KoreEventDriver
         }
 
         // Set the platform's start location
-        platform.Kinetics.StartPosition = newpos;
+        platform.Kinetics.CurrPosition = newpos;
     }
 
     public static KoreLLAPoint? PlatformStartLLA(string platName)
     {
         // Get the platform
-        KoreEntity? platform = KoreSimFactory.Instance.EntityManager.PlatForName(platName);
+        KoreEntity? platform = KoreSimFactory.Instance.EntityManager.EntityForName(platName);
 
         if (platform == null)
             return null;
 
-        return platform.Kinetics.StartPosition;
+        return platform.Kinetics.CurrPosition;
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -186,7 +186,7 @@ public static partial class KoreEventDriver
     public static void SetPlatformPosition(string platName, KoreLLAPoint newpos)
     {
         // Get the platform
-        KoreEntity? platform = KoreSimFactory.Instance.EntityManager.PlatForName(platName);
+        KoreEntity? platform = KoreSimFactory.Instance.EntityManager.EntityForName(platName);
 
         if (platform == null)
         {
@@ -292,75 +292,29 @@ public static partial class KoreEventDriver
     }
 
     // ---------------------------------------------------------------------------------------------
-    // MARK: Focus
-    // ---------------------------------------------------------------------------------------------
-
-    public static void SetPlatformFocus(string platName)
-    {
-        // Check the platform exists
-        if (!DoesPlatformExist(platName))
-        {
-            KoreCentralLog.AddEntry($"Attempt to select non-existent platform {platName}");
-            return;
-        }
-
-        // check the name matches an entity
-        if (!KoreGodotFactory.Instance.GodotEntityManager.EntityExists(platName))
-        {
-            KoreCentralLog.AddEntry($"Attempt to select non-existent entity {platName}");
-            return;
-        }
-
-        // Select the chase cam mode
-        // move the chase cam if in the right mode
-        // if (KoreGodotFactory.Instance.UIState.IsCamModeChaseCam())
-        // {
-
-        int platFindCountdown = NumPlatforms();
-        while (NearPlatformName() != platName)
-        {
-            NearPlatformNext();
-            platFindCountdown--;
-            if (platFindCountdown <= 0)
-            {
-                KoreCentralLog.AddEntry($"Platform {platName} not found in list.");
-                break;
-            }
-        }
-        KoreCentralLog.AddEntry($"SetPlatformFocus: near platform [{platName}] selected");
-
-        SetCameraModeChaseCam();
-
-        //KoreGodotFactory.Instance.GodotEntityManager.EnableChaseCam(platName);
-        KoreGodotFactory.Instance.UIState.UpdateDisplayedChaseCam();
-
-        // }
-    }
-
-    // ---------------------------------------------------------------------------------------------
     // MARK: Report
     // ---------------------------------------------------------------------------------------------
 
-    public static string PlatformPositionsReport() => KoreSimFactory.Instance.EntityManager.PlatformPositionsReport();
-    public static string PlatformElementsReport() => KoreSimFactory.Instance.EntityManager.PlatformElementsReport();
+    public static string EntityPositionsReport() => KoreSimFactory.Instance.EntityManager.EntityPositionsReport();
+    public static string EntityElementsReport() => KoreSimFactory.Instance.EntityManager.EntityElementsReport();
 
     // ---------------------------------------------------------------------------------------------
     // MARK: Names
     // ---------------------------------------------------------------------------------------------
 
-    public static string PlatformNameForIndex(int index) => KoreSimFactory.Instance.EntityManager.PlatNameForIndex(index);
-    public static KoreEntity? PlatformForIndex(int index) => KoreSimFactory.Instance.EntityManager.PlatForIndex(index);
-    public static KoreEntity? PlatformForName(string platname) => KoreSimFactory.Instance.EntityManager.PlatForName(platname);
+    public static string EntityNameForIndex(int index) => KoreSimFactory.Instance.EntityManager.EntityNameForIndex(index);
+    public static KoreEntity? EntityForIndex(int index) => KoreSimFactory.Instance.EntityManager.EntityForIndex(index);
+    public static KoreEntity? EntityForName(string platname) => KoreSimFactory.Instance.EntityManager.EntityForName(platname);
 
     // Id being the 1-based user presented index
 
-    public static string PlatformIdForName(string platname) => KoreSimFactory.Instance.EntityManager.PlatIdForName(platname);
-    public static string PlatformNameForId(int platId) => KoreSimFactory.Instance.EntityManager.PlatNameForId(platId);
+    public static string EntityIdForName(string platname) => KoreSimFactory.Instance.EntityManager.EntityIdForName(platname);
+    public static string EntityNameForId(int platId) => KoreSimFactory.Instance.EntityManager.EntityNameForId(platId);
 
-    public static int PlatformIdNext(int currPlatId) => KoreSimFactory.Instance.EntityManager.PlatIdNext(currPlatId);
-    public static int PlatformIdPrev(int currPlatId) => KoreSimFactory.Instance.EntityManager.PlatIdPrev(currPlatId);
+    public static int EntityIdNext(int currPlatId) => KoreSimFactory.Instance.EntityManager.EntityIdNext(currPlatId);
+    public static int EntityIdPrev(int currPlatId) => KoreSimFactory.Instance.EntityManager.EntityIdPrev(currPlatId);
 
-    public static List<string> PlatformNames() => KoreSimFactory.Instance.EntityManager.PlatNameList();
+    public static List<string> EntityNameList() => KoreSimFactory.Instance.EntityManager.EntityNameList();
 
 
 }

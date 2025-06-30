@@ -23,7 +23,7 @@ public class KoreCommandNetworkInjectIncoming : KoreCommand
         // concatenate the parameters into a single string with spaces
         string message = string.Join(" ", parameters);
 
-        KoreSimFactory.Instance.EventDriver.NetworkInjectIncoming(message);
+        EventDriver.NetworkInjectIncoming(message);
 
         // trim the message to 100 characters
         if (message.Length > 100)

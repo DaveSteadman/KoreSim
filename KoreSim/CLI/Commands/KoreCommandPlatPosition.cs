@@ -26,11 +26,11 @@ public class KoreCommandPlatPosition : KoreCommand
 
         string retString = "";
 
-        if (KoreSimFactory.Instance.EventDriver.DoesPlatformExist(platName))
+        if (EventDriver.DoesPlatformExist(platName))
         {
             KoreLLAPoint newLLA = new KoreLLAPoint() { LatDegs = latDegs, LonDegs = lonDegs, AltMslM = altMslM };
 
-            KoreSimFactory.Instance.EventDriver.SetPlatformStartLLA(platName, newLLA);
+            EventDriver.SetPlatformStartLLA(platName, newLLA);
             retString = $"Platform {platName} Updated: Position: {newLLA}.";
         }
         else

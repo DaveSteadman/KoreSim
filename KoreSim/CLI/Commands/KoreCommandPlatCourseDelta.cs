@@ -25,13 +25,13 @@ public class KoreCommandPlatCourseDelta : KoreCommand
 
         string retString = "";
 
-        if (KoreSimFactory.Instance.EventDriver.DoesPlatformExist(platName))
+        if (EventDriver.DoesPlatformExist(platName))
         {
             KoreCourseDelta newCourseDelta = new KoreCourseDelta() {
                     SpeedChangeMpMps = speedChangeMpMps,
                     HeadingChangeClockwiseDegsSec = headingChangeClockwiseDegsSec };
 
-            KoreSimFactory.Instance.EventDriver.SetPlatformCourseDelta(platName, newCourseDelta);
+            EventDriver.SetPlatformCourseDelta(platName, newCourseDelta);
             retString = $"Platform {platName} Updated: Course: {newCourseDelta}.";
         }
         else

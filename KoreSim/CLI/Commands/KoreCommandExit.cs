@@ -22,7 +22,7 @@ public class KoreCommandExit : KoreCommand
 
         // Exiting the application - ending the threads
         KoreCentralLog.AddEntry("Exiting the application");
-        KoreSimFactory.Instance.EventDriver.ExitApplication();
+        EventDriver.ExitApplication();
 
         return "Exiting the application";
     }

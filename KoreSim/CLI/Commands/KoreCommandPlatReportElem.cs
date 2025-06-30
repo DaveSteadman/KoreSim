@@ -13,8 +13,8 @@ public class KoreCommandPlatReportElem : KoreCommand
 
     public override string Execute(List<string> parameters)
     {
-        int num = KoreSimFactory.Instance.EventDriver.NumPlatforms();
-        string rep = KoreSimFactory.Instance.EventDriver.PlatformElementsReport();
+        int num = EventDriver.NumPlatforms();
+        string rep = EventDriver.PlatformElementsReport();
 
         KoreCentralLog.AddEntry("PlatformElementsReport.Execute: " + KoreGlobals.VersionString);
         return $"Platform Elements Report:\n{rep}";

@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-using KoreJSON;
 using KoreCommon;
 namespace KoreSim;
 
@@ -25,8 +24,8 @@ public partial class KoreEntityManager
 
     // Considering the Entity list by index
 
-    public int  NumEntitys()       => EntityList.Count;
-    public void DeleteAllEntitys() => EntityList.Clear();
+    public int  NumEntities()       => EntityList.Count;
+    public void DeleteAllEntities() => EntityList.Clear();
 
     // --------------------------------------------------------------------------------------------
 
@@ -122,7 +121,7 @@ public partial class KoreEntityManager
 
     public int EntityIdNext(int currEntityId)
     {
-        int numEntities = KoreSimFactory.Instance.EntityManager.NumEntitys();
+        int numEntities = KoreSimFactory.Instance.EntityManager.NumEntities();
         int minId    = (numEntities > 0) ? 1 : 0;
         int maxId    = (numEntities > 0) ? numEntities: 0;
 
@@ -134,7 +133,7 @@ public partial class KoreEntityManager
 
     public int EntityIdPrev(int currEntityId)
     {
-        int numEntities = KoreSimFactory.Instance.EntityManager.NumEntitys();
+        int numEntities = KoreSimFactory.Instance.EntityManager.NumEntities();
         int minId    = (numEntities > 0) ? 1 : 0;
         int maxId    = (numEntities > 0) ? numEntities: 0;
 
@@ -163,13 +162,13 @@ public partial class KoreEntityManager
     // MARK: Elements
     // --------------------------------------------------------------------------------------------
 
-    public bool DoesElementExist(string entityName, string elemname)
+    public bool HasElement(string entityName, string elemname)
     {
         KoreEntity? entity = EntityForName(entityName);
         if (entity == null)
             return false;
 
-        return entity.DoesElementExist(elemname);
+        return entity.HasElement(elemname);
     }
 
     public bool AddElement(string entityName, KoreEntityElement newElem)
@@ -252,7 +251,6 @@ public partial class KoreEntityManager
         {
             sb.AppendLine($"Entity: {currPlat.Name}");
             sb.AppendLine($"- CurrPosition: {currPlat.Kinetics?.CurrPosition}");
-            sb.AppendLine($"- StartPosition: {currPlat.Kinetics?.StartPosition}");
             sb.AppendLine($"- CurrAttitude: {currPlat.Kinetics?.CurrAttitude}");
             sb.AppendLine($"- CurrCourse: {currPlat.Kinetics?.CurrCourse}");
             sb.AppendLine($"- CurrCourseDelta: {currPlat.Kinetics?.CurrCourseDelta}");

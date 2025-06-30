@@ -35,23 +35,23 @@ public  static partial class KoreEventDriver
         KoreAttitude att1 = new KoreAttitude() { PitchUpDegs = 0, RollClockwiseDegs = 20, YawClockwiseDegs = 0 };
         KoreAttitude att3 = new KoreAttitude() { PitchUpDegs = 0, RollClockwiseDegs = 12, YawClockwiseDegs = 0 };
 
-        AddPlatform("TEST-F16", "F16");
-        SetPlatformStart("TEST-F16", loc1, course1, att1);
-        SetPlatformCourseDelta("TEST-F16", courseDelta1);
+        AddEntity("TEST-F16", "F16");
+        SetEntityStart("TEST-F16", loc1, course1, att1);
+        SetEntityCourseDelta("TEST-F16", courseDelta1);
 
-        // AddPlatform("TEST-F18", "F18");
-        // SetPlatformStartLLA("TEST-F18", loc2);
-        // SetPlatformCourse("TEST-F18", course2);
-        // SetPlatformCourseDelta("TEST-F18", courseDelta2);
+        // AddEntity("TEST-F18", "F18");
+        // SetEntityStartLLA("TEST-F18", loc2);
+        // SetEntityCourse("TEST-F18", course2);
+        // SetEntityCourseDelta("TEST-F18", courseDelta2);
 
-        AddPlatform("TEST-Torn", "Tornado");
-        SetPlatformStart("TEST-Torn", loc3, course3, att3);
-        SetPlatformCourseDelta("TEST-Torn", courseDelta3);
+        AddEntity("TEST-Torn", "Tornado");
+        SetEntityStart("TEST-Torn", loc3, course3, att3);
+        SetEntityCourseDelta("TEST-Torn", courseDelta3);
 
-        // AddPlatform("TEST-MQ9", "MQ9Reaper");
-        // SetPlatformStartLLA("TEST-MQ9", loc4);
-        // SetPlatformCourse("TEST-MQ9", course4);
-        // SetPlatformCourseDelta("TEST-MQ9", courseDelta4);
+        // AddEntity("TEST-MQ9", "MQ9Reaper");
+        // SetEntityStartLLA("TEST-MQ9", loc4);
+        // SetEntityCourse("TEST-MQ9", course4);
+        // SetEntityCourseDelta("TEST-MQ9", courseDelta4);
 
         // {
         //     KoreLLAPoint    loc         = new KoreLLAPoint()    { LatDegs = 52.8, LonDegs =    -4.28, AltMslM = 0 };

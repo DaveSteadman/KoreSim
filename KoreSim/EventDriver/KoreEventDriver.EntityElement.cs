@@ -20,7 +20,7 @@ public static partial class KoreEventDriver
     public static void AddPlatformElement(string platName, string elemName, string platElemType)
     {
         // Create a new platform
-        KoreEntityElementOperations.CreatePlatformElement(platName, elemName, platElemType);
+        KoreEntityElementOps.CreatePlatformElement(platName, elemName, platElemType);
     }
 
     public static void AddPlatformElement(string platName, string elemName, KoreEntityElement element)

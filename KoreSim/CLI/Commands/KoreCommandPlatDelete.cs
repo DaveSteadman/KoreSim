@@ -24,9 +24,9 @@ public class KoreCommandPlatDelete : KoreCommand
         string retString = "";
 
         // Delete the platform
-        if (KoreSimFactory.Instance.EventDriver.DoesPlatformExist(platName))
+        if (EventDriver.DoesPlatformExist(platName))
         {
-            KoreSimFactory.Instance.EventDriver.DeletePlatform(platName);
+            EventDriver.DeletePlatform(platName);
             retString = $"Platform {platName} deleted.";
         }
         else

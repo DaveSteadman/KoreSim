@@ -14,6 +14,6 @@ public class KoreCommandNetworkReport : KoreCommand
     {
         KoreCentralLog.AddEntry("KoreCommandNetworkReport.Execute");
 
-        return KoreSimFactory.Instance.EventDriver.NetworkReport();
+        return EventDriver.NetworkReport();
     }
 }

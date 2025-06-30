@@ -2,8 +2,9 @@ using System;
 using System.Collections.Generic;
 
 using KoreCommon;
-using KoreJSON;
-using KoreSim;
+using KoreSim.JSON;
+
+namespace KoreSim;
 
 #nullable enable
 
@@ -19,12 +20,12 @@ public partial class KoreMessageManager
     {
         KoreCentralLog.AddEntry($"KoreMessageManager.ProcessMessage_PlatWayPoints: Name:{platWayPtsMsg.PlatName}");
 
-        string platName          = platWayPtsMsg.PlatName;
+        string platName = platWayPtsMsg.PlatName;
         List<KoreLLAPoint> points = platWayPtsMsg.Points();
 
 
 
-        KoreSimFactory.Instance.EventDriver.PlatformSetRoute(platName, points);
+        KoreEventDriver.EntitySetRoute(platName, points);
     }
 
 

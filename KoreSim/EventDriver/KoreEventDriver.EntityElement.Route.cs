@@ -10,13 +10,13 @@ using KoreSim;
 // Design Decisions:
 // - The KoreEventDriver is the top level class that manages data. Commands and Tasks interact with the business logic through this point.
 
-public partial class KoreEventDriver
+public static partial class KoreEventDriver
 {
     // ---------------------------------------------------------------------------------------------
     // MARK: Route
     // ---------------------------------------------------------------------------------------------
 
-    public void PlatformSetRoute(string platName, List<KoreLLAPoint> points)
+    public static void EntitySetRoute(string platName, List<KoreLLAPoint> points)
     {
         string elemName = $"{platName}_Route";
         KoreEntityElementRoute? route = GetElement(platName, elemName) as KoreEntityElementRoute;
@@ -29,7 +29,7 @@ public partial class KoreEventDriver
             KoreEntity? platform = EntityForName(platName);
             if (platform == null)
             {
-                KoreCentralLog.AddEntry($"EC0-0017: PlatformSetRoute: Platform {platName} not found.");
+                KoreCentralLog.AddEntry($"EC0-0017: EntitySetRoute: Entity {platName} not found.");
                 return;
             }
 
@@ -42,7 +42,7 @@ public partial class KoreEventDriver
         }
     }
 
-    public List<KoreLLAPoint> PlatformGetRoutePoints(string platName)
+    public static List<KoreLLAPoint> EntityGetRoutePoints(string platName)
     {
         string elemName = $"{platName}_Route";
         KoreEntityElementRoute? route = GetElement(platName, elemName) as KoreEntityElementRoute;
@@ -57,7 +57,7 @@ public partial class KoreEventDriver
         return new List<KoreLLAPoint>(route.Points);
     }
 
-    public void PlatformClearRoute(string platName)
+    public static void EntityClearRoute(string platName)
     {
         string elemName = $"{platName}_Route";
         KoreEntityElementRoute? route = GetElement(platName, elemName) as KoreEntityElementRoute;
@@ -73,10 +73,32 @@ public partial class KoreEventDriver
     }
 
     // ---------------------------------------------------------------------------------------------
+    // MARK: Route QuickAdd
+    // ---------------------------------------------------------------------------------------------
+
+    // Clar any existing route data and setup a new route start point
+
+    public static void EntitySetNewRouteStart(string entName, string routeElementName, KoreLLAPoint startPos)
+    {
+        KoreEntity? ent = EntityForName(entName);
+        KoreEntityElement? element = GetElement(entName, routeElementName);
+
+
+        EntityClearRoute(entName);
+
+        // create a new route element
+        var route = new KoreEntityElementRoute() { Name = routeElementName };
+        route.AddPoint(startPos);
+
+        EntityAddElement(entName, route);
+    }
+
+
+    // ---------------------------------------------------------------------------------------------
     // MARK: Helper Routines
     // ---------------------------------------------------------------------------------------------
 
-    private KoreEntityElementRoute? GetRouteElement(string platName, string elemName)
+    private static KoreEntityElementRoute? GetRouteElement(string platName, string elemName)
     {
         KoreEntityElement? element = GetElement(platName, elemName);
         if (element == null)

@@ -13,8 +13,8 @@ public class KoreCommandPlatReportPos : KoreCommand
 
     public override string Execute(List<string> parameters)
     {
-        int num = KoreSimFactory.Instance.EventDriver.NumPlatforms();
-        string rep = KoreSimFactory.Instance.EventDriver.PlatformPositionsReport();
+        int num = EventDriver.NumPlatforms();
+        string rep = EventDriver.PlatformPositionsReport();
 
         KoreCentralLog.AddEntry("KoreCommandPlatReport.Execute: " + KoreGlobals.VersionString);
         return $"Platform Positions Report:\n{rep}";

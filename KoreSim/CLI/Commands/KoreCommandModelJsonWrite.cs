@@ -24,7 +24,7 @@
 //         string retString = "";
 
 //         // Delete the platform
-//         KoreSimFactory.Instance.EventDriver.ModelToJsonFile(filename);
+//         EventDriver.ModelToJsonFile(filename);
 
 //         retString = $"Model written to {filename}.";
 

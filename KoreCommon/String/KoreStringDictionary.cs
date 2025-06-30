@@ -41,6 +41,12 @@ public class KoreStringDictionary
     public bool Has(string key) => _data.ContainsKey(key);
     public bool Remove(string key) => _data.Remove(key);
 
+
+    public List<string> KeysList()
+    {
+        return _data.Keys.ToList();
+    }
+
     // --------------------------------------------------------------------------------------------
 
     // Slightly more complex set / get operations

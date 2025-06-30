@@ -19,7 +19,7 @@ public class KoreCommandPlatDeleteAllEmitters : KoreCommand
             return "KoreCommandPlatDeleteAllEmitters.Execute -> incorrect number of parameters";
         }
 
-        KoreSimFactory.Instance.EventDriver.DeleteElementAllBeams();
+        EventDriver.DeleteElementAllBeams();
 
         KoreCentralLog.AddEntry($"KoreCommandPlatDeleteAllEmitters.Execute");
 

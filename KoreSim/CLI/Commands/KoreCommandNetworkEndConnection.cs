@@ -26,7 +26,7 @@ public class KoreCommandNetworkEndConnection : KoreCommand
 
         sb.Append($"Ending connection: {connectionName}\n");
 
-        KoreSimFactory.Instance.EventDriver.NetworkDisconnect(connectionName);
+        EventDriver.NetworkDisconnect(connectionName);
 
         sb.Append("Done.");
 

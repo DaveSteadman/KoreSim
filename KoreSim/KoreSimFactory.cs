@@ -8,6 +8,8 @@ using KoreCommon;
 
 #nullable enable
 
+using KoreCommon;
+
 namespace KoreSim;
 
 public class KoreSimFactory
@@ -19,15 +21,16 @@ public class KoreSimFactory
 
     // --------------------------------------------------------------------------------------------
 
-    public KoreConsole          ConsoleInterface { get; private set; }
-    public KoreEntityManager    EntityManager    { get; private set; }
-    public KoreNetworkHub       NetworkHub       { get; private set; }
-    public KoreSimTime          SimClock         { get; private set; }
-    public KoreModelRun         ModelRun         { get; private set; }
-    public KoreMessageManager   MessageManager   { get; private set; }
-    public KoreElevationManager EleManager       { get; private set; }
+    public KoreConsole ConsoleInterface { get; private set; }
+    public KoreEntityManager EntityManager { get; private set; }
+    public KoreNetworkHub NetworkHub { get; private set; }
+    public KoreSimTime SimClock { get; private set; }
+    public KoreModelRun ModelRun { get; private set; }
+    public KoreMessageManager MessageManager { get; private set; }
+    public KoreElevationManager EleManager { get; private set; }
 
-    public KoreStringDictionary KoreConfig       { get; private set; } = new KoreStringDictionary();
+    public KoreStringDictionary KoreConfig { get; private set; } = new KoreStringDictionary();
+
 
     // --------------------------------------------------------------------------------------------
 
@@ -72,13 +75,13 @@ public class KoreSimFactory
         KoreCentralLog.AddEntry("Creating KoreSimFactory objects");
 
         ConsoleInterface = new KoreConsole();
-        EventDriver      = new KoreEventDriver();
-        EntityManager    = new KoreEntityManager();
-        NetworkHub       = new KoreNetworkHub();
-        SimClock         = new KoreSimTime();
-        ModelRun         = new KoreModelRun();
-        MessageManager   = new KoreMessageManager();
-        EleManager       = new KoreElevationManager();
+        EventDriver = new KoreEventDriver();
+        EntityManager = new KoreEntityManager();
+        NetworkHub = new KoreNetworkHub();
+        SimClock = new KoreSimTime();
+        ModelRun = new KoreModelRun();
+        MessageManager = new KoreMessageManager();
+        EleManager = new KoreElevationManager();
 
         // Link the objects
         //ConsoleInterface.EventDriver = EventDriver;

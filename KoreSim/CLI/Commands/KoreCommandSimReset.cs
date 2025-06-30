@@ -15,7 +15,7 @@ public class KoreCommandSimReset : KoreCommand
         KoreCentralLog.AddEntry("KoreCommandSimReset.Execute");
 
         KoreSimFactory.Instance.PlatformManager.Reset(); // EventDriver this
-        KoreSimFactory.Instance.EventDriver.SimClockReset();
+        EventDriver.SimClockReset();
 
         return "PlatformManager Reset (platform positions to start)";
     }
