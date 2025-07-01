@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 
 // KoreCommandNetworkReport
+using KoreCommon;
+
+namespace KoreSim;
 
 public class KoreCommandNetworkInjectIncoming : KoreCommand
 {
@@ -23,7 +26,7 @@ public class KoreCommandNetworkInjectIncoming : KoreCommand
         // concatenate the parameters into a single string with spaces
         string message = string.Join(" ", parameters);
 
-        EventDriver.NetworkInjectIncoming(message);
+        KoreEventDriver.NetworkInjectIncoming(message);
 
         // trim the message to 100 characters
         if (message.Length > 100)

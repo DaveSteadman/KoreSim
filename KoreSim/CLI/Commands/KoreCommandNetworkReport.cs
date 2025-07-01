@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 
 // KoreCommandNetworkReport
+using KoreCommon;
+
+namespace KoreSim;
 
 public class KoreCommandNetworkReport : KoreCommand
 {
@@ -14,6 +17,6 @@ public class KoreCommandNetworkReport : KoreCommand
     {
         KoreCentralLog.AddEntry("KoreCommandNetworkReport.Execute");
 
-        return EventDriver.NetworkReport();
+        return KoreEventDriver.NetworkReport();
     }
 }

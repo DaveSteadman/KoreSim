@@ -29,6 +29,9 @@ public class KoreSimFactory
     public KoreMessageManager MessageManager { get; private set; }
     public KoreElevationManager EleManager { get; private set; }
 
+
+    // Usage: KoreStringDictionary kc = KoreSimFactory.Instance.KoreConfig;
+    //        //        kc.SetParam("Key", "Value");
     public KoreStringDictionary KoreConfig { get; private set; } = new KoreStringDictionary();
 
 
@@ -75,7 +78,6 @@ public class KoreSimFactory
         KoreCentralLog.AddEntry("Creating KoreSimFactory objects");
 
         ConsoleInterface = new KoreConsole();
-        EventDriver = new KoreEventDriver();
         EntityManager = new KoreEntityManager();
         NetworkHub = new KoreNetworkHub();
         SimClock = new KoreSimTime();
@@ -84,19 +86,17 @@ public class KoreSimFactory
         EleManager = new KoreElevationManager();
 
         // Link the objects
-        //ConsoleInterface.EventDriver = EventDriver;
-        //EventDriver.ConsoleInterface = ConsoleInterface;
+        //ConsoleInterface.KoreEventDriver = KoreEventDriver;
+        //KoreEventDriver.ConsoleInterface = ConsoleInterface;
 
         // CallStart();
 
-        KoreCentralConfig.Instance.ReadFromFile();
+        // KoreCentralLog.LoggingActive = false;
 
-        KoreCentralLog.LoggingActive = KoreCentralConfig.Instance.GetParam<bool>("LoggingActive");
-
-        // Read the logfile path from the config and update the centralised logger with it.
-        string logPath = KoreCentralConfig.Instance.GetParam<string>("LogPath");
-        if (!String.IsNullOrWhiteSpace(logPath))
-            KoreCentralLog.UpdatePath(logPath);
+        // // Read the logfile path from the config and update the centralised logger with it.
+        // string logPath = KoreCentralConfig.Instance.GetParam<string>("LogPath");
+        // if (!String.IsNullOrWhiteSpace(logPath))
+        //     KoreCentralLog.UpdatePath(logPath);
 
 
         ConsoleInterface.Start();
@@ -104,7 +104,7 @@ public class KoreSimFactory
 
         KoreCentralLog.AddEntry("KoreSimFactory Construction - Done");
 
-        KoreTestCenter.RunAdHocTests();
+        // KoreTestCenter.RunAdHocTests();
     }
     // --------------------------------------------------------------------------------------------
 
@@ -171,5 +171,34 @@ public class KoreSimFactory
             KoreCentralLog.AddEntry($"Error saving config: {ex.Message}");
         }
     }
+
+    // --------------------------------------------------------------------------------------------
+
+    public void UpdateFromConfig()
+    {
+        // Update the objects from the config
+        KoreCentralLog.AddEntry("Updating KoreSimFactory from config");
+
+        // Example: ConsoleInterface.UpdateFromConfig(KoreConfig);
+        // Example: EntityManager.UpdateFromConfig(KoreConfig);
+        // Example: NetworkHub.UpdateFromConfig(KoreConfig);
+        // Example: SimClock.UpdateFromConfig(KoreConfig);
+        // Example: ModelRun.UpdateFromConfig(KoreConfig);
+        // Example: MessageManager.UpdateFromConfig(KoreConfig);
+        // Example: EleManager.UpdateFromConfig(KoreConfig);
+
+        // Set logging path
+        //string logPath = ;
+        if (KoreConfig.Has("LogPath"))
+        {
+            string logPath = KoreConfig.Get("LogPath");
+
+            if (!String.IsNullOrWhiteSpace(logPath))
+                KoreCentralLog.SetFilename(logPath);
+        }
+
+        KoreCentralLog.AddEntry("KoreSimFactory updated from config");
+    }
+
 
 }

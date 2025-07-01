@@ -16,16 +16,16 @@ public partial class KoreMessageManager
     // MARK: Elements / Waypoints
     // --------------------------------------------------------------------------------------------
 
-    private void ProcessMessage_PlatWayPoints(PlatWayPoints platWayPtsMsg)
+    private void ProcessMessage_EntityWayPoints(EntityWayPoints entityWayPtsMsg)
     {
-        KoreCentralLog.AddEntry($"KoreMessageManager.ProcessMessage_PlatWayPoints: Name:{platWayPtsMsg.PlatName}");
+        KoreCentralLog.AddEntry($"KoreMessageManager.ProcessMessage_EntityWayPoints: Name:{entityWayPtsMsg.EntityName}");
 
-        string platName = platWayPtsMsg.PlatName;
-        List<KoreLLAPoint> points = platWayPtsMsg.Points();
+        string entityName = entityWayPtsMsg.EntityName;
+        List<KoreLLAPoint> points = entityWayPtsMsg.Points();
 
 
 
-        KoreEventDriver.EntitySetRoute(platName, points);
+        // KoreEventDriver.EntitySetRoute(entityName, points);
     }
 
 

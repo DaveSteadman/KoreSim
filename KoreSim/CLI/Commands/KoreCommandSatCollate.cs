@@ -2,6 +2,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
+using KoreCommon;
+
+namespace KoreSim;
 
 // CLI Usage: sat collate AB
 
@@ -33,49 +36,52 @@ public class KoreCommandSatCollate : KoreCommand
 
         bool validOperation = true;
 
-
-        if (tileCodeStr == "world")
-        {
-            string worldTileFilepath = KoreMapTileFilepaths.WorldTileFilepath();
-
-            sb.AppendLine($"Collating child tile images for the world tile: {worldTileFilepath}");
-            KoreMapFileOperations.CollateChildTileImages_Lvl0();
-            return sb.ToString();
-        }
-        else
-        {
+        return "pending";
 
 
-            KoreMapTileCode tileCode = KoreMapTileCode.TileCodeFromString(tileCodeStr);
-            if (!tileCode.IsValid()) { validOperation = false; sb.AppendLine("Invalid tile code."); }
 
-            // -------------------------------------------------
+        // if (tileCodeStr == "world")
+        // {
+        //     string worldTileFilepath = KoreMapTileFilepaths.WorldTileFilepath();
 
-            // // Convert and validate the inputs
-            // if (!System.IO.File.Exists(inEleFilename))
-            // {
-            //     sb.AppendLine($"File not found: {inEleFilename}");
-            //     validOperation = false;
-            // }
+        //     sb.AppendLine($"Collating child tile images for the world tile: {worldTileFilepath}");
+        //     KoreMapFileOperations.CollateChildTileImages_Lvl0();
+        //     return sb.ToString();
+        // }
+        // else
+        // {
 
-            // -------------------------------------------------
 
-            if (validOperation)
-            {
-                sb.AppendLine($"Collating child tile images for tile {tileCodeStr}");
+        //     KoreMapTileCode tileCode = KoreMapTileCode.TileCodeFromString(tileCodeStr);
+        //     if (!tileCode.IsValid()) { validOperation = false; sb.AppendLine("Invalid tile code."); }
 
-                KoreMapFileOperations.CollateChildTileImages(tileCodeStr);
+        //     // -------------------------------------------------
 
-                sb.AppendLine("Done.");
-            }
+        //     // // Convert and validate the inputs
+        //     // if (!System.IO.File.Exists(inEleFilename))
+        //     // {
+        //     //     sb.AppendLine($"File not found: {inEleFilename}");
+        //     //     validOperation = false;
+        //     // }
 
-            // -------------------------------------------------
+        //     // -------------------------------------------------
 
-            // sb.AppendLine($"Elevation System Report:");
-            // sb.AppendLine(KoreSimFactory.Instance.EleSystem.Report());
+        //     if (validOperation)
+        //     {
+        //         sb.AppendLine($"Collating child tile images for tile {tileCodeStr}");
 
-        }
+        //         KoreMapFileOperations.CollateChildTileImages(tileCodeStr);
 
-        return sb.ToString();
+        //         sb.AppendLine("Done.");
+        //     }
+
+        //     // -------------------------------------------------
+
+        //     // sb.AppendLine($"Elevation System Report:");
+        //     // sb.AppendLine(KoreSimFactory.Instance.EleSystem.Report());
+
+        // }
+
+        // return sb.ToString();
     }
 }

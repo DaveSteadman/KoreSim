@@ -23,8 +23,8 @@
 //         string filename = parameters[0];
 //         string retString = "";
 
-//         // Delete the platform
-//         EventDriver.ModelToJsonFile(filename);
+//         // Delete the Entity
+//         KoreEventDriver.ModelToJsonFile(filename);
 
 //         retString = $"Model written to {filename}.";
 

@@ -97,11 +97,11 @@ public class KoreElevationTileSystem
     public static KoreFloat2DArray PrepTileData(KoreElevationPatchSystem elePrepSystem, KoreLLBox llBox, int latRes, int lonRes)
     {
         // Create lists of all the lats and lons we would iterate across
-        KoreFloat1DArray loopLats = KoreFloat1DArrayOps.ListForRange((float)llBox.MinLatDegs, (float)llBox.MaxLatDegs, latRes);
-        KoreFloat1DArray loopLons = KoreFloat1DArrayOps.ListForRange((float)llBox.MinLonDegs, (float)llBox.MaxLonDegs, lonRes);
+        KoreNumeric1DArray<float> loopLats = KoreNumeric1DArrayOps<float>.ListForRange((float)llBox.MinLatDegs, (float)llBox.MaxLatDegs, latRes);
+        KoreNumeric1DArray<float> loopLons = KoreNumeric1DArrayOps<float>.ListForRange((float)llBox.MinLonDegs, (float)llBox.MaxLonDegs, lonRes);
 
         // Flip the latitudes, so we know the top and bottom of the output arr files are intuitively the right way up.
-        KoreFloat1DArray reverselats = loopLats.Reverse();
+        KoreNumeric1DArray<float> reverselats = loopLats.Reverse();
 
         // Create the output 2D list
         // [X, Y]

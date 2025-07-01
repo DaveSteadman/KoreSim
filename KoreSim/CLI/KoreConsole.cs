@@ -6,6 +6,9 @@ using System.Linq.Expressions;
 using System.Linq;
 
 using KoreCommon;
+
+namespace KoreSim;
+
 #nullable enable
 
 // Class to run a thread for command line input.
@@ -20,7 +23,7 @@ public class KoreConsole
     private readonly List<KoreCommand> commandHandlers = new List<KoreCommand>();
 
     // Two lists to hold input and output strings for the console.
-    private KoreThreadsafeStringList InputQueue  = new KoreThreadsafeStringList();
+    private KoreThreadsafeStringList InputQueue = new KoreThreadsafeStringList();
     private KoreThreadsafeStringList OutputQueue = new KoreThreadsafeStringList();
 
     // Event to set on new input, to unblock the console thread to process new commands.
@@ -95,23 +98,23 @@ public class KoreConsole
         //commandHandlers.Add(new KoreCommandModelJsonRead());
         //commandHandlers.Add(new KoreCommandModelJsonWrite());
 
-        // Platform control
-        commandHandlers.Add(new KoreCommandPlatTestScenario());
-        commandHandlers.Add(new KoreCommandPlatAdd());
-        commandHandlers.Add(new KoreCommandPlatDelete());
-        commandHandlers.Add(new KoreCommandPlatDeleteAll());
+        // Entity control
+        commandHandlers.Add(new KoreCommandEntityTestScenario());
+        commandHandlers.Add(new KoreCommandEntityAdd());
+        commandHandlers.Add(new KoreCommandEntityDelete());
+        commandHandlers.Add(new KoreCommandEntityDeleteAll());
 
-        // Platform details
-        commandHandlers.Add(new KoreCommandPlatPosition());
-        commandHandlers.Add(new KoreCommandPlatCourse());
-        commandHandlers.Add(new KoreCommandPlatCourseDelta());
+        // Entity details
+        commandHandlers.Add(new KoreCommandEntityPosition());
+        commandHandlers.Add(new KoreCommandEntityCourse());
+        commandHandlers.Add(new KoreCommandEntityCourseDelta());
 
-        // Platform Report
-        commandHandlers.Add(new KoreCommandPlatReportElem());
-        commandHandlers.Add(new KoreCommandPlatReportPos());
+        // Entity Report
+        commandHandlers.Add(new KoreCommandEntityReportElem());
+        commandHandlers.Add(new KoreCommandEntityReportPos());
 
         // Element Control
-        commandHandlers.Add(new KoreCommandPlatDeleteAllEmitters());
+        //commandHandlers.Add(new KoreCommandEntityDeleteAllEmitters());
 
         // MapServer
         commandHandlers.Add(new KoreCommandElePrep());

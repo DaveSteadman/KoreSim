@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 
 // KoreCommandSimReset
+using KoreCommon;
+
+namespace KoreSim;
 
 public class KoreCommandSimReset : KoreCommand
 {
@@ -14,9 +17,9 @@ public class KoreCommandSimReset : KoreCommand
     {
         KoreCentralLog.AddEntry("KoreCommandSimReset.Execute");
 
-        KoreSimFactory.Instance.PlatformManager.Reset(); // EventDriver this
-        EventDriver.SimClockReset();
+        KoreSimFactory.Instance.EntityManager.Reset(); // KoreEventDriver this
+        KoreEventDriver.SimClockReset();
 
-        return "PlatformManager Reset (platform positions to start)";
+        return "EntityManager Reset (Entity positions to start)";
     }
 }

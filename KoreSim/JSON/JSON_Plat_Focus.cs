@@ -5,20 +5,20 @@ using System.Text.Json.Serialization;
 namespace KoreSim.JSON;
 
 
-public class PlatFocus : JSONMessage
+public class EntityFocus : JSONMessage
 {
-    [JsonPropertyName("PlatName")]
-    public string PlatName { get; set; }
+    [JsonPropertyName("EntityName")]
+    public string EntityName { get; set; }
 
-    public static PlatFocus ParseJSON(string json)
+    public static EntityFocus ParseJSON(string json)
     {
         try
         {
             using (JsonDocument doc = JsonDocument.Parse(json))
             {
-                if (doc.RootElement.TryGetProperty("PlatFocus", out JsonElement jsonContent))
+                if (doc.RootElement.TryGetProperty("EntityFocus", out JsonElement jsonContent))
                 {
-                    PlatFocus newMsg = JsonSerializer.Deserialize<PlatFocus>(jsonContent.GetRawText());
+                    EntityFocus newMsg = JsonSerializer.Deserialize<EntityFocus>(jsonContent.GetRawText());
                     return newMsg;
                 }
                 else

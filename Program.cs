@@ -1,4 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿// See https://aka.ms/new-console-tementitye for more information
 Console.WriteLine("Hello, World!");
 
 // Environment Creation:

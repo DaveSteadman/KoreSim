@@ -13,9 +13,9 @@ namespace KoreSim;
 
 public  static partial class KoreEventDriver
 {
-    public static void SetupTestPlatforms()
+    public static void SetupTestEntities()
     {
-        KoreCentralLog.AddEntry("Creating Test Platform Entities");
+        KoreCentralLog.AddEntry("Creating Test Entity Entities");
 
         KoreLLAPoint loc1 = new KoreLLAPoint() { LatDegs = 52.1, LonDegs = -4.2, AltMslM = 5000 };
         KoreLLAPoint loc2 = new KoreLLAPoint() { LatDegs = 52.5, LonDegs = 0.3, AltMslM = 2000 };
@@ -57,10 +57,10 @@ public  static partial class KoreEventDriver
         //     KoreLLAPoint    loc         = new KoreLLAPoint()    { LatDegs = 52.8, LonDegs =    -4.28, AltMslM = 0 };
         //     KoreCourse      course      = new KoreCourse()      { HeadingDegs = 1850, SpeedKph = 10 };
         //     KoreCourseDelta courseDelta = new KoreCourseDelta() { HeadingChangeClockwiseDegsSec =  0, SpeedChangeMpMps = 0 };
-        //     AddPlatform("TEST-Ship1", "SupportShip");
-        //     SetPlatformStartLLA("TEST-Ship1", loc);
-        //     SetPlatformCourse("TEST-Ship1", course);
-        //     SetPlatformCourseDelta("TEST-Ship1", courseDelta);
+        //     AddEntity("TEST-Ship1", "SupportShip");
+        //     SetEntityStartLLA("TEST-Ship1", loc);
+        //     SetEntityCourse("TEST-Ship1", course);
+        //     SetEntityCourseDelta("TEST-Ship1", courseDelta);
         // }
 
         {
@@ -68,9 +68,8 @@ public  static partial class KoreEventDriver
             KoreCourse courseIOW1 = new KoreCourse() { HeadingDegs = 90, SpeedKph = 0.0 };
             KoreAttitude attIOW1 = new KoreAttitude() { PitchUpDegs = 0, RollClockwiseDegs = 0, YawClockwiseDegs = 0 };
 
-            AddPlatform("TEST-SAM", "S400Radar");
-            SetPlatformStart("TEST-SAM", locIOW1, courseIOW1, attIOW1);
-            SetPlatformType("TEST-SAM", "S400Radar", "GroundClamped");
+            AddEntity("TEST-SAM", "S400Radar");
+            SetEntityStart("TEST-SAM", locIOW1, courseIOW1, attIOW1);
         }
     }
 

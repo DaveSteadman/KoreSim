@@ -19,77 +19,77 @@ public partial class KoreMessageManager
 {
     // --------------------------------------------------------------------------------------------
 
-    private void ProcessMessage_PlatFocus(PlatFocus msg)
+    private void ProcessMessage_EntityFocus(EntityFocus msg)
     {
-        KoreCentralLog.AddEntry($"KoreMessageManager.ProcessMessage_PlatFocus: {msg.PlatName}");
+        KoreCentralLog.AddEntry($"KoreMessageManager.ProcessMessage_EntityFocus: {msg.EntityName}");
         //KoreGodotFactory.Instance.UIMsgQueue.EnqueueMessage(msg);
     }
 
     // --------------------------------------------------------------------------------------------
 
-    private void ProcessMessage_PlatAdd(PlatAdd msg)
+    private void ProcessMessage_EntityAdd(EntityAdd msg)
     {
-        KoreCentralLog.AddEntry($"KoreMessageManager.ProcessMessage_PlatAdd: {msg.PlatName}");
+        KoreCentralLog.AddEntry($"KoreMessageManager.ProcessMessage_EntityAdd: {msg.EntityName}");
 
-        // Check if the platform already exists
-        if (!EventDriver.DoesPlatformExist(msg.PlatName))
+        // Check if the Entity already exists
+        if (!KoreEventDriver.DoesEntityExist(msg.EntityName))
         {
-            EventDriver.AddPlatform(msg.PlatName, msg.PlatClass);
+            KoreEventDriver.AddEntity(msg.EntityName, msg.EntityClass);
         }
 
-        if (EventDriver.DoesPlatformExist(msg.PlatName))
+        if (KoreEventDriver.DoesEntityExist(msg.EntityName))
         {
             // Name (like tail number), Class (like F-16), Category (like aircraft)
-            EventDriver.SetPlatformType(
-                msg.PlatName, msg.PlatClass, msg.PlatCategory);
+            // KoreEventDriver.SetEntityType(
+            //     msg.EntityName, msg.EntityClass, msg.EntityCategory);
 
-            EventDriver.SetPlatformStartDetails(
-                msg.PlatName, msg.Pos, msg.Attitude, msg.Course);
+            KoreEventDriver.SetEntityStartDetails(
+                msg.EntityName, msg.Pos, msg.Attitude, msg.Course);
 
-            EventDriver.SetPlatformCurrDetails(
-                msg.PlatName, msg.Pos, msg.Attitude, msg.Course, KoreCourseDelta.Zero);
+            KoreEventDriver.SetEntityCurrDetails(
+                msg.EntityName, msg.Pos, msg.Attitude, msg.Course, KoreCourseDelta.Zero);
         }
     }
 
     // --------------------------------------------------------------------------------------------
 
-    private void ProcessMessage_PlatDelete(PlatDelete msg)
+    private void ProcessMessage_EntityDelete(EntityDelete msg)
     {
-        KoreCentralLog.AddEntry($"KoreMessageManager.ProcessMessage_PlatDelete: {msg.PlatName}");
+        KoreCentralLog.AddEntry($"KoreMessageManager.ProcessMessage_EntityDelete: {msg.EntityName}");
 
-        // Check if the platform exists
-        if (EventDriver.DoesPlatformExist(msg.PlatName))
+        // Check if the Entity exists
+        if (KoreEventDriver.DoesEntityExist(msg.EntityName))
         {
-            EventDriver.DeletePlatform(msg.PlatName);
+            KoreEventDriver.DeleteEntity(msg.EntityName);
         }
     }
 
     // --------------------------------------------------------------------------------------------
 
-    private void ProcessMessage_PlatUpdate(PlatUpdate msg)
+    private void ProcessMessage_EntityUpdate(EntityUpdate msg)
     {
-        KoreCentralLog.AddEntry($"KoreMessageManager.ProcessMessage_PlatUpdate: {msg.PlatName}");
+        KoreCentralLog.AddEntry($"KoreMessageManager.ProcessMessage_EntityUpdate: {msg.EntityName}");
 
-        // Check if the platform exists
-        if (EventDriver.DoesPlatformExist(msg.PlatName))
+        // Check if the Entity exists
+        if (KoreEventDriver.DoesEntityExist(msg.EntityName))
         {
-            EventDriver.SetPlatformCurrDetails(
-                msg.PlatName, msg.Pos, msg.Attitude, msg.Course, msg.CourseDelta);
+            KoreEventDriver.SetEntityCurrDetails(
+                msg.EntityName, msg.Pos, msg.Attitude, msg.Course, msg.CourseDelta);
         }
     }
 
     // --------------------------------------------------------------------------------------------
 
-    private void ProcessMessage_PlatPosition(PlatPosition msg)
+    private void ProcessMessage_EntityPosition(EntityPosition msg)
     {
-        KoreCentralLog.AddEntry($"KoreMessageManager.ProcessMessage_PlatPosition: {msg.PlatName}");
+        KoreCentralLog.AddEntry($"KoreMessageManager.ProcessMessage_EntityPosition: {msg.EntityName}");
 
-        // Check if the platform exists
-        if (EventDriver.DoesPlatformExist(msg.PlatName))
+        // Check if the Entity exists
+        if (KoreEventDriver.DoesEntityExist(msg.EntityName))
         {
-            EventDriver.SetPlatformPosition(msg.PlatName, msg.Pos);
-            EventDriver.SetPlatformCourse(msg.PlatName, msg.Course);
-            EventDriver.SetPlatformAttitude(msg.PlatName, msg.Attitude);
+            KoreEventDriver.SetEntityPosition(msg.EntityName, msg.Pos);
+            KoreEventDriver.SetEntityCourse(msg.EntityName, msg.Course);
+            KoreEventDriver.SetEntityAttitude(msg.EntityName, msg.Attitude);
         }
     }
 }

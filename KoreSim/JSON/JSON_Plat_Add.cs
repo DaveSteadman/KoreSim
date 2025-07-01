@@ -7,13 +7,13 @@ using KoreCommon;
 namespace KoreSim.JSON;
 
 
-public class PlatAdd : JSONMessage
+public class EntityAdd : JSONMessage
 {
-    [JsonPropertyName("PlatName")]
-    public string PlatName { get; set; } = string.Empty;
+    [JsonPropertyName("EntityName")]
+    public string EntityName { get; set; } = string.Empty;
 
-    [JsonPropertyName("PlatCategory")]
-    public string PlatCategory { get; set; } = string.Empty;
+    [JsonPropertyName("EntityCategory")]
+    public string EntityCategory { get; set; } = string.Empty;
 
     [JsonPropertyName("ThreatType")]
     public string ThreatType { get; set; } = string.Empty;
@@ -21,11 +21,11 @@ public class PlatAdd : JSONMessage
     [JsonPropertyName("Display")]
     public bool Display { get; set; } = false;
 
-    [JsonPropertyName("PlatClass")]
-    public string PlatClass { get; set; } = string.Empty;
+    [JsonPropertyName("EntityClass")]
+    public string EntityClass { get; set; } = string.Empty;
 
-    [JsonPropertyName("PlatDispSymb")]
-    public string PlatDispSymb { get; set; } = string.Empty;
+    [JsonPropertyName("EntityDispSymb")]
+    public string EntityDispSymb { get; set; } = string.Empty;
 
     [JsonPropertyName("LatDegs")]
     public double LatDegs { get; set; } = 0.0;
@@ -66,15 +66,15 @@ public class PlatAdd : JSONMessage
         set { HeadingDegs = value.HeadingDegs; }
     }
 
-    public static PlatAdd ParseJSON(string json)
+    public static EntityAdd ParseJSON(string json)
     {
         try
         {
             using (JsonDocument doc = JsonDocument.Parse(json))
             {
-                if (doc.RootElement.TryGetProperty("PlatAdd", out JsonElement jsonContent))
+                if (doc.RootElement.TryGetProperty("EntityAdd", out JsonElement jsonContent))
                 {
-                    PlatAdd newMsg = JsonSerializer.Deserialize<PlatAdd>(jsonContent.GetRawText());
+                    EntityAdd newMsg = JsonSerializer.Deserialize<EntityAdd>(jsonContent.GetRawText());
                     return newMsg;
                 }
                 else

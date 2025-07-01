@@ -2,8 +2,9 @@
 using System;
 
 
-namespace KoreSim;
+using KoreCommon;
 
+namespace KoreSim;
 
 // Design Decisions:
 // - The KoreEventDriver is the top level class that manages data. Commands and Tasks interact with the business logic through this point.
@@ -25,7 +26,7 @@ public static partial class KoreEventDriver
     // MARK: Sidebar view settings
     // ---------------------------------------------------------------------------------------------
 
-    // Usage: EventDriver.SidebarSetBeamVisibility(true, true);
+    // Usage: KoreEventDriver.SidebarSetBeamVisibility(true, true);
 
     // public void SidebarSetBeamVisibility(bool rxVisible, bool txVisible)
     // {
@@ -36,9 +37,9 @@ public static partial class KoreEventDriver
 
     // ---------------------------------------------------------------------------------------------
 
-    // Usage: EventDriver.SidebarSetRouteVisibility(true);
-    //        EventDriver.SidebarSetEmitterVisibility(true);
-    //        EventDriver.SidebarSetAntennaPatternVisibility(true);
+    // Usage: KoreEventDriver.SidebarSetRouteVisibility(true);
+    //        KoreEventDriver.SidebarSetEmitterVisibility(true);
+    //        KoreEventDriver.SidebarSetAntennaPatternVisibility(true);
 
     // public void SidebarSetRouteVisibility(bool routeVisible)                   => GloGodotFactory.Instance.UIState.ShowRoutes          = routeVisible;
     // public void SidebarSetEmitterVisibility(bool emitterVisible)               => GloGodotFactory.Instance.UIState.ShowEmitters        = emitterVisible;

@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 
 // KoreCommandSimClock
+using KoreCommon;
+
+namespace KoreSim;
 
 public class KoreCommandSimClock : KoreCommand
 {
@@ -12,6 +15,6 @@ public class KoreCommandSimClock : KoreCommand
 
     public override string Execute(List<string> parameters)
     {
-        return $"SimClock: {EventDriver.SimSeconds()}Secs";
+        return $"SimClock: {KoreEventDriver.SimSeconds()}Secs";
     }
 }

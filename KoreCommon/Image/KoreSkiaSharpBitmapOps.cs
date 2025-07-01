@@ -6,6 +6,26 @@ namespace KoreCommon.SkiaSharp;
 
 public static class KoreSkiaSharpBitmapOps
 {
+
+    // --------------------------------------------------------------------------------------------
+    // MARK: New
+    // --------------------------------------------------------------------------------------------
+
+    // Usage: var newBitmap = KoreSkiaSharpBitmapOps.NewImage(100, 100);
+
+    public static SKBitmap NewImage(int newWidth, int newHeight)
+    {
+        // Create a new SKBitmap with the desired dimensions
+        SKBitmap newBitmap = new SKBitmap(newWidth, newHeight);
+        return newBitmap;
+    }
+
+    public static SKBitmap NewImage(Kore2DGridSize newSize) => new SKBitmap(newSize.Width, newSize.Height);
+
+    // --------------------------------------------------------------------------------------------
+    // MARK: Resize, Rotate, Scale
+    // --------------------------------------------------------------------------------------------
+
     // RotateAndScaleBitmap
     // - Maintains the centre of the bitmap as the anchor position.
     public static SKBitmap RotateAndScaleBitmap(SKBitmap originalBitmap, float angle, float scale)
@@ -37,7 +57,7 @@ public static class KoreSkiaSharpBitmapOps
     // --------------------------------------------------------------------------------------------
 
     // Resize the image - simplify the interface to the action so we don't have to deal with the canvas
-
+    // Usage: var resizedBitmap = KoreSkiaSharpBitmapOps.ResizeImage(originalBitmap, 200, 200);
     public static SKBitmap ResizeImage(SKBitmap originalBitmap, int newWidth, int newHeight)
     {
         // Create a new SKBitmap with the desired dimensions
@@ -111,6 +131,29 @@ public static class KoreSkiaSharpBitmapOps
         using (var stream = File.OpenWrite(filePath))
         {
             image.SaveTo(stream);
+        }
+    }
+
+    // --------------------------------------------------------------------------------------------
+    // MARK: Paste Section
+    // --------------------------------------------------------------------------------------------
+
+    // PasteSection: Pastes a smaller image (pasteBitmap) into a larger image (targetBitmap) at a specified location.
+    // - sourceRect defines the area of the pasteBitmap to copy
+    // - destPoint defines the top-left corner of where to paste it in the targetBitmap
+    // Note: This function assumes that the pasteBitmap is smaller than or equal to the targetBitmap. SkiaSharp will crop.
+
+    // Usage: KoreSkiaSharpBitmapOps.PasteSection(targetBitmap, pasteBitmap, new SKPoint(50, 50));
+    public static void PasteSection(SKBitmap targetBitmap, SKBitmap pasteBitmap, SKPoint destPoint)
+    {
+        // Setup a SkiaSharp canvas to draw on the target bitmap
+        using (SKCanvas canvas = new SKCanvas(targetBitmap))
+        {
+            // Read the size of the pasteBitmap
+            SKRect pasteSize = new SKRect(0, 0, pasteBitmap.Width, pasteBitmap.Height);
+
+            // Draw the pasteBitmap onto the targetBitmap at the specified destination point
+            canvas.DrawBitmap(pasteBitmap, pasteSize, new SKRect(destPoint.X, destPoint.Y, destPoint.X + pasteSize.Width, destPoint.Y + pasteSize.Height));
         }
     }
 

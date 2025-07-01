@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 
 using KoreCommon;
-using KoreSim;
+namespace KoreSim;
 
 
 #nullable enable
@@ -17,59 +17,59 @@ public static partial class KoreEventDriver
     // MARK: Basic Element Management
     // ---------------------------------------------------------------------------------------------
 
-    public static void AddPlatformElement(string platName, string elemName, string platElemType)
+    public static void AddEntityElement(string entityName, string elemName, string entityElemType)
     {
-        // Create a new platform
-        KoreEntityElementOps.CreatePlatformElement(platName, elemName, platElemType);
+        // Create a new Entity
+        KoreEntityElementOps.CreateEntityElement(entityName, elemName, entityElemType);
     }
 
-    public static void AddPlatformElement(string platName, string elemName, KoreEntityElement element)
+    public static void AddEntityElement(string entityName, string elemName, KoreEntityElement element)
     {
-        // Get the platform
-        KoreEntity? platform = KoreSimFactory.Instance.EntityManager.EntityForName(platName);
+        // Get the Entity
+        KoreEntity? Entity = KoreSimFactory.Instance.EntityManager.EntityForName(entityName);
 
-        if (platform == null)
+        if (Entity == null)
             return;
 
-        // Add the element to the platform
-        platform.AddElement(element);
+        // Add the element to the Entity
+        Entity.AddElement(element);
     }
 
-    public static void DeletePlatformElement(string platName, string elemName)
+    public static void DeleteEntityElement(string entityName, string elemName)
     {
-        KoreEntity? platform = KoreSimFactory.Instance.EntityManager.EntityForName(platName);
+        KoreEntity? Entity = KoreSimFactory.Instance.EntityManager.EntityForName(entityName);
 
-        if (platform == null)
+        if (Entity == null)
             return;
 
-        platform.DeleteElement(elemName);
+        Entity.DeleteElement(elemName);
     }
 
-    public static List<string> PlatformElementNames(string platName)
+    public static List<string> EntityElementNames(string entityName)
     {
-        KoreEntity? platform = KoreSimFactory.Instance.EntityManager.EntityForName(platName);
+        KoreEntity? Entity = KoreSimFactory.Instance.EntityManager.EntityForName(entityName);
 
-        if (platform == null)
+        if (Entity == null)
             return new List<string>();
 
-        return platform.ElementNames();
+        return Entity.ElementNames();
     }
 
     // ---------------------------------------------------------------------------------------------
 
-    public static void PlatformAddSizerBox(string platName, string platType)
+    public static void EntityAddSizerBox(string entityName, string entityType)
     {
-        // Get the platform
-        KoreEntity? platform = KoreSimFactory.Instance.EntityManager.EntityForName(platName);
+        // Get the Entity
+        KoreEntity? Entity = KoreSimFactory.Instance.EntityManager.EntityForName(entityName);
 
-        if (platform == null)
+        if (Entity == null)
             return;
 
         // fixed elemName for the box
         string elemName = "SizerBox";
 
         // Get the element
-        KoreEntityElement? element = platform.ElementForName(elemName);
+        KoreEntityElement? element = Entity.ElementForName(elemName);
 
         if (element == null)
             return;
@@ -82,17 +82,17 @@ public static partial class KoreEventDriver
     // MARK: Element Name Helpers
     // ---------------------------------------------------------------------------------------------
 
-    public static KoreEntityElement? GetElement(string platName, string elemName)
+    public static KoreEntityElement? GetElement(string entityName, string elemName)
     {
-        if (string.IsNullOrEmpty(platName) || string.IsNullOrEmpty(elemName))
+        if (string.IsNullOrEmpty(entityName) || string.IsNullOrEmpty(elemName))
             return null;
 
-        KoreEntity? platform = KoreSimFactory.Instance.EntityManager.EntityForName(platName);
+        KoreEntity? Entity = KoreSimFactory.Instance.EntityManager.EntityForName(entityName);
 
-        if (platform == null)
+        if (Entity == null)
             return null;
 
-        return platform.ElementForName(elemName);
+        return Entity.ElementForName(elemName);
     }
 
 

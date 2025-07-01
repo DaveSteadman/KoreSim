@@ -13,7 +13,7 @@ public class KoreEntity
 {
     public string Name { get; set; } = "Unknown-Name";
 
-    // Kinetics object defines the initial and current position of the platform. Has to exist in all cases.
+    // Kinetics object defines the initial and current position of the Entity. Has to exist in all cases.
     public KoreEntityKinetics Kinetics { get; set; } = new KoreEntityKinetics();
 
     private List<KoreEntityElement>? Elements { get; set; } = null;
@@ -27,7 +27,7 @@ public class KoreEntity
 
     // public KoreEntityRoute RouteObject
     // {
-    //     get { Route ??= new KorePlatformRoute(); return Route; }
+    //     get { Route ??= new KoreEntityRoute(); return Route; }
     // }
 
     public List<KoreEntityElement> ElementsList
@@ -70,7 +70,7 @@ public class KoreEntity
     // MARK: Element
     // --------------------------------------------------------------------------------------------
 
-    public bool HasElement(string elementName) => ElementsList.Any(element => element.Name == elementName);
+    public bool DoesElementExist(string elementName) => ElementsList.Any(element => element.Name == elementName);
     public void AddElement(KoreEntityElement element) => ElementsList.Add(element);
     public void DeleteElement(KoreEntityElement element) => ElementsList.Remove(element);
 
@@ -101,7 +101,7 @@ public class KoreEntity
     public string PositionReport()
     {
         StringBuilder sb = new StringBuilder();
-        sb.AppendLine($"Platform: {Name}");
+        sb.AppendLine($"Entity: {Name}");
         sb.AppendLine($"- CurrPosition: {Kinetics.CurrPosition}");
         sb.AppendLine($"- CurrAttitude: {Kinetics.CurrAttitude}");
         sb.AppendLine($"- CurrCourse: {Kinetics.CurrCourse}");
@@ -114,7 +114,7 @@ public class KoreEntity
     public string ElementReport()
     {
         StringBuilder sb = new StringBuilder();
-        sb.AppendLine($"Platform: {Name}");
+        sb.AppendLine($"Entity: {Name}");
         sb.AppendLine($"- Elements: {ElementsList.Count}");
 
         foreach (KoreEntityElement element in ElementsList)

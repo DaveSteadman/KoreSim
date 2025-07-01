@@ -2,6 +2,9 @@ using System.Collections.Generic;
 using System.Text;
 
 // KoreCommandNetworkReport
+using KoreCommon;
+
+namespace KoreSim;
 
 public class KoreCommandNetworkEndConnection : KoreCommand
 {
@@ -26,7 +29,7 @@ public class KoreCommandNetworkEndConnection : KoreCommand
 
         sb.Append($"Ending connection: {connectionName}\n");
 
-        EventDriver.NetworkDisconnect(connectionName);
+        KoreEventDriver.NetworkDisconnect(connectionName);
 
         sb.Append("Done.");
 

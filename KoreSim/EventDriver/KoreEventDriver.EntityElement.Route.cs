@@ -3,8 +3,8 @@ using System;
 using System.Collections.Generic;
 
 using KoreCommon;
-using KoreSim;
 
+namespace KoreSim;
 #nullable enable
 
 // Design Decisions:
@@ -16,24 +16,24 @@ public static partial class KoreEventDriver
     // MARK: Route
     // ---------------------------------------------------------------------------------------------
 
-    public static void EntitySetRoute(string platName, List<KoreLLAPoint> points)
+    public static void EntitySetRoute(string entityName, List<KoreLLAPoint> points)
     {
-        string elemName = $"{platName}_Route";
-        KoreEntityElementRoute? route = GetElement(platName, elemName) as KoreEntityElementRoute;
+        string elemName = $"{entityName}_Route";
+        KoreEntityElementRoute? route = GetElement(entityName, elemName) as KoreEntityElementRoute;
 
         if (route == null)
         {
             route = new KoreEntityElementRoute() { Name = elemName };
             route.AddPoints(points);
 
-            KoreEntity? platform = EntityForName(platName);
-            if (platform == null)
+            KoreEntity? Entity = EntityForName(entityName);
+            if (Entity == null)
             {
-                KoreCentralLog.AddEntry($"EC0-0017: EntitySetRoute: Entity {platName} not found.");
+                KoreCentralLog.AddEntry($"EC0-0017: EntitySetRoute: Entity {entityName} not found.");
                 return;
             }
 
-            platform.AddElement(route);
+            Entity.AddElement(route);
         }
         else
         {
@@ -42,14 +42,14 @@ public static partial class KoreEventDriver
         }
     }
 
-    public static List<KoreLLAPoint> EntityGetRoutePoints(string platName)
+    public static List<KoreLLAPoint> EntityGetRoutePoints(string entityName)
     {
-        string elemName = $"{platName}_Route";
-        KoreEntityElementRoute? route = GetElement(platName, elemName) as KoreEntityElementRoute;
+        string elemName = $"{entityName}_Route";
+        KoreEntityElementRoute? route = GetElement(entityName, elemName) as KoreEntityElementRoute;
 
         if (route == null)
         {
-            KoreCentralLog.AddEntry($"EC0-0018: PlatformGetRoutePoints: Route {elemName} not found.");
+            KoreCentralLog.AddEntry($"EC0-0018: EntityGetRoutePoints: Route {elemName} not found.");
             return new List<KoreLLAPoint>();
         }
 
@@ -57,14 +57,14 @@ public static partial class KoreEventDriver
         return new List<KoreLLAPoint>(route.Points);
     }
 
-    public static void EntityClearRoute(string platName)
+    public static void EntityClearRoute(string entityName)
     {
-        string elemName = $"{platName}_Route";
-        KoreEntityElementRoute? route = GetElement(platName, elemName) as KoreEntityElementRoute;
+        string elemName = $"{entityName}_Route";
+        KoreEntityElementRoute? route = GetElement(entityName, elemName) as KoreEntityElementRoute;
 
         if (route == null)
         {
-            KoreCentralLog.AddEntry($"EC0-0019: PlatformClearRoute: Route {elemName} not found.");
+            KoreCentralLog.AddEntry($"EC0-0019: EntityClearRoute: Route {elemName} not found.");
             return;
         }
 
@@ -90,7 +90,7 @@ public static partial class KoreEventDriver
         var route = new KoreEntityElementRoute() { Name = routeElementName };
         route.AddPoint(startPos);
 
-        EntityAddElement(entName, route);
+        AddEntityElement(entName, routeElementName, route);
     }
 
 
@@ -98,9 +98,9 @@ public static partial class KoreEventDriver
     // MARK: Helper Routines
     // ---------------------------------------------------------------------------------------------
 
-    private static KoreEntityElementRoute? GetRouteElement(string platName, string elemName)
+    private static KoreEntityElementRoute? GetRouteElement(string entityName, string elemName)
     {
-        KoreEntityElement? element = GetElement(platName, elemName);
+        KoreEntityElement? element = GetElement(entityName, elemName);
         if (element == null)
         {
             KoreCentralLog.AddEntry($"EC0-0020: GetRouteElement: Element {elemName} not found.");

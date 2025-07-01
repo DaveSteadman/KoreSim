@@ -3,8 +3,10 @@ using System.Threading;
 
 using KoreCommon;
 
+namespace KoreSim;
+
 // KoreModelRun: Class to control the running of the model, starting and stopping the clock and calling the model for its cyclic updates.
-// This class exists underneath the EventDriver, so it is called by the interface to perform the actual start and stop of the model.
+// This class exists underneath the KoreEventDriver, so it is called by the interface to perform the actual start and stop of the model.
 public class KoreModelRun
 {
     private Thread modelThread;
@@ -17,7 +19,7 @@ public class KoreModelRun
 
         if (!running)
         {
-            KoreSimFactory.Instance.PlatformManager.Reset();
+            KoreSimFactory.Instance.EntityManager.Reset();
             KoreSimFactory.Instance.SimClock.Start();
             KoreSimFactory.Instance.SimClock.MarkTime();
 
@@ -100,7 +102,7 @@ public class KoreModelRun
     {
         // Call the model to update
         // Assuming the model update logic is handled within this method
-        KoreSimFactory.Instance.PlatformManager.UpdateKinetics();
+        KoreSimFactory.Instance.EntityManager.UpdateKinetics();
     }
 
     // --------------------------------------------------------------------------------------------

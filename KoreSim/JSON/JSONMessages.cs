@@ -25,14 +25,14 @@ public class IncomingMessageHandler
             case "NullMsg":        return NullMsg.ParseJSON(msgText);
 
             // Camera Control
-            case "PlatFocus":      return PlatFocus.ParseJSON(msgText);
+            case "EntityFocus":      return EntityFocus.ParseJSON(msgText);
 
-            // Platform
-            case "PlatUpdate":     return PlatUpdate.ParseJSON(msgText);
-            case "PlatPosition":   return PlatPosition.ParseJSON(msgText);
-            case "PlatAdd":        return PlatAdd.ParseJSON(msgText);
-            case "PlatDelete":     return PlatDelete.ParseJSON(msgText);
-            case "PlatWayPoints":  return PlatWayPoints.ParseJSON(msgText);
+            // Entity
+            case "EntityUpdate":     return EntityUpdate.ParseJSON(msgText);
+            case "EntityPosition":   return EntityPosition.ParseJSON(msgText);
+            case "EntityAdd":        return EntityAdd.ParseJSON(msgText);
+            case "EntityDelete":     return EntityDelete.ParseJSON(msgText);
+            case "EntityWayPoints":  return EntityWayPoints.ParseJSON(msgText);
 
             // Scenario / Time Control
             case "ScenLoad":       return ScenLoad.ParseJSON(msgText);

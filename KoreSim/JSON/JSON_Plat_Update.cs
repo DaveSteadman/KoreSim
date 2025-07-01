@@ -6,10 +6,10 @@ using KoreCommon;
 
 namespace KoreSim.JSON;
 
-public class PlatUpdate : JSONMessage
+public class EntityUpdate : JSONMessage
 {
-    [JsonPropertyName("PlatName")]
-    public string PlatName { get; set; }
+    [JsonPropertyName("EntityName")]
+    public string EntityName { get; set; }
 
     [JsonPropertyName("LatDegs")]
     public double LatDegs { get; set; }
@@ -78,15 +78,15 @@ public class PlatUpdate : JSONMessage
         set { TurnRateDegsSec = -value.HeadingChangeClockwiseDegsSec; }
     }
 
-    public static PlatUpdate ParseJSON(string json)
+    public static EntityUpdate ParseJSON(string json)
     {
         try
         {
             using (JsonDocument doc = JsonDocument.Parse(json))
             {
-                if (doc.RootElement.TryGetProperty("PlatUpdate", out JsonElement jsonContent))
+                if (doc.RootElement.TryGetProperty("EntityUpdate", out JsonElement jsonContent))
                 {
-                    PlatUpdate newMsg = JsonSerializer.Deserialize<PlatUpdate>(jsonContent.GetRawText());
+                    EntityUpdate newMsg = JsonSerializer.Deserialize<EntityUpdate>(jsonContent.GetRawText());
                     return newMsg;
                 }
                 else

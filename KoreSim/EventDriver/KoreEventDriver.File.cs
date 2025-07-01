@@ -1,16 +1,18 @@
 
 using System;
 
-using GloNetworking;
+using KoreCommon;
+
+namespace KoreSim;
 
 #nullable enable
 
 // Design Decisions:
 // - The KoreEventDriver is the top level class that manages data. Commands and Tasks interact with the business logic through this point.
 
-public partial class KoreEventDriver
+public static partial class KoreEventDriver
 {
-    public void SetRootDir(string rootDir)
+    public static void SetRootDir(string rootDir)
     {
         // Check the root dir is valid
         if (string.IsNullOrEmpty(rootDir)) return;
@@ -21,14 +23,16 @@ public partial class KoreEventDriver
         KoreCentralLog.AddEntry($"SetRootDir: {rootDir}");
     }
 
-    public string ReportRootDir()
+    // ---------------------------------------------------------------------------------------------
+
+    public static string ReportRootDir()
     {
         return "undefined"; // KoreSimFactory.Instance.MapIOManager.ReportRootDir();
     }
 
     // ---------------------------------------------------------------------------------------------
 
-    public void CreateBaseDirectories()
+    public static void CreateBaseDirectories()
     {
         // string rootDir = "undefined"; // KoreSimFactory.Instance.MapIOManager.ReportRootDir();
 

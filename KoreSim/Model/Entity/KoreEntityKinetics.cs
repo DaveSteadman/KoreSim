@@ -1,6 +1,6 @@
 using System;
 
-// KoreEntityKinetics: Class for the physical position and representation of a platform.
+// KoreEntityKinetics: Class for the physical position and representation of a Entity.
 // Design Decisions:
 // - Immutable: New objects are created on the fly and highly likely to be copied around the rest of
 //   the system, so readonly to avoid confusion.
@@ -28,7 +28,7 @@ public class KoreEntityKinetics
     public KoreCourse CurrCourse { set; get; } = KoreCourse.Zero;
     public KoreCourseDelta CurrCourseDelta { set; get; } = KoreCourseDelta.Zero;
 
-    // Outline of the platform (judging intersections and extremities)
+    // Outline of the Entity (judging intersections and extremities)
     public KoreXYZBox BoundingBox { set; get; } = KoreXYZBox.One;
 
     // --------------------------------------------------------------------------------------------
@@ -46,16 +46,16 @@ public class KoreEntityKinetics
 
     public void ResetPosition()
     {
-        CurrPosition = StartPosition;
-        CurrAttitude = StartAttitude;
-        CurrCourse = StartCourse;
+        // CurrPosition = StartPosition;
+        // CurrAttitude = StartAttitude;
+        // CurrCourse = StartCourse;
     }
 
     public void SetStart(KoreLLAPoint pos, KoreAttitude att, KoreCourse course)
     {
-        StartPosition = pos;
-        StartAttitude = att;
-        StartCourse = course;
+        CurrPosition = pos;
+        CurrAttitude = att;
+        CurrCourse = course;
     }
 
 
@@ -89,7 +89,7 @@ public class KoreEntityKinetics
 
     // Output a roll value in Rads.
 
-    public static double PlatformRollFromCourseDelta(KoreCourse course, KoreCourseDelta delta, float scaleFactor = 1f)
+    public static double EntityRollFromCourseDelta(KoreCourse course, KoreCourseDelta delta, float scaleFactor = 1f)
     {
         // This function provides a basic roll angle value to apply to an aircraft in a turn.
         // - We want to exract the angle change per second from the source delta.

@@ -4,6 +4,8 @@ using System;
 // Design Decisions:
 // - The KoreEventDriver is the top level class that manages data. Commands and Tasks interact with the business logic through this point.
 
+using KoreCommon;
+
 namespace KoreSim;
 
 public static partial class KoreEventDriver

@@ -5,20 +5,20 @@ using System.Text.Json.Serialization;
 namespace KoreSim.JSON;
 
 
-public class PlatDelete : JSONMessage
+public class EntityDelete : JSONMessage
 {
-    [JsonPropertyName("PlatName")]
-    public string PlatName { get; set; }
+    [JsonPropertyName("EntityName")]
+    public string EntityName { get; set; }
 
-    public static PlatDelete ParseJSON(string json)
+    public static EntityDelete ParseJSON(string json)
     {
         try
         {
             using (JsonDocument doc = JsonDocument.Parse(json))
             {
-                if (doc.RootElement.TryGetProperty("PlatDelete", out JsonElement jsonContent))
+                if (doc.RootElement.TryGetProperty("EntityDelete", out JsonElement jsonContent))
                 {
-                    PlatDelete newMsg = JsonSerializer.Deserialize<PlatDelete>(jsonContent.GetRawText());
+                    EntityDelete newMsg = JsonSerializer.Deserialize<EntityDelete>(jsonContent.GetRawText());
                     return newMsg;
                 }
                 else

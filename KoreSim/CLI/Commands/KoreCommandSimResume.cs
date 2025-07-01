@@ -3,7 +3,9 @@ using System.Collections.Generic;
 // KoreCommandSimStop
 
 using KoreCommon;
-using KoreSim;
+
+namespace KoreSim;
+
 
 public class KoreCommandSimResume : KoreCommand
 {

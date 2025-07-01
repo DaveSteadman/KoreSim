@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 
 // KoreCommandSimStop
+using KoreCommon;
+
+namespace KoreSim;
 
 public class KoreCommandSimStart : KoreCommand
 {

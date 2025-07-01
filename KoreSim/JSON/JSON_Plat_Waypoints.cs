@@ -8,7 +8,7 @@ using System.Text.Json.Serialization;
 using KoreCommon;
 
 
-//  {"PlatWayPoints":{"PlatName":"Red Leader","Count":4,
+//  {"EntityWayPoints":{"EntityName":"Red Leader","Count":4,
 // "Legs":[
 //     {"LatDegs":51.1599,"LongDegs":-0.6887,"AltitudeMtrs":3500.0,"GrndSpeedMtrsSec":0.0,"WPType":"Origin"},
 //     {"LatDegs":49.122049,"LongDegs":0.531608,"AltitudeMtrs":3500.0,"GrndSpeedMtrsSec":277.8,"WPType":"linear"},
@@ -36,10 +36,10 @@ public class WayPoint
     public string WPType { get; set; }
 }
 
-public class PlatWayPoints : JSONMessage
+public class EntityWayPoints : JSONMessage
 {
-    [JsonPropertyName("PlatName")]
-    public string PlatName { get; set; }
+    [JsonPropertyName("EntityName")]
+    public string EntityName { get; set; }
 
     [JsonPropertyName("Count")]
     public int Count { get; set; }
@@ -98,19 +98,19 @@ public class PlatWayPoints : JSONMessage
 
     // -----------------------
 
-    public static PlatWayPoints ParseJSON(string json)
+    public static EntityWayPoints ParseJSON(string json)
     {
         try
         {
             using (JsonDocument doc = JsonDocument.Parse(json))
             {
-                if (doc.RootElement.TryGetProperty("PlatWayPoints", out JsonElement jsonContent))
+                if (doc.RootElement.TryGetProperty("EntityWayPoints", out JsonElement jsonContent))
                 {
-                    PlatWayPoints newMsg = JsonSerializer.Deserialize<PlatWayPoints>(jsonContent.GetRawText());
+                    EntityWayPoints newMsg = JsonSerializer.Deserialize<EntityWayPoints>(jsonContent.GetRawText());
 
-                    KoreCentralLog.AddEntry("PlatWayPoints -> JsonContent OK");
-                    KoreCentralLog.AddEntry($"PlatWayPoints -> PlatName = {newMsg.PlatName}");
-                    KoreCentralLog.AddEntry($"PlatWayPoints -> Count = {newMsg.Count}");
+                    KoreCentralLog.AddEntry("EntityWayPoints -> JsonContent OK");
+                    KoreCentralLog.AddEntry($"EntityWayPoints -> EntityName = {newMsg.EntityName}");
+                    KoreCentralLog.AddEntry($"EntityWayPoints -> Count = {newMsg.Count}");
 
                     // quick validation that the message data lines up
                     if (newMsg != null && newMsg.Legs != null && newMsg.Count == newMsg.Legs.Count)

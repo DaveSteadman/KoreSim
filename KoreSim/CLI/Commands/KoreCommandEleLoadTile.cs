@@ -4,6 +4,9 @@ using System.Text;
 
 // CLI Usage: ele prep <inEleFilename> <inTileCode> <inOutDir> <action>
 // CLI Usage: ele prep c:/Util/KorebeLibrary_MapPrep/Europe/W005N50_UkCentral/Ele_BF_BF_50m.asc BF_BF C:/Util/_temp yes
+using KoreCommon;
+
+namespace KoreSim;
 
 
 public class KoreCommandEleLoadTile : KoreCommand

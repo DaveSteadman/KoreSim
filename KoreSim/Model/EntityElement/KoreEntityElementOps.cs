@@ -2,22 +2,26 @@ using System;
 
 #nullable enable
 
-// KoreEntityElementOperations: Utility class to factor out all of the element searching and management operations, and avoid cluttering the platform class
+using KoreCommon;
+
+namespace KoreSim;
+
+// KoreEntityElementOperations: Utility class to factor out all of the element searching and management operations, and avoid cluttering the Entity class
 
 public static class KoreEntityElementOps
 {
-    public static KoreEntityElement? CreatePlatformElement(string platName, string elemName, string platElemType)
+    public static KoreEntityElement? CreateEntityElement(string entityName, string elemName, string entityElemType)
     {
         KoreEntityElement? newElem = null;
 
-        KoreEntity? entity = KoreSimFactory.Instance.EntityManager.EntityForName(platName);
+        KoreEntity? entity = KoreSimFactory.Instance.EntityManager.EntityForName(entityName);
         if (entity == null)
             return newElem;
 
         if (entity.DoesElementExist(elemName))
             return newElem;
 
-        switch(platElemType)
+        switch (entityElemType)
         {
 
             default:
@@ -60,7 +64,7 @@ public static class KoreEntityElementOps
     //     {
     //         if (element.Name == elemname)
     //         {
-    //             platform.Elements.Remove(element);
+    //             Entity.Elements.Remove(element);
     //             return;
     //         }
     //     }

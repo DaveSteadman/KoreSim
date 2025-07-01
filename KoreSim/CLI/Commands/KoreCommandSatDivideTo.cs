@@ -8,6 +8,9 @@ using System.IO;
 
 using KoreCommon;
 
+namespace KoreSim;
+
+
 
 public class KoreCommandSatDivideTo : KoreCommand
 {

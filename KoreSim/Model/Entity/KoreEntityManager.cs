@@ -7,7 +7,7 @@ namespace KoreSim;
 
 #nullable enable
 
-// Class to provide the top level management of Entitys in the system.
+// Class to provide the top level management of Entities in the system.
 public partial class KoreEntityManager
 {
     private List<KoreEntity> EntityList = new();
@@ -42,11 +42,11 @@ public partial class KoreEntityManager
     }
 
     // Looping through the list using the index, and in reverse order to more safely delete a Entity
-    public void Delete(string platname)
+    public void Delete(string entityname)
     {
         for (int i = EntityList.Count - 1; i >= 0; i--)
         {
-            if (EntityList[i].Name == platname)
+            if (EntityList[i].Name == entityname)
             {
                 EntityList.RemoveAt(i);
             }
@@ -96,7 +96,7 @@ public partial class KoreEntityManager
     }
 
     // --------------------------------------------------------------------------------------------
-    // MARK: PlatIDs & Names
+    // MARK: EntityIDs & Names
     // --------------------------------------------------------------------------------------------
     // Id being the 1-based user presented version of the list index
 
@@ -150,25 +150,25 @@ public partial class KoreEntityManager
 
     public List<string> EntityNameList()
     {
-        List<string> platNames = new();
-        foreach (KoreEntity currPlat in EntityList)
+        List<string> entityNames = new();
+        foreach (KoreEntity currEntity in EntityList)
         {
-            platNames.Add(currPlat.Name);
+            entityNames.Add(currEntity.Name);
         }
-        return platNames;
+        return entityNames;
     }
 
     // --------------------------------------------------------------------------------------------
     // MARK: Elements
     // --------------------------------------------------------------------------------------------
 
-    public bool HasElement(string entityName, string elemname)
+    public bool DoesElementExist(string entityName, string elemname)
     {
         KoreEntity? entity = EntityForName(entityName);
         if (entity == null)
             return false;
 
-        return entity.HasElement(elemname);
+        return entity.DoesElementExist(elemname);
     }
 
     public bool AddElement(string entityName, KoreEntityElement newElem)
@@ -208,12 +208,12 @@ public partial class KoreEntityManager
     {
         string report = "Entity Positions Report\n";
 
-        foreach (KoreEntity currPlat in EntityList)
+        foreach (KoreEntity currEntity in EntityList)
         {
-            if (currPlat.Kinetics != null)
+            if (currEntity.Kinetics != null)
             {
-                KoreLLAPoint currPos = currPlat.Kinetics.CurrPosition;
-                report += $"Entity:{currPlat.Name} at LatDegs:{currPos.LatDegs:0.0000}, LonDegs:{currPos.LonDegs:0.0000}, AltMslM:{currPos.AltMslM:0.0000}, RadiusM:{currPos.RadiusM}\n";
+                KoreLLAPoint currPos = currEntity.Kinetics.CurrPosition;
+                report += $"Entity:{currEntity.Name} at LatDegs:{currPos.LatDegs:0.0000}, LonDegs:{currPos.LonDegs:0.0000}, AltMslM:{currPos.AltMslM:0.0000}, RadiusM:{currPos.RadiusM}\n";
             }
         }
 
@@ -224,11 +224,11 @@ public partial class KoreEntityManager
     {
         string report = "Entity Elements Report\n";
 
-        foreach (KoreEntity currPlat in EntityList)
+        foreach (KoreEntity currEntity in EntityList)
         {
-            report += $"Entity: {currPlat.Name}\n";
+            report += $"Entity: {currEntity.Name}\n";
 
-            foreach (KoreEntityElement currElem in currPlat.ElementsList)
+            foreach (KoreEntityElement currElem in currEntity.ElementsList)
             {
                 report += $"- Element: {currElem.Name} Type: {currElem.Type}\n";
             }
@@ -247,22 +247,22 @@ public partial class KoreEntityManager
 
         sb.AppendLine("Entity List");
         sb.AppendLine("-------------");
-        foreach (KoreEntity currPlat in EntityList)
+        foreach (KoreEntity currEntity in EntityList)
         {
-            sb.AppendLine($"Entity: {currPlat.Name}");
-            sb.AppendLine($"- CurrPosition: {currPlat.Kinetics?.CurrPosition}");
-            sb.AppendLine($"- CurrAttitude: {currPlat.Kinetics?.CurrAttitude}");
-            sb.AppendLine($"- CurrCourse: {currPlat.Kinetics?.CurrCourse}");
-            sb.AppendLine($"- CurrCourseDelta: {currPlat.Kinetics?.CurrCourseDelta}");
+            sb.AppendLine($"Entity: {currEntity.Name}");
+            sb.AppendLine($"- CurrPosition: {currEntity.Kinetics?.CurrPosition}");
+            sb.AppendLine($"- CurrAttitude: {currEntity.Kinetics?.CurrAttitude}");
+            sb.AppendLine($"- CurrCourse: {currEntity.Kinetics?.CurrCourse}");
+            sb.AppendLine($"- CurrCourseDelta: {currEntity.Kinetics?.CurrCourseDelta}");
         }
 
         sb.AppendLine();
         sb.AppendLine("Entity Elements");
         sb.AppendLine("-----------------");
-        foreach (KoreEntity currPlat in EntityList)
+        foreach (KoreEntity currEntity in EntityList)
         {
-            sb.AppendLine($"Entity: {currPlat.Name}");
-            foreach (KoreEntityElement currElem in currPlat.ElementsList)
+            sb.AppendLine($"Entity: {currEntity.Name}");
+            foreach (KoreEntityElement currElem in currEntity.ElementsList)
             {
                 sb.AppendLine($"- Element: {currElem.Report()}");
             }
@@ -279,10 +279,10 @@ public partial class KoreEntityManager
 
     public void Reset()
     {
-        foreach (KoreEntity currPlat in EntityList)
+        foreach (KoreEntity currEntity in EntityList)
         {
-            if (currPlat.Kinetics != null)
-                currPlat.Kinetics.ResetPosition();
+            if (currEntity.Kinetics != null)
+                currEntity.Kinetics.ResetPosition();
         }
     }
 
@@ -295,21 +295,21 @@ public partial class KoreEntityManager
         double elapsedSeconds = KoreSimFactory.Instance.SimClock.ElapsedTimeSinceMark();
         KoreSimFactory.Instance.SimClock.MarkTime();
 
-        foreach (KoreEntity currPlat in EntityList)
+        foreach (KoreEntity currEntity in EntityList)
         {
-            if (currPlat.Kinetics != null)
-                currPlat.Kinetics.UpdateForDuration((float)elapsedSeconds);
+            if (currEntity.Kinetics != null)
+                currEntity.Kinetics.UpdateForDuration((float)elapsedSeconds);
         }
 
         // Log the LLA of the first Entity, to demonstrate some movement.
         if (EntityList.Count > 0)
         {
-            KoreEntity firstPlat = EntityList[0];
-            KoreLLAPoint currPos = firstPlat.Kinetics.CurrPosition;
+            KoreEntity firstEntity = EntityList[0];
+            KoreLLAPoint currPos = firstEntity.Kinetics.CurrPosition;
 
             string LLAStr = $"Lat: {currPos.LatDegs:0.0000}, Lon: {currPos.LonDegs:0.0000}, Alt: {currPos.AltMslM:0.0000}";
 
-            KoreCentralLog.AddEntry($"Entity: {firstPlat.Name} at {LLAStr}");
+            KoreCentralLog.AddEntry($"Entity: {firstEntity.Name} at {LLAStr}");
         }
     }
 

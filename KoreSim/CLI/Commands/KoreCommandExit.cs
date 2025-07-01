@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 using KoreCommon;
 
+namespace KoreSim;
+
 public class KoreCommandExit : KoreCommand
 {
     public KoreCommandExit()
@@ -22,7 +24,7 @@ public class KoreCommandExit : KoreCommand
 
         // Exiting the application - ending the threads
         KoreCentralLog.AddEntry("Exiting the application");
-        EventDriver.ExitApplication();
+        KoreEventDriver.ExitApplication();
 
         return "Exiting the application";
     }

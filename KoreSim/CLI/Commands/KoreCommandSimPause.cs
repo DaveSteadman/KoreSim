@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 
 // KoreCommandSimPause
+using KoreCommon;
+
+namespace KoreSim;
 
 public class KoreCommandSimPause : KoreCommand
 {
