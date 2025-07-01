@@ -18,34 +18,37 @@ using KoreCommon;
 
 namespace KoreSim.JSON;
 
+#nullable enable
+
+
 public class WayPoint
 {
     [JsonPropertyName("LatDegs")]
-    public double LatDegs { get; set; }
+    public double LatDegs { get; set; } = 0.0;
 
     [JsonPropertyName("LongDegs")]
-    public double LongDegs { get; set; }
+    public double LongDegs { get; set; } = 0.0;
 
     [JsonPropertyName("AltitudeMtrs")]
-    public double AltitudeMtrs { get; set; }
+    public double AltitudeMtrs { get; set; } = 0.0;
 
     [JsonPropertyName("GrndSpeedMtrsSec")]
-    public double GrndSpeedMtrsSec { get; set; }
+    public double GrndSpeedMtrsSec { get; set; } = 0.0;
 
     [JsonPropertyName("WPType")]
-    public string WPType { get; set; }
+    public string WPType { get; set; } = string.Empty;
 }
 
 public class EntityWayPoints : JSONMessage
 {
     [JsonPropertyName("EntityName")]
-    public string EntityName { get; set; }
+    public string EntityName { get; set; } = string.Empty;
 
     [JsonPropertyName("Count")]
-    public int Count { get; set; }
+    public int Count { get; set; } = 0;
 
     [JsonPropertyName("Legs")]
-    public List<WayPoint> Legs { get; set; }
+    public List<WayPoint> Legs { get; set; } = new List<WayPoint>();
 
     // -----------------------
 
@@ -98,7 +101,7 @@ public class EntityWayPoints : JSONMessage
 
     // -----------------------
 
-    public static EntityWayPoints ParseJSON(string json)
+    public static EntityWayPoints? ParseJSON(string json)
     {
         try
         {
@@ -106,7 +109,7 @@ public class EntityWayPoints : JSONMessage
             {
                 if (doc.RootElement.TryGetProperty("EntityWayPoints", out JsonElement jsonContent))
                 {
-                    EntityWayPoints newMsg = JsonSerializer.Deserialize<EntityWayPoints>(jsonContent.GetRawText());
+                    EntityWayPoints? newMsg = JsonSerializer.Deserialize<EntityWayPoints>(jsonContent.GetRawText());
 
                     KoreCentralLog.AddEntry("EntityWayPoints -> JsonContent OK");
                     KoreCentralLog.AddEntry($"EntityWayPoints -> EntityName = {newMsg.EntityName}");

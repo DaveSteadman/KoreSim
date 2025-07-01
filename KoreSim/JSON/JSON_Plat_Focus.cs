@@ -4,13 +4,14 @@ using System.Text.Json.Serialization;
 
 namespace KoreSim.JSON;
 
+#nullable enable
 
 public class EntityFocus : JSONMessage
 {
     [JsonPropertyName("EntityName")]
-    public string EntityName { get; set; }
+    public string EntityName { get; set; } = string.Empty;
 
-    public static EntityFocus ParseJSON(string json)
+    public static EntityFocus? ParseJSON(string json)
     {
         try
         {
@@ -18,7 +19,7 @@ public class EntityFocus : JSONMessage
             {
                 if (doc.RootElement.TryGetProperty("EntityFocus", out JsonElement jsonContent))
                 {
-                    EntityFocus newMsg = JsonSerializer.Deserialize<EntityFocus>(jsonContent.GetRawText());
+                    EntityFocus? newMsg = JsonSerializer.Deserialize<EntityFocus>(jsonContent.GetRawText());
                     return newMsg;
                 }
                 else

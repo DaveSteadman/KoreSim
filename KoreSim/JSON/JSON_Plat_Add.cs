@@ -6,6 +6,7 @@ using KoreCommon;
 
 namespace KoreSim.JSON;
 
+#nullable enable
 
 public class EntityAdd : JSONMessage
 {
@@ -66,7 +67,7 @@ public class EntityAdd : JSONMessage
         set { HeadingDegs = value.HeadingDegs; }
     }
 
-    public static EntityAdd ParseJSON(string json)
+    public static EntityAdd? ParseJSON(string json)
     {
         try
         {
@@ -74,7 +75,7 @@ public class EntityAdd : JSONMessage
             {
                 if (doc.RootElement.TryGetProperty("EntityAdd", out JsonElement jsonContent))
                 {
-                    EntityAdd newMsg = JsonSerializer.Deserialize<EntityAdd>(jsonContent.GetRawText());
+                    EntityAdd? newMsg = JsonSerializer.Deserialize<EntityAdd>(jsonContent.GetRawText());
                     return newMsg;
                 }
                 else

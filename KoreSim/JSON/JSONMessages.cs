@@ -7,6 +7,8 @@ using System.Text.Json.Serialization;
 namespace KoreSim.JSON;
 
 
+#nullable enable
+
 public class JSONMessage
 {
 }
@@ -16,7 +18,7 @@ public class JSONMessage
 // Usage: IncomingMessageHandler.ProcessMessage("AppShutdown", message);
 public class IncomingMessageHandler
 {
-    static public JSONMessage ProcessMessage(string strtype, string msgText)
+    static public JSONMessage? ProcessMessage(string strtype, string msgText)
     {
         switch (strtype)
         {

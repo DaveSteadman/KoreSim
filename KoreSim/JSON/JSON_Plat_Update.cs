@@ -6,49 +6,51 @@ using KoreCommon;
 
 namespace KoreSim.JSON;
 
+#nullable enable
+
 public class EntityUpdate : JSONMessage
 {
     [JsonPropertyName("EntityName")]
-    public string EntityName { get; set; }
+    public string EntityName { get; set; } = string.Empty;
 
     [JsonPropertyName("LatDegs")]
-    public double LatDegs { get; set; }
+    public double LatDegs { get; set; } = 0.0;
 
     [JsonPropertyName("LongDegs")]
-    public double LongDegs { get; set; }
+    public double LongDegs { get; set; } = 0.0;
 
     [JsonPropertyName("AltitudeMtrs")]
-    public double AltitudeMtrs { get; set; }
+    public double AltitudeMtrs { get; set; } = 0.0;
 
     [JsonPropertyName("RollDegs")]
-    public double RollDegs { get; set; }
+    public double RollDegs { get; set; } = 0.0;
 
     [JsonPropertyName("PitchDegs")]
-    public double PitchDegs { get; set; }
+    public double PitchDegs { get; set; } = 0.0;
 
     [JsonPropertyName("YawDegs")]
-    public double YawDegs { get; set; }
+    public double YawDegs { get; set; } = 0.0;
 
     [JsonPropertyName("HeadingDegs")]
-    public double HeadingDegs { get; set; }
+    public double HeadingDegs { get; set; } = 0.0;
 
     [JsonPropertyName("GrndSpeedMtrSec")]
-    public double GrndSpeedMtrSec { get; set; }
+    public double GrndSpeedMtrSec { get; set; } = 0.0;
 
     [JsonPropertyName("ClimbRateMtrSec")]
-    public double ClimbRateMtrSec { get; set; }
+    public double ClimbRateMtrSec { get; set; } = 0.0;
 
     [JsonPropertyName("RollRateDegsSec")]
-    public double RollRateDegsSec { get; set; }
+    public double RollRateDegsSec { get; set; } = 0.0;
 
     [JsonPropertyName("PitchRateDegsSec")]
-    public double PitchRateDegsSec { get; set; }
+    public double PitchRateDegsSec { get; set; } = 0.0;
 
     [JsonPropertyName("YawRateDegsSec")]
-    public double YawRateDegsSec { get; set; }
+    public double YawRateDegsSec { get; set; } = 0.0;
 
     [JsonPropertyName("TurnRateDegsSec")]
-    public double TurnRateDegsSec { get; set; }
+    public double TurnRateDegsSec { get; set; } = 0.0;
 
     [JsonIgnore]
     public KoreLLAPoint Pos
@@ -78,7 +80,7 @@ public class EntityUpdate : JSONMessage
         set { TurnRateDegsSec = -value.HeadingChangeClockwiseDegsSec; }
     }
 
-    public static EntityUpdate ParseJSON(string json)
+    public static EntityUpdate? ParseJSON(string json)
     {
         try
         {
@@ -86,7 +88,7 @@ public class EntityUpdate : JSONMessage
             {
                 if (doc.RootElement.TryGetProperty("EntityUpdate", out JsonElement jsonContent))
                 {
-                    EntityUpdate newMsg = JsonSerializer.Deserialize<EntityUpdate>(jsonContent.GetRawText());
+                    EntityUpdate? newMsg = JsonSerializer.Deserialize<EntityUpdate>(jsonContent.GetRawText());
                     return newMsg;
                 }
                 else

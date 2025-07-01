@@ -6,28 +6,30 @@ using KoreCommon;
 
 namespace KoreSim.JSON;
 
+#nullable enable
+
 public class EntityPosition : JSONMessage
 {
     [JsonPropertyName("EntityName")]
-    public string EntityName { get; set; }
+    public string EntityName { get; set; } = string.Empty;
 
     [JsonPropertyName("LatDegs")]
-    public double LatDegs { get; set; }
+    public double LatDegs { get; set; } = 0.0;
 
     [JsonPropertyName("LongDegs")]
-    public double LongDegs { get; set; }
+    public double LongDegs { get; set; } = 0.0;
 
     [JsonPropertyName("AltitudeMtrs")]
-    public double AltitudeMtrs { get; set; }
+    public double AltitudeMtrs { get; set; } = 0.0;
 
     [JsonPropertyName("RollDegs")]
-    public double RollDegs { get; set; }
+    public double RollDegs { get; set; } = 0.0;
 
     [JsonPropertyName("PitchDegs")]
-    public double PitchDegs { get; set; }
+    public double PitchDegs { get; set; } = 0.0;
 
     [JsonPropertyName("YawDegs")]
-    public double YawDegs { get; set; }
+    public double YawDegs { get; set; } = 0.0;
 
     // ------------------------------------------------------------------------------------------------------------
 
@@ -57,7 +59,7 @@ public class EntityPosition : JSONMessage
 
     // ------------------------------------------------------------------------------------------------------------
 
-    public static EntityPosition ParseJSON(string json)
+    public static EntityPosition? ParseJSON(string json)
     {
         try
         {
@@ -65,7 +67,7 @@ public class EntityPosition : JSONMessage
             {
                 if (doc.RootElement.TryGetProperty("EntityPosition", out JsonElement jsonContent))
                 {
-                    EntityPosition newMsg = JsonSerializer.Deserialize<EntityPosition>(jsonContent.GetRawText());
+                    EntityPosition? newMsg = JsonSerializer.Deserialize<EntityPosition>(jsonContent.GetRawText());
                     return newMsg;
                 }
                 else

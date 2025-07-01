@@ -4,11 +4,12 @@ using System.Text.Json.Serialization;
 
 namespace KoreSim.JSON;
 
+#nullable enable
 
 public class ScenPause : JSONMessage
 {
     [JsonPropertyName("ScenTimeHMS")]
-    public string ScenTimeHMS { get; set; }
+    public string ScenTimeHMS { get; set; } = string.Empty;
 
     public ScenPause()
     {
@@ -24,7 +25,7 @@ public class ScenPause : JSONMessage
 
     // -----------------------
 
-    public static ScenPause ParseJSON(string json)
+    public static ScenPause? ParseJSON(string json)
     {
         try
         {
@@ -32,7 +33,7 @@ public class ScenPause : JSONMessage
             {
                 if (doc.RootElement.TryGetProperty("ScenPause", out JsonElement jsonContent))
                 {
-                    ScenPause newMsg = JsonSerializer.Deserialize<ScenPause>(jsonContent.GetRawText());
+                    ScenPause? newMsg = JsonSerializer.Deserialize<ScenPause>(jsonContent.GetRawText());
                     return newMsg;
                 }
                 else

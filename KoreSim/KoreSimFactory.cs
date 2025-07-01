@@ -8,8 +8,6 @@ using KoreCommon;
 
 #nullable enable
 
-using KoreCommon;
-
 namespace KoreSim;
 
 public class KoreSimFactory

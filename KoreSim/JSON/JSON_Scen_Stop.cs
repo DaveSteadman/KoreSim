@@ -3,6 +3,7 @@ using System.Text.Json;
 
 namespace KoreSim.JSON;
 
+#nullable enable
 
 public class ScenStop : JSONMessage
 {
@@ -12,7 +13,7 @@ public class ScenStop : JSONMessage
 
     // -----------------------
 
-    public static ScenStop ParseJSON(string json)
+    public static ScenStop? ParseJSON(string json)
     {
         try
         {
@@ -20,7 +21,7 @@ public class ScenStop : JSONMessage
             {
                 if (doc.RootElement.TryGetProperty("ScenStop", out JsonElement jsonToken))
                 {
-                    ScenStop newMsg = JsonSerializer.Deserialize<ScenStop>(jsonToken.GetRawText());
+                    ScenStop? newMsg = JsonSerializer.Deserialize<ScenStop>(jsonToken.GetRawText());
                     return newMsg;
                 }
                 else
