@@ -5,8 +5,9 @@ using KoreCommon;
 public class KoreElevationTile
 {
     public KoreLLBox        LLBox;
-    public KoreFloat2DArray ElevationData;
     public KoreMapTileCode  TileCode = new();
+
+    public KoreNumeric2DArray<float> ElevationData = new KoreNumeric2DArray<float>(10, 10);
 
     // Zero tile
     public static KoreElevationTile Zero

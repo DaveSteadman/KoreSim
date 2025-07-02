@@ -2,6 +2,8 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
+#nullable enable
+
 namespace KoreSim.JSON;
 
 public class AppShutdown : JSONMessage
@@ -12,7 +14,7 @@ public class AppShutdown : JSONMessage
 
     // -----------------------
 
-    public static AppShutdown ParseJSON(string json)
+    public static AppShutdown? ParseJSON(string json)
     {
         try
         {

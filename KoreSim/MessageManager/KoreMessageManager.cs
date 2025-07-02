@@ -77,7 +77,13 @@ public partial class KoreMessageManager
         string msgType = IncomingMessageHandler.GetMessageTypeName(message.msgData);
 
         // Convert the message to a JSON object
-        JSONMessage msg = IncomingMessageHandler.ProcessMessage(msgType, message.msgData);
+        JSONMessage? msg = IncomingMessageHandler.ProcessMessage(msgType, message.msgData);
+
+        if (msg == null)
+        {
+            KoreCentralLog.AddEntry($"KoreMessageManager.ProcessMessage: Failed to parse message type: {msgType}");
+            return;
+        }
 
         if (msg is EntityAdd entityAddMsg) { ProcessMessage_EntityAdd(entityAddMsg); }
         else if (msg is EntityDelete entityDelMsg) { ProcessMessage_EntityDelete(entityDelMsg); }

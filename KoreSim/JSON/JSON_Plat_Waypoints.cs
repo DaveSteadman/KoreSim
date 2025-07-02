@@ -111,6 +111,12 @@ public class EntityWayPoints : JSONMessage
                 {
                     EntityWayPoints? newMsg = JsonSerializer.Deserialize<EntityWayPoints>(jsonContent.GetRawText());
 
+                    if (newMsg == null)
+                    {
+                        KoreCentralLog.AddEntry("EntityWayPoints -> JsonContent is null");
+                        return null;
+                    }
+
                     KoreCentralLog.AddEntry("EntityWayPoints -> JsonContent OK");
                     KoreCentralLog.AddEntry($"EntityWayPoints -> EntityName = {newMsg.EntityName}");
                     KoreCentralLog.AddEntry($"EntityWayPoints -> Count = {newMsg.Count}");

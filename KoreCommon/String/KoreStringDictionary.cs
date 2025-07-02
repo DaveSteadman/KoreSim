@@ -41,12 +41,6 @@ public class KoreStringDictionary
     public bool Has(string key) => _data.ContainsKey(key);
     public bool Remove(string key) => _data.Remove(key);
 
-
-    public List<string> KeysList()
-    {
-        return _data.Keys.ToList();
-    }
-
     // --------------------------------------------------------------------------------------------
 
     // Slightly more complex set / get operations
@@ -74,7 +68,17 @@ public class KoreStringDictionary
         set => Set(key, value);
     }
 
+    public List<string> KeysList()
+    {
+        return _data.Keys.ToList();
+    }
+
+    // --------------------------------------------------------------------------------------------
+    // MARK: Consume
+    // --------------------------------------------------------------------------------------------
+
     // Read a value and remove it from the dictionary, useful for dirty flags or other signals
+
     public bool Consume(string key, out string value)
     {
         if (_data.TryGetValue(key, out var val))

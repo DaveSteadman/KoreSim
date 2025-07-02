@@ -5,7 +5,6 @@ using System.Numerics;
 
 namespace KoreCommon;
 
-
 public static partial class KoreNumeric1DArrayOps<T> where T : struct, INumber<T>
 {
     // --------------------------------------------------------------------------------------------
@@ -24,6 +23,8 @@ public static partial class KoreNumeric1DArrayOps<T> where T : struct, INumber<T
         }
         return array;
     }
+
+    // --------------------------------------------------------------------------------------------
 
     // Create a sequence of values from start to end, with a best-fit division of the remaining range between the two.
     // Upscales to double precision to avoid integer rounding hassles.
@@ -50,7 +51,10 @@ public static partial class KoreNumeric1DArrayOps<T> where T : struct, INumber<T
         return array;
     }
 
-    // Given the min and max values, and a total number of entries (that clearly must be 2 of greater), construct a list of values that are evenly spaced between the two.
+    // --------------------------------------------------------------------------------------------
+
+    // Given the min and max values, and a total number of entries (that clearly must be 2 of greater),
+    // construct a list of values that are evenly spaced between the two.
     // Note the range can be descending, so we don't assume min < max.
 
     public static KoreNumeric1DArray<T> ListForRange(T valstart, T valend, int count)
@@ -64,8 +68,8 @@ public static partial class KoreNumeric1DArrayOps<T> where T : struct, INumber<T
 
         // Convert start/end to double for precision and interpolation
         double start = double.CreateChecked(valstart);
-        double end   = double.CreateChecked(valend);
-        double step  = (end - start) / (count - 1);
+        double end = double.CreateChecked(valend);
+        double step = (end - start) / (count - 1);
 
         // Explicitly set the first value to the start value
         array[0] = T.CreateChecked(valstart);
@@ -81,7 +85,6 @@ public static partial class KoreNumeric1DArrayOps<T> where T : struct, INumber<T
         return array;
     }
 
-
-
-
 }
+
+

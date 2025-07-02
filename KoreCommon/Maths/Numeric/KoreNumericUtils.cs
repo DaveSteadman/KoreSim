@@ -3,7 +3,7 @@ using System.Numerics;
 
 namespace KoreCommon;
 
-// KoreNumericUtils: A static class for common operations on tementityed numeric types
+// KoreNumericUtils: A static class for common operations on templated numeric types
 
 public static class KoreNumericUtils
 {

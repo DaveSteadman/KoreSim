@@ -77,7 +77,7 @@ public static class KoreElevationTileIO
         int numrows = tile.ElevationData.Height;
         for (int i = 0; i < numrows; i++)
         {
-            KoreFloat1DArray row = tile.ElevationData.GetRow(i);
+            var row = tile.ElevationData.GetRow(i);
 
             for (int j = 0; j < row.Length; j++)
             {
@@ -189,7 +189,7 @@ public static class KoreElevationTileIO
                 int numRows = tile.ElevationData.Height;
                 for (int i = 0; i < numRows; i++)
                 {
-                    KoreFloat1DArray row = tile.ElevationData.GetRow(i);
+                    var row = tile.ElevationData.GetRow(i);
                     for (int j = 0; j < row.Length; j++)
                     {
                         writer.Write(row[j]);

@@ -3,13 +3,15 @@ using System.Threading;
 
 using KoreCommon;
 
+#nullable enable
+
 namespace KoreSim;
 
 // KoreModelRun: Class to control the running of the model, starting and stopping the clock and calling the model for its cyclic updates.
 // This class exists underneath the KoreEventDriver, so it is called by the interface to perform the actual start and stop of the model.
 public class KoreModelRun
 {
-    private Thread modelThread;
+    private Thread? modelThread = null;
 
     // --------------------------------------------------------------------------------------------
 

@@ -9,7 +9,7 @@ public class KoreRouteLegSimpleTurn : IKoreRouteLeg
     // The pre-determined centre point of the turn arc. The distance from the start point to this point defines the turn radius.
     public KoreLLAPoint TurnPoint { get; set; }
 
-    // Delta angle. Positive for right turns, negative for left turns, from the perspective of the Entity.
+    // Delta angle. Positive for right turns, negative for left turns, from the perspective of the platform.
     // Right turns are clockwise, left turns are counter-clockwise.
     public double DeltaAngleRads { get; set; }
     public double DeltaAngleDegs

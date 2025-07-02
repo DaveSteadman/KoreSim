@@ -69,7 +69,7 @@ public static class KoreElevationPatchIO
         int numrows = patch.ElevationData.Height;
         for (int i = 0; i < numrows; i++)
         {
-            KoreFloat1DArray row = patch.ElevationData.GetRow(i);
+            var row = patch.ElevationData.GetRow(i);
             for (int j = 0; j < row.Length; j++)
             {
                 sb.Append(row[j].ToString("F2"));
@@ -98,7 +98,7 @@ public static class KoreElevationPatchIO
             int numRows = patch.ElevationData.Height;
             for (int i = 0; i < numRows; i++)
             {
-                KoreFloat1DArray row = patch.ElevationData.GetRow(i);
+                var row = patch.ElevationData.GetRow(i);
 
                 // Write row to the file
                 for (int j = 0; j < row.Length; j++)
@@ -281,7 +281,7 @@ public static class KoreElevationPatchIO
                 int numRows = patch.ElevationData.Height;
                 for (int i = 0; i < numRows; i++)
                 {
-                    KoreFloat1DArray row = patch.ElevationData.GetRow(i);
+                    var row = patch.ElevationData.GetRow(i);
                     for (int j = 0; j < row.Length; j++)
                     {
                         writer.Write(row[j]);
@@ -318,7 +318,7 @@ public static class KoreElevationPatchIO
                 KoreFloat2DArray elevData = new KoreFloat2DArray(horizRes, vertRes);
                 for (int i = 0; i < vertRes; i++)
                 {
-                    KoreFloat1DArray row = new KoreFloat1DArray(horizRes);
+                    var row = new KoreFloat1DArray(horizRes);
                     for (int j = 0; j < horizRes; j++)
                     {
                         row[j] = reader.ReadSingle();

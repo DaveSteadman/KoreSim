@@ -6,6 +6,8 @@ using System.IO;
 
 using KoreCommon;
 
+namespace KoreSim;
+
 public class KoreMapTileFilepaths
 {
     public string EleFilepath { get; set; }
@@ -29,8 +31,7 @@ public class KoreMapTileFilepaths
         string tileCodeName = tileCode.ToString();
 
         // Setup the path to the map level directory
-        var config = KoreCentralConfig.Instance;
-        string mapRoot = config.GetParam<string>("MapRootPath");
+        string mapRoot = ConfigMapRootDir();
 
         string externalRootPath = mapRoot;
         string externalMapLvlFilePath = KoreFileOps.JoinPaths(externalRootPath, PathPerLvl[tileCode.MapLvl]);
@@ -64,10 +65,21 @@ public class KoreMapTileFilepaths
 
     public static string WorldTileFilepath()
     {
-        var config = KoreCentralConfig.Instance;
-        string mapRoot = config.GetParam<string>("MapRootPath");
-
+        string mapRoot = ConfigMapRootDir();
         return KoreFileOps.JoinPaths(mapRoot, "WorldTile.webp");
+    }
+
+    public static string ConfigMapRootDir()
+    {
+        // Setup the path to the map level directory
+        KoreStringDictionary kc = KoreSimFactory.Instance.KoreConfig;
+
+        if ((kc == null) || !kc.Has("MapRootPath"))
+            throw new InvalidOperationException("MapRootPath is not configured.");
+
+        string mapRoot = kc.Get("MapRootPath");
+
+        return mapRoot;
     }
 
 }

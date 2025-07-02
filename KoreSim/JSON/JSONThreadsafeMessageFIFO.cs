@@ -14,5 +14,5 @@ public class JSONThreadsafeMessageFIFO
     public void EnqueueMessage(JSONMessage message) => MessageQueue.Enqueue(message);
 
     // TryDequeueMessage method using expression-bodied member syntax
-    public bool TryDequeueMessage(out JSONMessage message) => MessageQueue.TryDequeue(out message);
+    public bool TryDequeueMessage(out JSONMessage? message) => MessageQueue.TryDequeue(out message);
 }

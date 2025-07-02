@@ -3,9 +3,11 @@ using System.Text.Json;
 
 namespace KoreSim.JSON;
 
+#nullable enable
+
 public class NullMsg : JSONMessage
 {
-    public static NullMsg ParseJSON(string json)
+    public static NullMsg? ParseJSON(string json)
     {
         try
         {

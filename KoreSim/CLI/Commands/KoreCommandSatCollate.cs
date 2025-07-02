@@ -34,7 +34,7 @@ public class KoreCommandSatCollate : KoreCommand
 
         string tileCodeStr = parameters[0];
 
-        bool validOperation = true;
+       // bool validOperation = true;
 
         return "pending";
 

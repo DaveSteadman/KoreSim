@@ -1,8 +1,46 @@
-﻿// See https://aka.ms/new-console-tementitye for more information
-Console.WriteLine("Hello, World!");
+﻿
+using System;
 
-// Environment Creation:
-// dotnet new console -n UnitTest
-// dotnet add package System.Data.SQLite
-// dotnet add package SkiaSharp
-// dotnet new console
+using KoreCommon;
+using KoreCommon.UnitTest;
+using KoreSim.UnitTest;
+using KoreSim.SystemTest;
+
+namespace KoreSim;
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        Console.WriteLine("KoreSim Application Starting...");
+
+        var app = new KoreSimApplication();
+        app.Run();
+
+        Console.WriteLine("Application completed.");
+    }
+}
+
+public class KoreSimApplication
+{
+    public void Run()
+    {
+        Console.WriteLine("Running KoreSim tests...");
+
+        var testLog = new KoreTestLog();
+
+        // Run unit tests
+        Console.WriteLine("Running unit tests...");
+        KoreSimUnitTestCenter.RunAllTests(testLog);
+
+        // Run system tests
+        Console.WriteLine("Running system tests...");
+        KoreSimSystemTestCenter.RunAllTests(testLog);
+
+        Console.WriteLine("All tests completed.");
+    }
+}
+
+
+
+

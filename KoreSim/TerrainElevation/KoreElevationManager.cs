@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 
 using KoreCommon;
 
+namespace KoreSim;
+
 #nullable enable
 
 // Overarching class to manage elevation activities, including background tasks around the loading and creating.
@@ -123,7 +125,7 @@ public class KoreElevationManager
                     KoreMapTileFilepaths filepaths = new(tileCode);
                     try
                     {
-                        KoreFileOperations.CreateDirectoryForFile(filepaths.EleArrFilepath);
+                        KoreFileOps.CreateDirectoryForFile(filepaths.EleArrFilepath);
                         KoreElevationTileIO.WriteToTextFile(newTile, filepaths.EleArrFilepath);
                     }
                     catch (Exception ex)
