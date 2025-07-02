@@ -16,8 +16,6 @@ public static class KoreTerrainImageFileOps
     // // Function to load all the webp images from the child tiles, combining them into a single image, and then resizing it and
     // // saving it out as the parent tile image.
 
-    // // We're using Godot image functions, not the standard C# library.
-
     // // --------------------------------------------------------------------------------------------
 
     // // Usage: KoreMapFileOps.CollateChildTileImages("AB");
@@ -268,5 +266,6 @@ public static class KoreTerrainImageFileOps
 
     // // --------------------------------------------------------------------------------------------
 
-
 }
+
+

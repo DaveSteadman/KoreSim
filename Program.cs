@@ -37,6 +37,12 @@ public class KoreSimApplication
         Console.WriteLine("Running system tests...");
         KoreSimSystemTestCenter.RunAllTests(testLog);
 
+        string fullReport = testLog.FullReport();
+        string failReport = testLog.FailReport();
+
+        Console.WriteLine("Full Test Report:");
+        Console.WriteLine(fullReport);
+
         Console.WriteLine("All tests completed.");
     }
 }

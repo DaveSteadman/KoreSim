@@ -16,13 +16,32 @@ public class KoreElevationPatchSystem
     private List<KoreElevationPatch> PatchList = new();
 
     // --------------------------------------------------------------------------------------------
-    // MARK: Load Arc ASCII Files
+    // MARK: Load Patch
+    // --------------------------------------------------------------------------------------------
+
+    // Three ways to create a new patch:
+    // - Load from a patch file
+    // - Load from an ASCII Arc file
+
+    public KoreElevationPatch? LoadPatchFile(string filePath)
+    {
+        // Read all the text content into a string
+        string content = System.IO.File.ReadAllText(filePath);
+
+        KoreElevationPatch? newPatch = KoreElevationPatchIO.ReadFromTextFile(content);
+        if (newPatch != null)
+        {
+            AddPatch(newPatch);
+        }
+        return newPatch;
+    }
+
     // --------------------------------------------------------------------------------------------
 
     // An ASCII Arc file is a simple text file with a header followed by a grid of elevation values.
     // The top-left of the data is the top left of the map.
 
-    public KoreElevationPatch? ArcASCIIToTile(string filename, KoreLLBox llBox)
+    public KoreElevationPatch? LoadPatchFromArcASCIIFile(string filename, KoreLLBox llBox)
     {
         // Check the file exists
         if (!System.IO.File.Exists(filename))
@@ -49,40 +68,18 @@ public class KoreElevationPatchSystem
         return newTile;
     }
 
-
-    public KoreElevationPatch CreateNewPatch(KoreLLBox llBox, int numLatPoints, int numLonPoints)
-    {
-        KoreElevationPatch newTile = new() { ElevationData = new KoreFloat2DArray(numLonPoints, numLatPoints), LLBox = llBox };
-
-        // Create the value range for lat and longs that we'll cover in the new patch
-        KoreNumericRange<double> latRange = new KoreNumericRange<double>(llBox.MinLatDegs, llBox.MaxLatDegs);
-        KoreNumericRange<double> lonRange = new KoreNumericRange<double>(llBox.MinLonDegs, llBox.MaxLonDegs);
-
-        // Turn the range into a list of lat/lon values we can iterate over.
-        KoreNumeric1DArray<double> latArray = new KoreNumeric1DArray<double>(latRange, numLatPoints, direction: KoreNumeric1DArray<double>.ListDirection.Reverse);
-        KoreNumeric1DArray<double> lonArray = new KoreNumeric1DArray<double>(lonRange, numLonPoints);
-
-        for (int i = 0; i < latArray.Length; i++)
-        {
-            for (int j = 0; j < lonArray.Length; j++)
-            {
-                KoreLLPoint newPoint = new KoreLLPoint() { LatDegs = latArray[i], LonDegs = lonArray[j] };
-                newTile.ElevationData[j, i] = ElevationAtPos(newPoint);
-            }
-        }
-        return newTile;
-    }
-
     // --------------------------------------------------------------------------------------------
     // MARK: Sort Tile List
     // --------------------------------------------------------------------------------------------
 
     // Sort the PatchList from highest resolution to lowest, as returned by the TileRes function.
+    // Keeps the list in an order so we use the first patch that contains the position we are looking for.
 
     public void SortPatchList()
     {
         PatchList.Sort((a, b) => a.TileRes().CompareTo(b.TileRes()));
     }
+
 
     // --------------------------------------------------------------------------------------------
     // MARK: Empty Tile List
@@ -118,6 +115,11 @@ public class KoreElevationPatchSystem
         return KoreElevationUtils.InvalidEle;
     }
 
+    // --------------------------------------------------------------------------------------------
+
+    // A debug function to source an elevation value and show its workings, returning a string of the activity
+    // rather than a value.
+
     public string ElevationAtPosWithReport(KoreLLPoint pos)
     {
         StringBuilder sb = new StringBuilder();
@@ -142,6 +144,31 @@ public class KoreElevationPatchSystem
         }
         sb.AppendLine($"Concluding Elevation: {retEle}");
         return sb.ToString();
+    }
+
+    // --------------------------------------------------------------------------------------------
+
+    public KoreElevationPatch CreateNewPatch(KoreLLBox llBox, int numLatPoints, int numLonPoints)
+    {
+        KoreElevationPatch newTile = new() { ElevationData = new KoreFloat2DArray(numLonPoints, numLatPoints), LLBox = llBox };
+
+        // Create the value range for lat and longs that we'll cover in the new patch
+        KoreNumericRange<double> latRange = new KoreNumericRange<double>(llBox.MinLatDegs, llBox.MaxLatDegs);
+        KoreNumericRange<double> lonRange = new KoreNumericRange<double>(llBox.MinLonDegs, llBox.MaxLonDegs);
+
+        // Turn the range into a list of lat/lon values we can iterate over.
+        KoreNumeric1DArray<double> latArray = new KoreNumeric1DArray<double>(latRange, numLatPoints, direction: KoreNumeric1DArray<double>.ListDirection.Reverse);
+        KoreNumeric1DArray<double> lonArray = new KoreNumeric1DArray<double>(lonRange, numLonPoints);
+
+        for (int i = 0; i < latArray.Length; i++)
+        {
+            for (int j = 0; j < lonArray.Length; j++)
+            {
+                KoreLLPoint newPoint = new KoreLLPoint() { LatDegs = latArray[i], LonDegs = lonArray[j] };
+                newTile.ElevationData[j, i] = ElevationAtPos(newPoint);
+            }
+        }
+        return newTile;
     }
 
     // --------------------------------------------------------------------------------------------

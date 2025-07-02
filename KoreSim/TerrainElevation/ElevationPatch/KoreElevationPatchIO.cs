@@ -81,38 +81,6 @@ public static class KoreElevationPatchIO
         return sb.ToString();
     }
 
-
-    // Could be too big to put into a string, so append to a file incrementally
-
-    public static void WriteToTextFile2(KoreElevationPatch patch, string filePath)
-    {
-        using (StreamWriter writer = new StreamWriter(filePath))
-        {
-            // Write bounding box
-            writer.WriteLine($"BoundingBox: {patch.LLBox.MinLatDegs:F5}, {patch.LLBox.MinLonDegs:F5}, {patch.LLBox.MaxLatDegs:F5}, {patch.LLBox.MaxLonDegs:F5}");
-
-            // Write resolution
-            writer.WriteLine($"Resolution: {patch.ElevationData.Width}, {patch.ElevationData.Height}");
-
-            // Write elevation data (streaming row by row to avoid high memory usage)
-            int numRows = patch.ElevationData.Height;
-            for (int i = 0; i < numRows; i++)
-            {
-                var row = patch.ElevationData.GetRow(i);
-
-                // Write row to the file
-                for (int j = 0; j < row.Length; j++)
-                {
-                    writer.Write(row[j].ToString("F2"));
-                    if (j < row.Length - 1)
-                        writer.Write(", "); // Add comma for separation
-                }
-
-                writer.WriteLine(); // End of the row
-            }
-        }
-    }
-
     // --------------------------------------------------------------------------------------------
 
     public static KoreElevationPatch? ReadFromString(string content)
@@ -173,6 +141,34 @@ public static class KoreElevationPatchIO
     }
 
     // --------------------------------------------------------------------------------------------
+    // MARK: Large String IO
+    // --------------------------------------------------------------------------------------------
+
+    // Could be too big to put into a string, so append to a file incrementally
+
+    public static void WriteToTextFileIncrementally(KoreElevationPatch patch, string filePath)
+    {
+        using (StreamWriter writer = new StreamWriter(filePath))
+        {
+            // Write bounding box
+            writer.WriteLine($"BoundingBox: {patch.LLBox.MinLatDegs:F5}, {patch.LLBox.MinLonDegs:F5}, {patch.LLBox.MaxLatDegs:F5}, {patch.LLBox.MaxLonDegs:F5}");
+
+            // Write resolution
+            writer.WriteLine($"Resolution: {patch.ElevationData.Width}, {patch.ElevationData.Height}");
+
+            // Write elevation data (streaming row by row to avoid high memory usage)
+            int numRows = patch.ElevationData.Height;
+            for (int i = 0; i < numRows; i++)
+            {
+                var row = patch.ElevationData.GetRow(i);
+
+                // Format the numbers as F2 (cm resolution on the elevation) and join them with commas
+                writer.WriteLine(string.Join(", ", row.Select(value => value.ToString("F2"))));
+            }
+        }
+    }
+
+    // --------------------------------------------------------------------------------------------
     // MARK: Arc ASII Grid
     // --------------------------------------------------------------------------------------------
 
@@ -225,37 +221,42 @@ public static class KoreElevationPatchIO
         return grid;
     }
 
+
+    // ******
+    // NOTE: Don't save to ArcASCIIGrid - we may be able to get some of the syntax right, but we can't calculate the corner and cell size values appropriately.
+    // ******
+
     // Write a file back out to something like an ASCII ArcGrid file for later reading.
     // We don't have the maths/geography libraries to do this accurately, so many of the params are expected to be deafults.
 
     // Usage: KoreFloat2DArrayIO.SaveToArcASIIGridFile(asciiArcArry, <filename>);
 
-    public static void SaveToArcASIIGridFile(
-            KoreFloat2DArray array, string filePath,
-            float xllcorner = -1f, float yllcorner = -1f,
-            float cellsize = -1f, float nodataValue = -1f)
-    {
-        using (StreamWriter writer = new StreamWriter(filePath))
-        {
-            writer.WriteLine($"ncols        {array.Width}");
-            writer.WriteLine($"nrows        {array.Height}");
-            writer.WriteLine($"xllcorner    {xllcorner}");
-            writer.WriteLine($"yllcorner    {yllcorner}");
-            writer.WriteLine($"cellsize     {cellsize}");
-            writer.WriteLine($"nodata_value {nodataValue}");
+    // public static void SaveToArcASIIGridFile(
+    //         KoreFloat2DArray array, string filePath,
+    //         float xllcorner = -1f, float yllcorner = -1f,
+    //         float cellsize = -1f, float nodataValue = -1f)
+    // {
+    //     using (StreamWriter writer = new StreamWriter(filePath))
+    //     {
+    //         writer.WriteLine($"ncols        {array.Width}");
+    //         writer.WriteLine($"nrows        {array.Height}");
+    //         writer.WriteLine($"xllcorner    {xllcorner}");
+    //         writer.WriteLine($"yllcorner    {yllcorner}");
+    //         writer.WriteLine($"cellsize     {cellsize}");
+    //         writer.WriteLine($"nodata_value {nodataValue}");
 
 
-            for (int j = 0; j < array.Height; j++)
-            {
-                for (int i = 0; i < array.Width; i++)
-                {
-                    // X, Y, top to bottom as in the array
-                    writer.Write(array[i, j] + " ");
-                }
-                writer.WriteLine();
-            }
-        }
-    }
+    //         for (int j = 0; j < array.Height; j++)
+    //         {
+    //             for (int i = 0; i < array.Width; i++)
+    //             {
+    //                 // X, Y, top to bottom as in the array
+    //                 writer.Write(array[i, j] + " ");
+    //             }
+    //             writer.WriteLine();
+    //         }
+    //     }
+    // }
 
     // --------------------------------------------------------------------------------------------
     // MARK: Binary File IO
@@ -336,7 +337,81 @@ public static class KoreElevationPatchIO
         }
     }
 
-}
+    // --------------------------------------------------------------------------------------------
+    // MARK: Byte
+    // --------------------------------------------------------------------------------------------
 
+    // Use the KoreCommon KoreByteArrayWriter for efficient storage
+
+    public static byte[] WriteToByteArray(KoreElevationPatch patch)
+    {
+        KoreByteArrayWriter writer = new KoreByteArrayWriter();
+
+        // Write bounding box
+        writer.WriteDouble(patch.LLBox.MinLatDegs);
+        writer.WriteDouble(patch.LLBox.MinLonDegs);
+        writer.WriteDouble(patch.LLBox.MaxLatDegs);
+        writer.WriteDouble(patch.LLBox.MaxLonDegs);
+
+        // Write resolution
+        writer.WriteInt(patch.ElevationData.Width);
+        writer.WriteInt(patch.ElevationData.Height);
+
+        // Write elevation data
+        int numRows = patch.ElevationData.Height;
+        for (int i = 0; i < numRows; i++)
+        {
+            var row = patch.ElevationData.GetRow(i);
+            foreach (var value in row)
+            {
+                writer.WriteFloat(value);
+            }
+        }
+
+        return writer.ToArray();
+    }
+
+
+    public static KoreElevationPatch? ReadFromByteArray(byte[] data)
+    {
+        try
+        {
+            using (MemoryStream ms = new MemoryStream(data))
+            using (BinaryReader reader = new BinaryReader(ms))
+            {
+                // Read bounding box
+                double minLat = reader.ReadDouble();
+                double minLon = reader.ReadDouble();
+                double maxLat = reader.ReadDouble();
+                double maxLon = reader.ReadDouble();
+                KoreLLBox llBox = new KoreLLBox(minLat, minLon, maxLat, maxLon);
+
+                // Read resolution
+                int horizRes = reader.ReadInt32();
+                int vertRes = reader.ReadInt32();
+
+                // Read elevation data
+                KoreFloat2DArray elevData = new KoreFloat2DArray(horizRes, vertRes);
+                for (int i = 0; i < vertRes; i++)
+                {
+                    var row = new KoreFloat1DArray(horizRes);
+                    for (int j = 0; j < horizRes; j++)
+                    {
+                        row[j] = reader.ReadSingle();
+                    }
+                    elevData.SetRow(i, row);
+                }
+
+                return new KoreElevationPatch() { ElevationData = elevData, LLBox = llBox };
+            }
+        }
+        catch (Exception ex)
+        {
+            KoreCentralLog.AddEntry($"Error reading from byte array: {ex.Message}");
+            return null;
+        }
+    }
+
+}
 
 

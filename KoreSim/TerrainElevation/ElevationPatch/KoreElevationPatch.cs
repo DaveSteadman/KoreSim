@@ -10,8 +10,9 @@ using KoreCommon;
 
 public class KoreElevationPatch
 {
-    public KoreFloat2DArray ElevationData { get; set; } = new KoreFloat2DArray();
-    public KoreLLBox        LLBox         { get; set; } = KoreLLBox.Zero;
+    // create a boilerplate elevation data array until replaced with real data in a constructor or method.
+    public KoreNumeric2DArray<float> ElevationData { get; set; } = new KoreNumeric2DArray<float>(10, 10);
+    public KoreLLBox LLBox { get; set; } = KoreLLBox.Zero;
 
     // --------------------------------------------------------------------------------------------
     // MARK: Resolution
@@ -26,6 +27,34 @@ public class KoreElevationPatch
         float lonRes = (float)LLBox.DeltaLonDegs / ElevationData.Width;
 
         return (latRes < lonRes) ? latRes : lonRes;
+    }
+
+    // --------------------------------------------------------------------------------------------
+    // MARK: Set
+    // --------------------------------------------------------------------------------------------
+
+    public void SetElevationArray(KoreNumeric2DArray<float> elevationData)
+    {
+        // Validate the elevation data dimensions match the LLBox dimensions.
+        if (elevationData.Width < 5 || elevationData.Height < 5)
+        {
+            KoreCentralLog.AddEntry($"SetElevationArray: Insufficient points: {elevationData.Width} x {elevationData.Height}");
+            return;
+        }
+
+        ElevationData = elevationData;
+    }
+
+    public void SetLLBox(KoreLLBox llBox)
+    {
+        // Validate the LLBox dimensions are reasonable.
+        if (llBox.DeltaLatDegs <= 0 || llBox.DeltaLonDegs <= 0)
+        {
+            KoreCentralLog.AddEntry($"SetLLBox: Invalid LLBox dimensions: {llBox}");
+            return;
+        }
+
+        LLBox = llBox;
     }
 
     // --------------------------------------------------------------------------------------------
@@ -54,7 +83,12 @@ public class KoreElevationPatch
         // invert the lat fraction, as the data is stored with the top left as 0,0
         fracLat = 1 - fracLat;
 
-        // Always accessing X, Y
+        // Read the values that would be used in any interpolation, check they are valid.
+        List<float> interpVals = ElevationData.InterpolationValues((float)fracLon, (float)fracLat);
+        bool hasInvalidValues = interpVals.Any(val => val < KoreElevationUtils.InvalidEleCheck);
+        if (hasInvalidValues) return KoreElevationUtils.InvalidEle;
+
+        // Perform the interpolation using the fractional values and return the result
         return ElevationData.InterpolatedValue((float)fracLon, (float)fracLat);
     }
 

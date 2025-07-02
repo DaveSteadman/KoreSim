@@ -37,27 +37,12 @@ public class KoreElevationManager
 
     public void LoadArcASCIIGridFile(string filename, KoreLLBox llBox)
     {
-        //     Task.Run(async() =>
-        //     {
-        //         await semaphore.WaitAsync(); // Wait for an available slot
-        //         try
-        //         {
-        KoreElevationPatch? newTile = ElePrep.ArcASCIIToTile(filename, llBox);
+        KoreElevationPatch? newTile = ElePrep.LoadPatchFromArcASCIIFile(filename, llBox);
 
         if (newTile == null)
-        {
             KoreCentralLog.AddEntry($"Failed to load Arc ASCII Grid: {filename} // {llBox}");
-        }
         else
-        {
             KoreCentralLog.AddEntry($"Loaded Arc ASCII Grid: {filename} // {llBox}");
-        }
-        //     }
-        //     finally
-        //     {
-        //         semaphore.Release(); // Release the slot
-        //     }
-        // });
     }
 
     // --------------------------------------------------------------------------------------------
@@ -76,7 +61,7 @@ public class KoreElevationManager
         KoreElevationPatch newPatch = ElePrep.CreateNewPatch(llBox, latNumPoints, lonNumPoints);
 
         // Write the patch to string and then to file
-        KoreElevationPatchIO.WriteToTextFile2(newPatch, filePath);
+        KoreElevationPatchIO.WriteToTextFileIncrementally(newPatch, filePath);
 
     }
 
@@ -93,7 +78,17 @@ public class KoreElevationManager
 
     }
 
+    public void AddPatch(KoreElevationPatch patch)
+    {
+        // Add the patch to the system, which will sort it by resolution.
+        ElePrep.AddPatch(patch);
+    }
 
+    public float GetPatchElevationAtPos(KoreLLPoint pos)
+    {
+        // Get the elevation at a position, using the patch system.
+        return ElePrep.ElevationAtPos(pos);
+    }
 
     // --------------------------------------------------------------------------------------------
     // MARK: Tiles
