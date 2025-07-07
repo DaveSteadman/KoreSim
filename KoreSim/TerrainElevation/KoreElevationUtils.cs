@@ -3,6 +3,8 @@ using System;
 
 using KoreCommon;
 
+namespace KoreSim;
+
 public static class KoreElevationUtils
 {
     // KoreElevationUtils.InvalidEle

@@ -4,6 +4,8 @@ using System.Text;
 
 using KoreCommon;
 
+namespace KoreSim;
+
 #nullable enable
 
 // KoreElevationPatchSystem: A class to contain a number of elevation prep tiles, and supply an elevation value

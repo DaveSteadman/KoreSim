@@ -5,8 +5,11 @@
 using System;
 using System.IO;
 using System.Text;
+using System.Linq;
 
 using KoreCommon;
+
+namespace KoreSim;
 
 #nullable enable
 

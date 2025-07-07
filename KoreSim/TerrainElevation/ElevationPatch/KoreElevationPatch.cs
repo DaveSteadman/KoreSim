@@ -1,8 +1,12 @@
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 using KoreCommon;
 
+
+namespace KoreSim;
 //nullable enable
 
 // KoreElevationPatch: A tile sized by an arbitrary AzEl box, and at an arbitrary resolution. Exists to

@@ -7,6 +7,8 @@ using System.Text;
 
 using KoreCommon;
 
+namespace KoreSim;
+
 #nullable enable
 
 public static class KoreElevationTileIO

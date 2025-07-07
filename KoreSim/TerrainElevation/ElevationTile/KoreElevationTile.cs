@@ -2,6 +2,8 @@
 
 using KoreCommon;
 
+namespace KoreSim;
+
 public class KoreElevationTile
 {
     public KoreLLBox        LLBox;

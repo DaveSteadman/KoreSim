@@ -5,6 +5,8 @@ using System.Text;
 
 using KoreCommon;
 
+namespace KoreSim;
+
 #nullable enable
 
 // KoreElevationTileSystem: A class to contain a list of map tile elevations that can be looked up when required.

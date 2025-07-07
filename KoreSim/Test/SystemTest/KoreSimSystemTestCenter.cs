@@ -1,7 +1,6 @@
 
 // A static class to manage system tests for the KoreSim namespace.
 
-
 using KoreCommon;
 using KoreCommon.UnitTest;
 
@@ -33,7 +32,6 @@ public static class KoreSimSystemTestCenter
         // Implement unit tests for KoreElevationManager
         testLog.AddComment("TestKoreElevationManager");
 
-
         // Create an elevation manager instance and setup some boilerplate elevation data
         KoreElevationManager elevationManager = new KoreElevationManager();
 
@@ -43,7 +41,7 @@ public static class KoreSimSystemTestCenter
             MinLatDegs = 50.0,
             MaxLatDegs = 51.0,
             MinLonDegs = -1.0,
-            MaxLonDegs = 0.0
+            MaxLonDegs =  0.0
         };
         float testElevation = 12f;
         KoreNumeric2DArray<float> testarray = new KoreNumeric2DArray<float>(20, 20);
