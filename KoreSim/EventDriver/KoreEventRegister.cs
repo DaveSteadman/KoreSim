@@ -165,14 +165,14 @@ public class KoreEventRegister
     {
         lock (EventListLock)
         {
-            float currentTime = KoreCentralTime.RuntimeSecs;
+            int currentTime = KoreCentralTime.RuntimeIntSecs;
 
             // Remove events older than the specified stale duration
             EventList.RemoveAll(ev =>
             {
                 if (ev.Has(KeyEventTime))
                 {
-                    if (float.TryParse(ev[KeyEventTime], out float eventTime))
+                    if (int.TryParse(ev[KeyEventTime], out int eventTime))
                     {
                         return (currentTime - eventTime) > staleDurationSecs;
                     }
