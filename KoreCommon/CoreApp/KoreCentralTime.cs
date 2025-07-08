@@ -18,6 +18,7 @@ public static class KoreCentralTime
     // Property to get the elapsed time in seconds since the application started
     public static float RuntimeSecs => (float)stopwatch.Elapsed.TotalSeconds;
     public static int RuntimeIntSecs => (int)stopwatch.Elapsed.TotalSeconds; // Usage: KoreCentralTime.RuntimeIntSecs
+    public static string RuntimeSecs8Chars => RuntimeIntSecs.ToString("D8"); // 1 year = 31536000 seconds, so 8 digits is 3+ years
 
     // UTC Time and Data
     public static string TimeOfDayHHMMSSUTC => DateTime.UtcNow.ToString("HHmmss");
