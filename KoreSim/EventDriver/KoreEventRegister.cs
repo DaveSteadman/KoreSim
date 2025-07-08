@@ -201,8 +201,29 @@ public class KoreEventRegister
         return new KoreStringDictionary
         {
             [KeyEventType] = EventEntityDeleted,
+            [KeyEntityName] = entityName
+        };
+    }
+
+   // --------------------------------------------------------------------------------------------
+
+    public static KoreStringDictionary CreateEvent_CreateEntityElement(string entityName, string elementName)
+    {
+        return new KoreStringDictionary
+        {
+            [KeyEventType] = EventEntityElementCreated,
             [KeyEntityName] = entityName,
-            [KeyEventTime] = KoreCentralTime.RuntimeSecs8Chars
+            [KeyElementName] = elementName
+        };
+    }
+
+    public static KoreStringDictionary CreateEvent_DeleteEntityElement(string entityName, string elementName)
+    {
+        return new KoreStringDictionary
+        {
+            [KeyEventType] = EventEntityElementDeleted,
+            [KeyEntityName] = entityName,
+            [KeyElementName] = elementName
         };
     }
 }
