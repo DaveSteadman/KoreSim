@@ -17,21 +17,25 @@ public class KoreSimFactory
 
     private static readonly object lockObject = new object();
 
+    public static readonly string ConfigPath = "AppConfig.json";
+
     // --------------------------------------------------------------------------------------------
 
-    public KoreConsole ConsoleInterface { get; private set; }
-    public KoreEntityManager EntityManager { get; private set; }
-    public KoreNetworkHub NetworkHub { get; private set; }
-    public KoreSimTime SimClock { get; private set; }
-    public KoreModelRun ModelRun { get; private set; }
-    public KoreMessageManager MessageManager { get; private set; }
-    public KoreElevationManager EleManager { get; private set; }
-    public KoreEventRegister EventRegister { get; private set; }
+    // Outside EventDriver
+    public KoreConsole          ConsoleInterface { get; private set; }
+    public KoreNetworkHub       NetworkHub       { get; private set; }
+    public KoreMessageManager   MessageManager   { get; private set; }
+
+    // Inside EventDriver
+    public KoreEntityManager    EntityManager    { get; private set; }
+    public KoreSimTime          SimClock         { get; private set; }
+    public KoreModelRun         ModelRun         { get; private set; }
+    public KoreElevationManager EleManager       { get; private set; }
+    public KoreEventRegister    EventRegister    { get; private set; }
 
     // Usage: KoreStringDictionary kc = KoreSimFactory.Instance.KoreConfig;
     //        //        kc.SetParam("Key", "Value");
     public KoreStringDictionary KoreConfig { get; private set; } = new KoreStringDictionary();
-
 
     // --------------------------------------------------------------------------------------------
 
@@ -76,34 +80,42 @@ public class KoreSimFactory
         KoreCentralLog.AddEntry("Creating KoreSimFactory objects");
 
         ConsoleInterface = new KoreConsole();
-        EntityManager = new KoreEntityManager();
-        NetworkHub = new KoreNetworkHub();
-        SimClock = new KoreSimTime();
-        ModelRun = new KoreModelRun();
-        MessageManager = new KoreMessageManager();
-        EleManager = new KoreElevationManager();
-        EventRegister = new KoreEventRegister();
+        NetworkHub       = new KoreNetworkHub();
+        MessageManager   = new KoreMessageManager();
 
-        // Link the objects
-        //ConsoleInterface.KoreEventDriver = KoreEventDriver;
-        //KoreEventDriver.ConsoleInterface = ConsoleInterface;
-
-        // CallStart();
-
-        // KoreCentralLog.LoggingActive = false;
-
-        // // Read the logfile path from the config and update the centralised logger with it.
-        // string logPath = KoreCentralConfig.Instance.GetParam<string>("LogPath");
-        // if (!String.IsNullOrWhiteSpace(logPath))
-        //     KoreCentralLog.UpdatePath(logPath);
+        EventRegister    = new KoreEventRegister();
+        EntityManager    = new KoreEntityManager();
+        SimClock         = new KoreSimTime();
+        ModelRun         = new KoreModelRun();
+        EleManager       = new KoreElevationManager();
 
 
+        // Read the logfile path from the config and update the centralised logger with it.
+        LoadConfig("AppConfig.json");
+
+        KoreSimCommands.RegisterCommands(ConsoleInterface);
         ConsoleInterface.Start();
+        
         MessageManager.Start();
 
         KoreCentralLog.AddEntry("KoreSimFactory Construction - Done");
 
         // KoreTestCenter.RunAdHocTests();
+    }
+
+
+    // --------------------------------------------------------------------------------------------
+
+    // Call to trigger constuctor 
+    // This will trigger the constructor to run, if it hasn't already.
+   
+    
+    // Usage: KoreSimFactory.TriggerInstance();
+
+    public static void TriggerInstance()
+    {
+        // This will trigger the constructor to run, if it hasn't already.
+        var _ = Instance;
     }
 
     // --------------------------------------------------------------------------------------------
@@ -148,10 +160,16 @@ public class KoreSimFactory
 
         // Read teh content (dictionary is cleared as an init step)
         KoreConfig.ImportJson(configFileContent);
+
+        // Log how many items were loaded
+        KoreCentralLog.AddEntry($"Config loaded with {KoreConfig.Count} items"); // Assuming Count property exists
+
     }
 
     // --------------------------------------------------------------------------------------------
 
+    // Save the config:
+    // Usage: KoreSimFactory.Instance.SaveConfig(KoreSimFactory.ConfigPath);
     public void SaveConfig(string configFilePath)
     {
         try

@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 
 namespace KoreSim.JSON;
 
+#nullable enable
 
 public class JSONThreadsafeMessageFIFO
 {

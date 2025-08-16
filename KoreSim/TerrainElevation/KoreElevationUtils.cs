@@ -11,6 +11,7 @@ public static class KoreElevationUtils
     public static float InvalidEle      = -9999f;
     public static float InvalidEleCheck = -9990f; // For checking < or > comparisons
 
+    // --------------------------------------------------------------------------------------------
 
     // Function to return the number of points for longitude given a latitude.
     // Usage: int lonRes = KoreElevationUtils.LonResForLat(20, 60.0);

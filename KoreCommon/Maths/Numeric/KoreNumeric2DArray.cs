@@ -59,22 +59,30 @@ public partial class KoreNumeric2DArray<T> where T : struct, INumber<T>
     // MARK: Constructors
     // --------------------------------------------------------------------------------------------
 
+    public KoreNumeric2DArray()
+    {
+        Width     = 1;
+        Height    = 1;
+        Data      = new T[1, 1];
+        Populated = false;
+    }
+
     public KoreNumeric2DArray(int width, int height)
     {
         if (width < 1 || height < 1)
             throw new ArgumentException("Width and Height must be greater than 0.");
 
-        Width = width;
-        Height = height;
-        Data = new T[Width, Height];
+        Width     = width;
+        Height    = height;
+        Data      = new T[Width, Height];
         Populated = false;
     }
 
     public KoreNumeric2DArray(T[,] initialData)
     {
-        Width = initialData.GetLength(0);
+        Width  = initialData.GetLength(0);
         Height = initialData.GetLength(1);
-        Data = new T[Width, Height];
+        Data   = new T[Width, Height];
 
         Array.Copy(initialData, Data, initialData.Length);
         Populated = true;
@@ -82,9 +90,9 @@ public partial class KoreNumeric2DArray<T> where T : struct, INumber<T>
 
     public KoreNumeric2DArray(KoreNumeric2DArray<T> other)
     {
-        Width = other.Width;
+        Width  = other.Width;
         Height = other.Height;
-        Data = new T[Width, Height];
+        Data   = new T[Width, Height];
 
         Array.Copy(other.Data, Data, other.Data.Length);
         Populated = other.Populated;
@@ -129,6 +137,26 @@ public partial class KoreNumeric2DArray<T> where T : struct, INumber<T>
         return scaledArray;
     }
 
+    public KoreNumeric2DArray<T> CropToRange(T newMin, T newMax)
+    {
+        KoreNumeric2DArray<T> croppedArray = new KoreNumeric2DArray<T>(Width, Height);
+
+        for (int y = 0; y < Height; y++)
+        {
+            for (int x = 0; x < Width; x++)
+            {
+                T value = Data[x, y];
+                if (value < newMin) value = newMin;
+                if (value > newMax) value = newMax;
+                croppedArray[x, y] = value;
+            }
+        }
+
+        return croppedArray;
+    }
+
+    public KoreNumeric2DArray<T> CropToRange(KoreNumericRange<T> range) => CropToRange(range.Min, range.Max);
+
     // --------------------------------------------------------------------------------------------
     // MARK: Set Value
     // --------------------------------------------------------------------------------------------
@@ -152,6 +180,21 @@ public partial class KoreNumeric2DArray<T> where T : struct, INumber<T>
     {
         for (int y = 0; y < Height; y++)
             Data[col, y] = value;
+    }
+    
+    public void SetAllNoise(T minVal, T maxVal)
+    {
+        Random random = new Random();
+        for (int y = 0; y < Height; y++)
+        {
+            for (int x = 0; x < Width; x++)
+            {
+                T val = KoreNumericUtils.RandomInRange<T>(minVal, maxVal);
+                Data[x, y] = val;
+            }
+        }
+
+        Populated = true;
     }
 
     // --------------------------------------------------------------------------------------------

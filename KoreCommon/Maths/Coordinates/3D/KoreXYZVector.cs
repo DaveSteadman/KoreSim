@@ -23,7 +23,7 @@ public struct KoreXYZVector
         set
         {
             double currMag = Magnitude; // store, avoid caclulating twice
-            if (currMag < KoreConsts.ArbitraryMinDouble) // if too close to a div0
+            if (currMag < KoreConsts.ArbitrarySmallDouble) // if too close to a div0
             {
                 X = value; Y = 0; Z = 0;
             }
@@ -37,6 +37,8 @@ public struct KoreXYZVector
         }
     }
 
+    public double Length => Magnitude;
+
     // --------------------------------------------------------------------------------------------
 
     public KoreXYZVector(double xm, double ym, double zm)
@@ -44,6 +46,14 @@ public struct KoreXYZVector
         this.X = xm;
         this.Y = ym;
         this.Z = zm;
+    }
+
+    // Convenience constructor to create a vector from a point
+    public KoreXYZVector(KoreXYZVector point)
+    {
+        this.X = point.X;
+        this.Y = point.Y;
+        this.Z = point.Z;
     }
 
     // Return a zero point as a default value
@@ -70,7 +80,7 @@ public struct KoreXYZVector
     public KoreXYZVector Normalize()
     {
         double mag = Magnitude;
-        if (mag < KoreConsts.ArbitraryMinDouble)
+        if (mag < KoreConsts.ArbitrarySmallDouble)
             return new KoreXYZVector(1, 0, 0);
         else
             return new KoreXYZVector(X / mag, Y / mag, Z / mag);
@@ -78,9 +88,16 @@ public struct KoreXYZVector
 
     public bool IsZero()
     {
-        return Math.Abs(X) < KoreConsts.ArbitraryMinDouble &&
-               Math.Abs(Y) < KoreConsts.ArbitraryMinDouble &&
-               Math.Abs(Z) < KoreConsts.ArbitraryMinDouble;
+        return Math.Abs(X) < KoreConsts.ArbitrarySmallDouble &&
+               Math.Abs(Y) < KoreConsts.ArbitrarySmallDouble &&
+               Math.Abs(Z) < KoreConsts.ArbitrarySmallDouble;
+    }
+
+    public bool IsEqualTo(KoreXYZVector other, double tolerance = KoreConsts.ArbitrarySmallDouble)
+    {
+        return Math.Abs(X - other.X) < tolerance &&
+               Math.Abs(Y - other.Y) < tolerance &&
+               Math.Abs(Z - other.Z) < tolerance;
     }
 
     // --------------------------------------------------------------------------------------------
@@ -88,6 +105,34 @@ public struct KoreXYZVector
     public KoreXYZVector XYZTo(KoreXYZVector remoteXYZ)
     {
         return new KoreXYZVector(remoteXYZ.X - X, remoteXYZ.Y - Y, remoteXYZ.Z - Z);
+    }
+
+    public double DistanceTo(KoreXYZVector inputXYZ)
+    {
+        double diffX = X - inputXYZ.X;
+        double diffY = Y - inputXYZ.Y;
+        double diffZ = Z - inputXYZ.Z;
+
+        return Math.Sqrt(diffX * diffX + diffY * diffY + diffZ * diffZ);
+    }
+
+    // --------------------------------------------------------------------------------------------
+    // Polar Vectors
+    // --------------------------------------------------------------------------------------------
+
+    public KoreXYZPolarOffset PolarOffsetTo(KoreXYZVector p)
+    {
+        KoreXYZVector diff = XYZTo(p);
+
+        KoreXYZPolarOffset newOffset = KoreXYZPolarOffset.FromXYZ(diff);
+
+        return newOffset;
+    }
+
+    public KoreXYZVector PlusPolarOffset(KoreXYZPolarOffset offset)
+    {
+        KoreXYZVector diff = offset.ToXYZ();
+        return new KoreXYZVector(X + diff.X, Y + diff.Y, Z + diff.Z);
     }
 
     // --------------------------------------------------------------------------------------------

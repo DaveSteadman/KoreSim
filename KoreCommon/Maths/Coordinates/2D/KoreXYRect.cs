@@ -4,34 +4,49 @@ using System;
 
 namespace KoreCommon;
 
+// enum to define rect positions
+public enum KoreXYRectPosition
+{
+    TopLeft,
+    TopRight,
+    BottomLeft,
+    BottomRight,
+    Center,
+    TopCenter,
+    BottomCenter,
+    LeftCenter,
+    RightCenter
+};
+
 public struct KoreXYRect
 {
     // Main attributes
-    public KoreXYPoint TopLeft { get; }
-    public KoreXYPoint BottomRight { get; }
+    public KoreXYVector TopLeft { get; }
+    public KoreXYVector BottomRight { get; }
 
     // Derived attributes
-    public double Width => BottomRight.X - TopLeft.X;
-    public double Height => BottomRight.Y - TopLeft.Y;
-    public double Left => TopLeft.X;
-    public double Right => BottomRight.X;
-    public double Top => TopLeft.Y;
+    public double Left   => TopLeft.X;
+    public double Right  => BottomRight.X;
+    public double Top    => TopLeft.Y;
     public double Bottom => BottomRight.Y;
-    public double Area => Width * Height;
+    public double Width  => BottomRight.X - TopLeft.X;
+    public double Height => BottomRight.Y - TopLeft.Y;
+    public double Area   => Width * Height;
 
-    public KoreXYPoint TopRight => new KoreXYPoint(Right, Top);
-    public KoreXYPoint BottomLeft => new KoreXYPoint(Left, Bottom);
+    // Derive the other corners and centers
+    public KoreXYVector TopRight => new KoreXYVector(Right, Top);
+    public KoreXYVector TopCenter    => new KoreXYVector((Left + Right) / 2, Top);
+    public KoreXYVector LeftCenter   => new KoreXYVector(Left, (Top + Bottom) / 2);
+    public KoreXYVector Center       => new KoreXYVector((Left + Right) / 2, (Top + Bottom) / 2);
+    public KoreXYVector RightCenter  => new KoreXYVector(Right, (Top + Bottom) / 2);
+    public KoreXYVector BottomLeft   => new KoreXYVector(Left, Bottom);
+    public KoreXYVector BottomCenter => new KoreXYVector((Left + Right) / 2, Bottom);
 
-    public KoreXYPoint Center => new KoreXYPoint((Left + Right) / 2, (Top + Bottom) / 2);
-    public KoreXYPoint TopCenter => new KoreXYPoint((Left + Right) / 2, Top);
-    public KoreXYPoint BottomCenter => new KoreXYPoint((Left + Right) / 2, Bottom);
-    public KoreXYPoint LeftCenter => new KoreXYPoint(Left, (Top + Bottom) / 2);
-    public KoreXYPoint RightCenter => new KoreXYPoint(Right, (Top + Bottom) / 2);
-
-    public KoreXYLine TopLine => new KoreXYLine(TopLeft, TopRight);
-    public KoreXYLine BottomLine => new KoreXYLine(BottomLeft, BottomRight);
-    public KoreXYLine LeftLine => new KoreXYLine(TopLeft, BottomLeft);
-    public KoreXYLine RightLine => new KoreXYLine(TopRight, BottomRight);
+    // Edges
+    public KoreXYLine TopLine       => new KoreXYLine(TopLeft, TopRight);
+    public KoreXYLine BottomLine    => new KoreXYLine(BottomLeft, BottomRight);
+    public KoreXYLine LeftLine      => new KoreXYLine(TopLeft, BottomLeft);
+    public KoreXYLine RightLine     => new KoreXYLine(TopRight, BottomRight);
 
     public static KoreXYRect Zero => new KoreXYRect(0, 0, 0, 0);
 
@@ -45,7 +60,7 @@ public struct KoreXYRect
         BottomRight = new(x2, y2);
     }
 
-    public KoreXYRect(KoreXYPoint topLeft, KoreXYPoint bottomRight)
+    public KoreXYRect(KoreXYVector topLeft, KoreXYVector bottomRight)
     {
         TopLeft = topLeft;
         BottomRight = bottomRight;
@@ -63,8 +78,8 @@ public struct KoreXYRect
 
     public KoreXYRect Offset(KoreXYVector xyOffset)
     {
-        KoreXYPoint newTL = TopLeft.Offset(xyOffset);
-        KoreXYPoint newBR = BottomLeft.Offset(xyOffset);
+        KoreXYVector newTL = TopLeft.Offset(xyOffset);
+        KoreXYVector newBR = BottomRight.Offset(xyOffset);
         return new KoreXYRect(newTL, newBR);
     }
 
@@ -84,29 +99,56 @@ public struct KoreXYRect
     // MARK: Point
     // --------------------------------------------------------------------------------------------
 
-    public KoreXYPoint PointFromFraction(double xFraction, double yFraction)
+    public KoreXYVector PointFromFraction(double xFraction, double yFraction)
     {
         // Get the point at a given fraction along the rectangle axis
         // - 0 = top/left, 1 = bottom/right, 0.5 = midpoint
         // - Values beyond 0->1 are allowed, to go outside the rectangle
-        return new KoreXYPoint(Left + (Width * xFraction), Top + (Height * yFraction));
+        return new KoreXYVector(Left + (Width * xFraction), Top + (Height * yFraction));
+    }
+
+    public KoreXYVector PointFromPosition(KoreXYRectPosition position)
+    {
+        // Get a point at a given position within the rectangle
+        return position switch
+        {
+            KoreXYRectPosition.TopLeft      => TopLeft,
+            KoreXYRectPosition.TopRight     => TopRight,
+            KoreXYRectPosition.BottomLeft   => BottomLeft,
+            KoreXYRectPosition.BottomRight  => BottomRight,
+            KoreXYRectPosition.Center       => Center,
+            KoreXYRectPosition.TopCenter    => TopCenter,
+            KoreXYRectPosition.BottomCenter => BottomCenter,
+            KoreXYRectPosition.LeftCenter   => LeftCenter,
+            KoreXYRectPosition.RightCenter  => RightCenter,
+            _ => throw new ArgumentOutOfRangeException(nameof(position), position, null)
+        };
     }
 
     // --------------------------------------------------------------------------------------------
     // MARK: Checks
     // --------------------------------------------------------------------------------------------
 
-    public bool Contains(KoreXYPoint xy)
+    public bool Contains(KoreXYVector xy)
     {
-        return xy.X >= Left && xy.X <= Right && xy.Y >= Top && xy.Y <= Bottom;
+        return xy.X >= Left && xy.X <= Right &&
+               xy.Y >= Top  && xy.Y <= Bottom;
     }
 
     public bool Intersects(KoreXYRect other)
     {
-        return !(other.Left > Right ||
-                 other.Right < Left ||
-                 other.Top > Bottom ||
+        return !(other.Left   > Right  ||
+                 other.Right  < Left   ||
+                 other.Top    > Bottom ||
                  other.Bottom < Top);
     }
 
+    // --------------------------------------------------------------------------------------------
+    // MARK: Misc
+    // --------------------------------------------------------------------------------------------
+
+    public override string ToString()
+    {
+        return $"KoreXYRect(TopLeft: {TopLeft}, BottomRight: {BottomRight})";
+    }
 }

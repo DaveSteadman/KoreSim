@@ -27,7 +27,7 @@ public class KoreEventRegister
 
     public const string EventEntityCreated = "EntityCreated"; // KoreEventRegister.EventEntityCreated
     public const string EventEntityDeleted = "EntityDeleted"; // KoreEventRegister.EventEntityDeleted
-    public const string EventEntityMoving = "EntityMoving"; // KoreEventRegister.EventEntityMoving
+    public const string EventEntityMoving  = "EntityMoving"; // KoreEventRegister.EventEntityMoving
     public const string EventEntityStopped = "EntityStopped"; // KoreEventRegister.EventEntityStopped
 
     public const string EventEntityElementCreated = "EntityElementCreated"; // KoreEventRegister.EventEntityElementCreated
@@ -41,6 +41,15 @@ public class KoreEventRegister
     public const string KeyEventTime = "EventTime"; // KoreEventRegister.KeyEventTime
 
 
+    // --------------------------------------------------------------------------------------------
+
+    // Usage: var x = KoreEventRegister.EmptyEvent;
+    public KoreStringDictionary EmptyEvent => new KoreStringDictionary
+    {
+        [KeyEventType] = "EmptyEvent",
+        [KeyEventTime] = KoreCentralTime.RuntimeSecs8Chars
+    };  
+    public bool IsEmptyEvent(KoreStringDictionary ev) => ev.Count == 0;
 
     // --------------------------------------------------------------------------------------------
     // MARK: List management
@@ -113,7 +122,7 @@ public class KoreEventRegister
 
     // When a consumer wants to check the queue, they can do so without need to wait/rely on a central dispatcher
 
-    public KoreStringDictionary? ConsumeNextEventByType(string eventType)
+    public KoreStringDictionary ConsumeNextEventByType(string eventType)
     {
         lock (EventListLock)
         {
@@ -131,7 +140,7 @@ public class KoreEventRegister
                 }
             }
         }
-        return null;
+        return EmptyEvent;
     }
 
     // A consumer can take all the pending events in one pass, batch processing

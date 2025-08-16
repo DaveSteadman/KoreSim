@@ -150,7 +150,8 @@ public static class KoreElevationTileIO
             for (int i = 0; i < numRows; i++)
             {
                 string[] values = lines[i + 3].Split(',', StringSplitOptions.RemoveEmptyEntries);
-                KoreFloat1DArray row = new KoreFloat1DArray(values.Length);
+                KoreNumeric1DArray<float> row = new KoreNumeric1DArray<float>(values.Length);
+                
                 for (int j = 0; j < values.Length; j++)
                 {
                     row[j] = float.Parse(values[j]);
@@ -201,7 +202,7 @@ public static class KoreElevationTileIO
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error writing to binary file: {ex.Message}");
+            KoreCentralLog.AddEntry($"Error writing to binary file: {ex.Message}");
         }
     }
 
@@ -228,7 +229,7 @@ public static class KoreElevationTileIO
                 KoreFloat2DArray elevData = new KoreFloat2DArray(horizRes, vertRes);
                 for (int i = 0; i < vertRes; i++)
                 {
-                    KoreFloat1DArray row = new KoreFloat1DArray(horizRes);
+                    KoreNumeric1DArray<float> row = new KoreNumeric1DArray<float>(horizRes);
                     for (int j = 0; j < horizRes; j++)
                     {
                         row[j] = reader.ReadSingle();
@@ -241,7 +242,7 @@ public static class KoreElevationTileIO
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error reading from binary file: {ex.Message}");
+            KoreCentralLog.AddEntry($"Error reading from binary file: {ex.Message}");
             return null;
         }
     }

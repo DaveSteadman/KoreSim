@@ -12,6 +12,7 @@ public static class KoreTestMesh
         try
         {
             TestBasicCubeJson(testLog);
+            TestCylinderJson(testLog);
         }
         catch (Exception ex)
         {
@@ -25,12 +26,12 @@ public static class KoreTestMesh
     public static void TestBasicCubeJson(KoreTestLog testLog)
     {
         // Test for basic cube mesh creation
-        var cubeMesh = KoreMeshDataPrimitives.BasicCube(1.0f, new KoreColorRGB(255, 0, 0));
+        var cubeMesh = KoreMeshDataPrimitives.BasicCube(1.0f, KoreMeshMaterialPalette.Find("MattRed"));
 
         // Add some minort customizations to the cube mesh to see if they are serialized correctly
         cubeMesh.SetVertexColor(1, KoreColorPalette.Colors["Green"]);
         cubeMesh.SetLineColor(2, KoreColorPalette.Colors["Blue"], KoreColorPalette.Colors["Cyan"]);
-        cubeMesh.SetTriangleColor(3, KoreColorPalette.Colors["Yellow"]);
+        // cubeMesh.SetTriangleColor(3, KoreColorPalette.Colors["Yellow"]);
 
         bool denseJSON = false;
         string cubeJSON = KoreMeshDataIO.ToJson(cubeMesh, denseJSON);
@@ -63,4 +64,21 @@ public static class KoreTestMesh
         // testLog.AddResult("KoreMeshDataIO TriangleColorCount",      deserializedCubeMesh.TriangleColors.Count == cubeMesh.TriangleColors.Count);
     }
 
+    // Test to create a cylinder - convert it to JSON (text) and then back again, to ensure all the lists are correctly serialized and deserialized.
+    // - we are looking for the material and group assignments to be correct.
+    public static void TestCylinderJson(KoreTestLog testLog)
+    {
+        // define the cylinder endpoints
+        KoreXYZVector p1 = new KoreXYZVector(1, 0, 0);
+        KoreXYZVector p2 = new KoreXYZVector(1, 0, 1);
+
+        // Create the cylinder mesh
+        var cylinderMesh = KoreMeshDataPrimitives.Cylinder(p1, p2, 0.5f, 0.5f, 8, true);
+
+        // Output to a JSON string
+        string cylinderJSON = KoreMeshDataIO.ToJson(cylinderMesh, dense: false);
+
+        testLog.AddComment($"KoreMeshDataIO ToJson Cylinder: {cylinderJSON}");
+
+    }
 }

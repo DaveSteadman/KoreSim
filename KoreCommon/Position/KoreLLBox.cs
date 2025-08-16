@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace KoreCommon;
 
@@ -64,6 +65,9 @@ public struct KoreLLBox
         get { return MaxLonDegs - MinLonDegs; }
         set { MaxLonDegs = MinLonDegs + value; }
     }
+
+    public double WidthDegs => DeltaLonDegs;
+    public double HeightDegs => DeltaLatDegs;
 
     // --------------------------------------------------------------------------------------------
 
@@ -148,6 +152,19 @@ public struct KoreLLBox
             MaxLatDegs = this.MaxLatDegs + adjustLatDegs,
             MinLonDegs = this.MinLonDegs + adjustLonDegs,
             MaxLonDegs = this.MaxLonDegs + adjustLonDegs,
+        };
+    }
+
+    // --------------------------------------------------------------------------------------------
+
+    public List<KoreLLPoint> CornersList()
+    {
+        return new List<KoreLLPoint>
+        {
+            PosTopLeft,
+            PosTopRight,
+            PosBottomRight,
+            PosBottomLeft
         };
     }
 

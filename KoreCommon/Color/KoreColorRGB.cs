@@ -2,19 +2,23 @@
 
 using System;
 
+#nullable enable
+
 namespace KoreCommon;
 
-public struct KoreColorRGB
+public struct KoreColorRGB : IEquatable<KoreColorRGB>
 {
     public byte R { get; set; }
     public byte G { get; set; }
     public byte B { get; set; }
     public byte A { get; set; }
 
-    public float Rf => R / 255f;
-    public float Gf => G / 255f;
-    public float Bf => B / 255f;
-    public float Af => A / 255f;
+    public float Rf => KoreColorIO.ByteToFloat(R);
+    public float Gf => KoreColorIO.ByteToFloat(G);
+    public float Bf => KoreColorIO.ByteToFloat(B);
+    public float Af => KoreColorIO.ByteToFloat(A);
+
+    public bool IsTransparent => (A < KoreColorIO.MaxByte);
 
     // --------------------------------------------------------------------------------------------
     // Constructors
@@ -56,25 +60,32 @@ public struct KoreColorRGB
     public static readonly KoreColorRGB White = new KoreColorRGB(KoreColorIO.MaxByte, KoreColorIO.MaxByte, KoreColorIO.MaxByte, KoreColorIO.MaxByte);
 
     // --------------------------------------------------------------------------------------------
-    // MARK: Changes
+    // MARK: Equality Operations
     // --------------------------------------------------------------------------------------------
 
-    // Usage: KoreColorRGB.Lerp(col1, col2, t)
-    // 0 = col1, 1 = col2, 0.5 = halfway between col1 and col2
-
-    public static KoreColorRGB Lerp(KoreColorRGB col1, KoreColorRGB col2, float col2fraction)
+    public override bool Equals(object? obj)
     {
-        if (col2fraction < 0.0f) col2fraction = 0.0f;
-        if (col2fraction > 1.0f) col2fraction = 1.0f;
-
-        float newRf = col1.Rf + (col2.Rf - col1.Rf) * col2fraction;
-        float newGf = col1.Gf + (col2.Gf - col1.Gf) * col2fraction;
-        float newBf = col1.Bf + (col2.Bf - col1.Bf) * col2fraction;
-        float newAf = col1.Af + (col2.Af - col1.Af) * col2fraction;
-
-        return new KoreColorRGB(newRf, newGf, newBf, newAf);
+        return obj is KoreColorRGB other && Equals(other);
     }
 
+    public bool Equals(KoreColorRGB other)
+    {
+        return R == other.R && G == other.G && B == other.B && A == other.A;
+    }
 
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(R, G, B, A);
+    }
+
+    public static bool operator ==(KoreColorRGB left, KoreColorRGB right)
+    {
+        return left.Equals(right);
+    }
+
+    public static bool operator !=(KoreColorRGB left, KoreColorRGB right)
+    {
+        return !left.Equals(right);
+    }
 
 }

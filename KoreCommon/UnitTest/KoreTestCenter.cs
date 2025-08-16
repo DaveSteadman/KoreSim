@@ -4,6 +4,8 @@ using KoreCommon;
 namespace KoreCommon.UnitTest;
 
 
+// Usage: KoreTestLog testLog = KoreTestCenter.RunCoreTests();
+
 public static class KoreTestCenter
 {
     public static KoreTestLog RunCoreTests()
@@ -27,9 +29,12 @@ public static class KoreTestCenter
 
             KoreTestColor.RunTests(testLog);
 
-            KoreTestDatabase.RunTests(testLog);
-
             KoreTestStringDictionary.RunTests(testLog);
+
+            // Run tests that depend on external libraries: DB & SkiaSharp
+            KoreTestDatabase.RunTests(testLog);
+            KoreTestSkiaSharp.RunTests(testLog);
+
         }
         catch (Exception)
         {
