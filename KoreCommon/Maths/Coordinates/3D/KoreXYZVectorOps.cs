@@ -1,4 +1,7 @@
+// <fileheader>
+
 using System;
+using System.Collections.Generic;
 
 namespace KoreCommon;
 
@@ -29,6 +32,7 @@ public static class KoreXYZVectorOps
     // Calculates the cross product of two 3D points (vectors).
     // Returns a new vector perpendicular to both input vectors, following the right-hand rule.
     // Useful for finding normals or the area of a parallelogram defined by the vectors.
+    // Usage: KoreXYZVector normal = KoreXYZVectorOps.CrossProduct(a, b);
     public static KoreXYZVector CrossProduct(KoreXYZVector a, KoreXYZVector b)
     {
         double x = (a.Y * b.Z) - (a.Z * b.Y);
@@ -146,6 +150,7 @@ public static class KoreXYZVectorOps
     // Computes an inset point at vertex B, offset along the angle bisector of segments AB and BC by distance t.
     // Useful for generating smoothed or beveled corners in 3D geometry.
     // Handles all three dimensions for accurate 3D insetting.
+    // Usage: KoreXYZVector insetPoint = KoreXYZVectorOps.InsetPoint(a, b, c, insetDistance);
     public static KoreXYZVector InsetPoint(KoreXYZVector a, KoreXYZVector b, KoreXYZVector c, double t)
     {
         // Calculate direction vectors for AB and BC, including the Z dimension
@@ -248,4 +253,31 @@ public static class KoreXYZVectorOps
             && KoreValueUtils.EqualsWithinTolerance(a.Y, b.Y, tolerance)
             && KoreValueUtils.EqualsWithinTolerance(a.Z, b.Z, tolerance);
     }
+
+    // --------------------------------------------------------------------------------------------
+
+    // Usage: KoreXYZVector avg = KoreXYZVectorOps.Average(listOfPoints);
+    //        KoreXYZVector avg = KoreXYZVectorOps.Average(new List<KoreXYZVector> { p1, p2, p3 });
+
+    public static KoreXYZVector Average(List<KoreXYZVector> points)
+    {
+        if (points == null || points.Count == 0)
+            throw new ArgumentException("Point list cannot be null or empty.", nameof(points));
+
+        double sumX = 0;
+        double sumY = 0;
+        double sumZ = 0;
+
+        foreach (var point in points)
+        {
+            sumX += point.X;
+            sumY += point.Y;
+            sumZ += point.Z;
+        }
+
+        int count = points.Count;
+        return new KoreXYZVector(sumX / count, sumY / count, sumZ / count);
+    }
+
+
 }

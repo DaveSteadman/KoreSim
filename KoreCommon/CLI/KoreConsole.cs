@@ -1,3 +1,5 @@
+// <fileheader>
+
 using System;
 using System.Text;
 using System.Threading;
@@ -90,10 +92,12 @@ public class KoreConsole
         KoreCentralLog.AddEntry("KoreConsole: Initializing commands...");
 
         // General app control commands
-        AddCommandHandler(new KoreCliCmdFileRename());
-
+        AddCommandHandler(new KoreCommandFileRename());
+        AddCommandHandler(new KoreCommandCommonUnitTest());
+        AddCommandHandler(new KoreCommandPause());
     }
 
+    // ---------------------------------------------------------------------------------------------
 
 
     private void ConsoleLoop()
@@ -144,6 +148,23 @@ public class KoreConsole
             if (!commandMatchFound)
                 OutputQueue.AddString($"Command Not Found.");
         }
+    }
+
+    public (bool, string) RunSingleCommand(string commandLine)
+    {
+        var inputParts = commandLine.Trim().Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+
+        // Go through each of the registered command handlers looking for a match
+        foreach (var currCmd in commandHandlers)
+        {
+            if (currCmd.Matches(inputParts))
+            {
+                // Pass remaining parts as parameters to the command
+                string responseStr = currCmd.Execute(inputParts.Skip(currCmd.SignatureCount).ToList());
+                return (true, responseStr);
+            }
+        }
+        return (false, $"Command Not Found.");
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -239,19 +260,6 @@ public class KoreConsole
                     }
                     return true;
                 }
-            case "unittest":
-                {
-                    // Run unit tests
-                    OutputQueue.AddString("Running unit tests...");
-                    
-                    KoreTestLog testLog = KoreTestCenter.RunCoreTests();
-                    OutputQueue.AddString(testLog.FullReport());
-                    OutputQueue.AddString("==================================================================");
-                    OutputQueue.AddString(testLog.OneLineReport());
-                    OutputQueue.AddString("==================================================================");
-                    return true;
-                }
-                
 
             default:
                 return false;

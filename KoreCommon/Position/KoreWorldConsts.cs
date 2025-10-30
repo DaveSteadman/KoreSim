@@ -1,3 +1,5 @@
+// <fileheader>
+
 using System;
 
 namespace KoreCommon;
@@ -46,6 +48,4 @@ public static class KoreWorldConsts
     // KoreElevationUtils.InvalidEle
     public static float InvalidEle      = -9999f;
     public static float InvalidEleCheck = -9990f; // For checking < or > comparisons
-
-
 }

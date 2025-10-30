@@ -1,3 +1,5 @@
+// <fileheader>
+
 
 using System;
 using System.Numerics;
@@ -28,7 +30,6 @@ public struct KoreNumericAngle<T> where T : INumber<T>
     }
 
     // --------------------------------------------------------------------------------------------
-
 
     public static T DiffWrappedDegs(T deg1, T deg2)
     {

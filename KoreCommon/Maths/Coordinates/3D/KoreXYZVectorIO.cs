@@ -1,3 +1,5 @@
+// <fileheader>
+
 using System;
 
 // KoreXYVectorIO: Converts the KoreXYVector struct to and from various formats, such as JSON or binary.
@@ -19,6 +21,8 @@ public static class KoreXYZVectorIO
     }
 
     // --------------------------------------------------------------------------------------------
+
+    // Usage: string vecstr = KoreXYVectorIO.ToStringWithDP(new KoreXYZVector(1.0, 2.0, 3.0), 4);
 
     public static string ToStringWithDP(KoreXYZVector vector, int decimalPlaces = 7)
     {

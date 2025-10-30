@@ -1,3 +1,5 @@
+// <fileheader>
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -23,7 +25,9 @@ public static class KoreCentralLog
     private static List<string> LatestEntries = new List<string>();
 
     // The lock object to ensure thread safety when accessing the log entries.
-    private static readonly object LoKoreck = new object();
+    private static readonly object LogLock = new object();
+
+    private static int LogEntryCount = 0;
 
     // Filename management
     private static bool FilenameSet = false;
@@ -42,12 +46,13 @@ public static class KoreCentralLog
         WriteTimer = new System.Threading.Timer(WriteLogEntries, null, TimeSpan.Zero, TimeSpan.FromSeconds(1));
     }
 
+    // Usage: KoreCentralLog.SetFilename("mylogfile.log");
     public static void SetFilename(string filename)
     {
         if (string.IsNullOrEmpty(filename))
             throw new ArgumentException("Filename cannot be null or empty.");
 
-        lock (LoKoreck)
+        lock (LogLock)
         {
             Filename = filename;
             FilenameSet = true;
@@ -64,12 +69,16 @@ public static class KoreCentralLog
         string timestamp = KoreCentralTime.TimestampLocal;
         string formattedEntry = $"{timestamp} : {entry}";
 
-        lock (LoKoreck)
+        lock (LogLock)
         {
             // Add the entry to the display list, and cull any old entries - note that the latest entries are always at the end of the list.
             LatestEntries.Add(formattedEntry);
             while (LatestEntries.Count > 200) // Maintain latest 200 entries
                 LatestEntries.RemoveAt(0);
+
+            // Update the count until it gets out of control
+            if (LogEntryCount < 9999)
+                LogEntryCount++;
 
             // Add the entry to the log entries list to be saved later
             UnsavedEntries.Add(formattedEntry);
@@ -86,7 +95,7 @@ public static class KoreCentralLog
     {
         // We can only write to the log if the filename is set.
         // If we have nothing to write, return early.
-        lock (LoKoreck)
+        lock (LogLock)
         {
             if (!FilenameSet) return;
             if (UnsavedEntries.Count == 0) return;
@@ -114,9 +123,14 @@ public static class KoreCentralLog
 
     public static List<string> GetLatestEntries()
     {
-        lock (LoKoreck)
+        lock (LogLock)
         {
             return new List<string>(LatestEntries);
         }
+    }
+
+    public static int GetLogEntryCount()
+    {
+        return LogEntryCount;
     }
 }
