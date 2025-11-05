@@ -22,7 +22,7 @@ public class KoreSimFactory
     // --------------------------------------------------------------------------------------------
 
     // Outside EventDriver
-    public KoreConsole          ConsoleInterface { get; private set; }
+    public KoreCommandHandler   ConsoleInterface { get; private set; }
     public KoreNetworkHub       NetworkHub       { get; private set; }
     public KoreMessageManager   MessageManager   { get; private set; }
 
@@ -79,7 +79,7 @@ public class KoreSimFactory
         // Create the objects
         KoreCentralLog.AddEntry("Creating KoreSimFactory objects");
 
-        ConsoleInterface = new KoreConsole();
+        ConsoleInterface = new KoreCommandHandler();
         NetworkHub       = new KoreNetworkHub();
         MessageManager   = new KoreMessageManager();
 
@@ -95,7 +95,7 @@ public class KoreSimFactory
 
         KoreSimCommands.RegisterCommands(ConsoleInterface);
         ConsoleInterface.Start();
-        
+
         MessageManager.Start();
 
         KoreCentralLog.AddEntry("KoreSimFactory Construction - Done");
@@ -106,10 +106,10 @@ public class KoreSimFactory
 
     // --------------------------------------------------------------------------------------------
 
-    // Call to trigger constuctor 
+    // Call to trigger constuctor
     // This will trigger the constructor to run, if it hasn't already.
-   
-    
+
+
     // Usage: KoreSimFactory.TriggerInstance();
 
     public static void TriggerInstance()

@@ -18,6 +18,7 @@ public static partial class KoreEventDriver
     public static void ExitApplication()
     {
         KoreSimFactory.Instance.ConsoleInterface.Stop();
+        KoreSimFactory.Instance.MessageManager.EndThread();
         KoreSimFactory.Instance.NetworkHub.endAllConnections();
         //KoreSimFactory.Instance.NetworkHub.EndAllThread();
     }
