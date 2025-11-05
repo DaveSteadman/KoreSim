@@ -84,7 +84,7 @@ public class KoreSimApplication
             koreConsole.AddInput(trimmedInput);
 
             // Give the console thread time to process and flush output
-            System.Threading.Thread.Sleep(100);
+            System.Threading.Thread.Sleep(50);
             
             // Flush and print any output from KoreConsole
             while (koreConsole.HasOutput())
@@ -92,12 +92,12 @@ public class KoreSimApplication
                 string output = koreConsole.GetOutput();
                 Console.Write(output);
                 // Check again in case more output arrived
-                System.Threading.Thread.Sleep(50);
+                System.Threading.Thread.Sleep(25);
             }
         }
 
         // Flush remaining output
-        System.Threading.Thread.Sleep(100);
+        System.Threading.Thread.Sleep(50);
         while (koreConsole.HasOutput())
         {
             string output = koreConsole.GetOutput();
