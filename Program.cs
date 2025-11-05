@@ -45,6 +45,70 @@ public class KoreSimApplication
 
         Console.WriteLine("All tests completed.");
     }
+
+    public void RunInteractive()
+    {
+        Console.WriteLine("KoreSim interactive console. Type 'exit' to quit.");
+
+        // Create and start KoreConsole
+        var koreConsole = new KoreCommon.KoreConsole();
+        koreConsole.Start();
+
+        // Wait for console thread to initialize (it sleeps for 1 second on startup)
+        System.Threading.Thread.Sleep(1100);
+
+        bool running = true;
+
+        while (running)
+        {
+            // Display prompt and read user input
+            Console.Write("> ");
+            string? input = Console.ReadLine();
+
+            // Handle null or empty input
+            if (string.IsNullOrWhiteSpace(input))
+            {
+                continue;
+            }
+
+            // Check for exit commands (case-insensitive)
+            string trimmedInput = input.Trim();
+            if (string.Equals(trimmedInput, "exit", StringComparison.OrdinalIgnoreCase) ||
+                string.Equals(trimmedInput, "quit", StringComparison.OrdinalIgnoreCase))
+            {
+                running = false;
+                continue;
+            }
+
+            // Send input to KoreConsole for execution
+            koreConsole.AddInput(trimmedInput);
+
+            // Give the console thread time to process and flush output
+            System.Threading.Thread.Sleep(100);
+            
+            // Flush and print any output from KoreConsole
+            while (koreConsole.HasOutput())
+            {
+                string output = koreConsole.GetOutput();
+                Console.Write(output);
+                // Check again in case more output arrived
+                System.Threading.Thread.Sleep(50);
+            }
+        }
+
+        // Flush remaining output
+        System.Threading.Thread.Sleep(100);
+        while (koreConsole.HasOutput())
+        {
+            string output = koreConsole.GetOutput();
+            Console.Write(output);
+        }
+
+        // Stop the console thread
+        koreConsole.Stop();
+
+        Console.WriteLine("Exiting interactive console.");
+    }
 }
 
 
