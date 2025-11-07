@@ -30,6 +30,8 @@ public class KoreCommandHandler
     // Event to set on new input, to unblock the console thread to process new commands.
     private AutoResetEvent InputEvent = new AutoResetEvent(false);
 
+    public bool IsRunning => running;
+
     // ---------------------------------------------------------------------------------------------
     // MARK: Constructor
     // ---------------------------------------------------------------------------------------------
@@ -53,7 +55,6 @@ public class KoreCommandHandler
             KoreCentralLog.AddEntry($"Starting console thread... ({commandHandlers.Count} Commands.)");
             running = true;
             consoleThread = new Thread(ConsoleLoop);
-            consoleThread.IsBackground = true; // Allow app to exit even if this thread is still running
             consoleThread?.Start();
         }
     }
@@ -70,8 +71,6 @@ public class KoreCommandHandler
         consoleThread?.Join(); // This will block until consoleThread finishes execution
         KoreCentralLog.AddEntry("Join() returned.");
     }
-
-    public bool IsRunning() => running;
 
     // ---------------------------------------------------------------------------------------------
     // MARK: InitializeCommands
@@ -92,13 +91,12 @@ public class KoreCommandHandler
     private void InitializeCommands()
     {
         // Register commands and their handlers here
-        KoreCentralLog.AddEntry("KoreCommandHandler: Initializing commands...");
+        KoreCentralLog.AddEntry("KoreConsole: Initializing commands...");
 
         // General app control commands
         AddCommandHandler(new KoreCommandFileRename());
         AddCommandHandler(new KoreCommandCommonUnitTest());
         AddCommandHandler(new KoreCommandPause());
-        AddCommandHandler(new KoreCommandRuntime());
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -157,23 +155,6 @@ public class KoreCommandHandler
     public (bool, string) RunSingleCommand(string commandLine)
     {
         var inputParts = commandLine.Trim().Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).ToList();
-
-        // Check for internal commands first
-        if (inputParts.Count > 0)
-        {
-            string command = inputParts[0];
-
-            if (command == "help")
-            {
-                StringBuilder helpStr = new StringBuilder();
-                helpStr.AppendLine("Available commands:");
-                foreach (var cmd in commandHandlers)
-                {
-                    helpStr.AppendLine($"- {cmd.HelpString}");
-                }
-                return (true, helpStr.ToString());
-            }
-        }
 
         // Go through each of the registered command handlers looking for a match
         foreach (var currCmd in commandHandlers)

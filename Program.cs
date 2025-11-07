@@ -54,7 +54,7 @@ public class KoreSimApplication
     {
         KoreSimFactory.TriggerInstance();
 
-        bool loopValid = KoreSimFactory.Instance.ConsoleInterface.IsRunning();
+        bool loopValid = KoreSimFactory.Instance.ConsoleInterface.IsRunning;
 
         Console.WriteLine("Interactive mode started. Type 'help' for commands or 'exit' to quit.");
 
@@ -69,7 +69,7 @@ public class KoreSimApplication
                 (bool success, string response) = KoreSimFactory.Instance.ConsoleInterface.RunSingleCommand(input);
                 Console.WriteLine(response);
             }
-            loopValid = KoreSimFactory.Instance.ConsoleInterface.IsRunning();
+            loopValid = KoreSimFactory.Instance.ConsoleInterface.IsRunning;
         }
 
         Console.WriteLine("Interactive mode ended.");
