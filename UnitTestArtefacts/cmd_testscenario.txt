@@ -1,0 +1,7 @@
+entity add test1
+entity pos test1 50 0 1000
+entity course test1 80 500
+entity coursedelta test1 0 1
+sim start
+
+

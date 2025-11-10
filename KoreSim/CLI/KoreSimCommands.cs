@@ -37,6 +37,7 @@ public static class KoreSimCommands
         // Entity control
         console.AddCommandHandler(new KoreCommandEntityTestScenario());
         console.AddCommandHandler(new KoreCommandEntityAdd());
+        console.AddCommandHandler(new KoreCommandEntityAddBatch());
         console.AddCommandHandler(new KoreCommandEntityDelete());
         console.AddCommandHandler(new KoreCommandEntityDeleteAll());
 
